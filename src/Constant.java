@@ -8,6 +8,13 @@ public enum Constant {
     USERNAME(4, "USERNAME", "marin"),
     IS_ACTIVE(5, "IS_ACTIVE", true);
 
+    private static class Tool {
+        public static int numOfConstants = 0;
+    }
+
+    /**
+     * destination folder
+     */
     private static String CONSTANTS_PATH = "constants.txt";
 
     int row;
@@ -18,23 +25,23 @@ public enum Constant {
         this.row = row;
         this.id = id;
         this.value = value;
+
+        Tool.numOfConstants++;
     }
 
     public Object getValue() {
+        System.out.println("*** " + (new Throwable().getStackTrace())[0].getMethodName() + " ***");
+
         if (value instanceof Integer) {
-            System.out.println("int");
             return Integer.parseInt(String.valueOf(value));
         } else if (value instanceof Double) {
-            System.out.println("double");
             return Double.parseDouble(String.valueOf(value));
         } else if (value instanceof Boolean) {
-            System.out.println("boolean");
             return Boolean.parseBoolean(String.valueOf(value));
         } else if (value instanceof String){
-            System.out.println("string");
             return value;
         } else {
-            System.out.println("error");
+            System.out.println("error; getValue");
             System.exit(-1);
         }
 
@@ -43,14 +50,32 @@ public enum Constant {
 
     @Override
     public String toString() {
+        String type;
+
+        if (value instanceof Integer) {
+            type = "Integer";
+        } else if (value instanceof Double) {
+            type = "Double";
+        } else if (value instanceof Boolean) {
+            type = "Boolean";
+        } else if (value instanceof String){
+            type = "String";
+        } else {
+            type = "error";
+            System.exit(-1);
+        }
+
         return "Constant{" +
-                "row=" + row +
-                ", id='" + id + '\'' +
-                ", value=" + value +
+                "row= " + row +
+                ", id= " + id +
+                ", value= " + value +
+                ", type= " + type +
                 '}';
     }
 
     public void setValue(Object value) {
+        System.out.println("*** " + (new Throwable().getStackTrace())[0].getMethodName() + " ***");
+
         if (this.value.getClass().equals(value.getClass())) {
             System.out.println("same class");
             this.value = value;
@@ -62,11 +87,16 @@ public enum Constant {
     public static void main(String[] args) {
 
         initializeConstants();
-        System.out.println();
 
         printAll();
 
-        USERNAME.setValue("darko");
+        if (USERNAME.getValue().equals("a")) {
+            USERNAME.setValue("b");
+        } else {
+            USERNAME.setValue("a");
+        }
+
+        testChangeValue();
 
         updateConstants();
 
@@ -79,6 +109,14 @@ public enum Constant {
      * use this at the start of program to get latest constants
      */
     private static void initializeConstants() {
+        System.out.println("*** " + (new Throwable().getStackTrace())[0].getMethodName() + " ***");
+
+        Constant[] backup_states = new Constant[Tool.numOfConstants];
+        int i = 0;
+
+        for (Constant constant : EnumSet.allOf(Constant.class)) {
+            backup_states[i++] = constant;
+        }
 
         try(FileReader fr = new FileReader(CONSTANTS_PATH);
             BufferedReader bw = new BufferedReader(fr)) {
@@ -93,17 +131,31 @@ public enum Constant {
 
                 System.out.println(constant);
 
-                String[] raw_data = line.split(" ");
-                String id = raw_data[0];
-                Object value = raw_data[1];
+                Object value = (line.split(" "))[1];
 
-                if (value.getClass().equals(constant.value.getClass())) {
+                if (constant.value instanceof Integer) {
+                    if (value.toString().matches("[1-9][0-9]*")) {
+                        constant.value = Integer.parseInt(String.valueOf(value));
+                    } else {
+                        System.out.println("error with integer");
+                    }
+                } else if (constant.value instanceof Double) {
+                    if (value.toString().matches("[0-9]+\\.[0-9]+")) {
+                        constant.value = Double.parseDouble(String.valueOf(value));
+                    } else {
+                        System.out.println("error with double");
+                    }
+                } else if (constant.value instanceof Boolean) {
+                    if (value.toString().equals("true") || value.toString().equals("false")) {
+                        constant.value = Boolean.parseBoolean(String.valueOf(value));
+                    } else {
+                        System.out.println("error with boolean");
+                    }
+                } else if (constant.value instanceof String) {
                     constant.value = value;
                 } else {
-                    System.out.println("something wrong in constants.txt");
-                    System.exit(-1);
+                    System.out.println("error while paring value");
                 }
-
 
                 System.out.println(constant);
                 System.out.println();
@@ -112,6 +164,18 @@ public enum Constant {
 
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            printAll();
+
+            i = 0;
+            for (Constant constant : EnumSet.allOf(Constant.class)) {
+                constant = backup_states[i++];
+            }
+
+            for (Constant constant : EnumSet.allOf(Constant.class)) {
+                System.out.println(constant);
+            }
+
         }
 
     }
@@ -143,7 +207,7 @@ public enum Constant {
         System.out.println(LOCATION_X);
         System.out.println();
 
-        LOCATION_X.setValue("abrakadabra");
+        LOCATION_X.setValue("this should fail");
         System.out.println(LOCATION_X);
         System.out.println();
 
@@ -156,12 +220,13 @@ public enum Constant {
      * prints all constants
      */
     private static void printAll() {
+        System.out.println("*** " + (new Throwable().getStackTrace())[0].getMethodName() + " ***");
+
         for (Constant constant : EnumSet.allOf(Constant.class)) {
             System.out.println(constant);
-            System.out.println(constant.getValue());
-            System.out.println();
         }
-        System.out.println("---------------------------------------");
+
+        System.out.println();
     }
 
 
