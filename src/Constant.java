@@ -1,7 +1,13 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.LinkedHashMap;
 
+/**
+ * errors that will not be handled
+ * swapped line[x] with line[y]
+ *
+ */
 public enum Constant {
     LOCATION_X(1, 20),
     LOCATION_Y(2, 30),
@@ -17,7 +23,7 @@ public enum Constant {
      * destination folder
      */
 //    private static String CONSTANTS_PATH = "constants.txt";
-    private static String CONSTANTS_PATH = "4.txt";
+    private static String CONSTANTS_PATH = "2.txt";
 
     int row;
     String id;
@@ -93,7 +99,10 @@ public enum Constant {
 //        System.out.println(Tool.numOfConstants);
         initializeConstants();
         printAll();
-//        updateConstants();
+
+        USERNAME.setValue("test_un");
+
+        updateConstants();
     }
 
     /**
@@ -121,7 +130,7 @@ public enum Constant {
      * if file contains modified line (no words (empty line), one word, multiple words):
      *  this constant uses preassigned value from this file
      */
-    private static ArrayList<String> initializeConstants() {
+    private static LinkedHashMap<Integer, String> initializeConstants() {
         System.out.println("*** " + (new Throwable().getStackTrace())[0].getMethodName() + " ***");
 
         Constant[] backup_states = new Constant[Tool.numOfConstants];
@@ -130,61 +139,56 @@ public enum Constant {
         for (Constant constant : EnumSet.allOf(Constant.class)) {
             backup_states[i++] = constant;
         }
+        LinkedHashMap<Integer, String> error_log = new LinkedHashMap<>();
 
         try(FileReader fr = new FileReader(CONSTANTS_PATH);
             BufferedReader bw = new BufferedReader(fr)) {
 
             String line;
 
+//            which token is being processed
+            int index = 0;
             for (Constant constant : EnumSet.allOf(Constant.class)) {
+                System.out.println(constant);
+/*
 
-                /**
-                 *
-                 * constants.txt contains less lines than sum of constants is
-                 *
-                 * breaks assignment
-                 * constants use predefined values
+                  constants.txt contains less lines than sum of constants is
+
+                  breaks assignment
+                  constants use predefined values
                  */
+
                 if ((line = bw.readLine()) == null) {
-                    System.out.println("error");
+                    error_log.put(index, "not enough lines from this line");
                     break;
                 }
 
-                System.out.println(constant);
+                index++;
 
-                /**
-                 * uses predefined values if
-                 */
+
                 if ((line.split(" ")).length != 2) {
-                    System.out.println("not two tokens");
-                    continue;
+
+                    if (line.equals("")) {
+                        error_log.put(index, "empty line");
+                    } else {
+                        if ((line.split(" "))[0].equals(constant.id)) {
+
+                            if (line.split(" ").length > 2) {
+
+                                handleValue(error_log, line, index, constant, "too much tokens");
+
+                            } else {
+                                error_log.put(index, "not enough tokens");
+                            }
+
+                        } else {
+                            error_log.put(index, "id mismatch");
+                        }
+                    }
+
                 } else {
 
-                    Object value = (line.split(" "))[1];
-
-                    if (constant.value instanceof Integer) {
-                        if (value.toString().matches("[1-9][0-9]*")) {
-                            constant.value = Integer.parseInt(String.valueOf(value));
-                        } else {
-                            System.out.println("error with integer");
-                        }
-                    } else if (constant.value instanceof Double) {
-                        if (value.toString().matches("[0-9]+\\.[0-9]+")) {
-                            constant.value = Double.parseDouble(String.valueOf(value));
-                        } else {
-                            System.out.println("error with double");
-                        }
-                    } else if (constant.value instanceof Boolean) {
-                        if (value.toString().equals("true") || value.toString().equals("false")) {
-                            constant.value = Boolean.parseBoolean(String.valueOf(value));
-                        } else {
-                            System.out.println("error with boolean");
-                        }
-                    } else if (constant.value instanceof String) {
-                        constant.value = value;
-                    } else {
-                        System.out.println("error while paring value");
-                    }
+                    handleValue(error_log, line, index, constant, "");
 
                 }
 
@@ -194,8 +198,12 @@ public enum Constant {
             }
 
         } catch (IOException e) {
+            System.out.println("IOException");
+            System.out.println(e.getMessage());
             e.printStackTrace();
         } catch (Exception e) {
+            System.out.println("Exception");
+            System.out.println(e.getMessage());
             printAll();
 
             i = 0;
@@ -209,8 +217,76 @@ public enum Constant {
 
         }
 
+        error_log.forEach((key, value) -> System.out.println(key + ":" + value));
 
-        return new ArrayList<>();
+        return error_log;
+    }
+
+
+    /**
+     * Assigns new value to constants if that can be done.
+     * If that can not be done; appends new error to log and does not change value (it uses predefined value).
+     *
+     * @param error_log (k, v) -> (index, error message)
+     * @param line line in .txt
+     * @param index index of constant
+     * @param constant current constant that we try to assign new value
+     * @param errorMessagePrefix if line in .txt contains more than 2 tokens append message, else ""
+     */
+    private static void handleValue(LinkedHashMap<Integer, String> error_log, String line,
+                                    int index, Constant constant, String errorMessagePrefix) {
+
+        Object value = (line.split(" "))[1];
+
+        if (constant.value instanceof Integer) {
+            if (value.toString().matches("[1-9][0-9]*")) {
+                constant.value = Integer.parseInt(String.valueOf(value));
+
+                if (! errorMessagePrefix.equals("")) {
+                    error_log.put(index, errorMessagePrefix);
+                }
+
+            } else {
+                error_log.put(index, errorMessagePrefix + (errorMessagePrefix.equals("") ? "" : ", ") +
+                        "error with integer " + value);
+            }
+        } else if (constant.value instanceof Double) {
+            if (value.toString().matches("[0-9]+\\.[0-9]+")) {
+                constant.value = Double.parseDouble(String.valueOf(value));
+
+                if (! errorMessagePrefix.equals("")) {
+                    error_log.put(index, errorMessagePrefix);
+                }
+
+            } else {
+                error_log.put(index, errorMessagePrefix + (errorMessagePrefix.equals("") ? "" : ", ") +
+                        "error with double " + value);
+            }
+        } else if (constant.value instanceof Boolean) {
+
+            if (value.toString().equals("true") || value.toString().equals("false")) {
+                constant.value = Boolean.parseBoolean(String.valueOf(value));
+
+                if (! errorMessagePrefix.equals("")) {
+                    error_log.put(index, errorMessagePrefix);
+                }
+
+            } else {
+                error_log.put(index, errorMessagePrefix + (errorMessagePrefix.equals("") ? "" : ", ") +
+                        "error with boolean " + value);
+            }
+
+        } else if (constant.value instanceof String) {
+            constant.value = value;
+
+            if (! errorMessagePrefix.equals("")) {
+                error_log.put(index, errorMessagePrefix);
+            }
+
+        } else {
+            error_log.put(index, errorMessagePrefix + (errorMessagePrefix.equals("") ? "" : ", ") +
+                    "error while paring value, constant.value error, " + value);
+        }
     }
 
     /**
