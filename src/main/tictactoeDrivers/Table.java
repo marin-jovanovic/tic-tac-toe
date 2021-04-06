@@ -34,29 +34,90 @@ public class Table {
 
 //        t.getCell(1, 1).setCellStatus(Cell.CellStatus.USER);
 
+        t.getCell(0, 0).setCellStatus(Cell.CellStatus.COMPUTER);
+        t.getCell(0, 1).setCellStatus(Cell.CellStatus.USER);
+        t.getCell(0, 2).setCellStatus(Cell.CellStatus.USER);
+
+        t.getCell(1, 0).setCellStatus(Cell.CellStatus.USER);
         t.getCell(1, 1).setCellStatus(Cell.CellStatus.COMPUTER);
         t.getCell(1, 2).setCellStatus(Cell.CellStatus.COMPUTER);
-        t.getCell(1, 0).setCellStatus(Cell.CellStatus.COMPUTER);
+
+        t.getCell(2, 0).setCellStatus(Cell.CellStatus.USER);
+//        t.getCell(2, 1).setCellStatus(Cell.CellStatus.USER);
+//        t.getCell(2, 2).setCellStatus(Cell.CellStatus.USER);
 
         t.printTable();
 
-        t.check();
+//        t.check();
+        t.computerPlayMove();
+
+    }
+
+//    for minimax for computer
+    private int[][] statistics;
+
+
+
+    public void computerPlayMove() {
+
+//        initialization
+        statistics = new int[numberOfColumns][numberOfRows];
+
+        for (int i = 0; i < numberOfRows; i++) {
+            for (int j = 0; j < numberOfColumns; j++) {
+                statistics[i][j] = 0;
+            }
+        }
+
+        for (int i = 0; i < numberOfRows; i++) {
+            for (int j = 0; j < numberOfColumns; j++) {
+                if (table[i][j].getCellStatus() == Cell.CellStatus.NOT_SET) {
+                    Table tempTable = new Table();
+                    for (int i = 0; i < numberOfRows; i++) {
+                        for (int j = 0; j < numberOfColumns; j++) {
+                            if ()
+                        }
+                    }
+                    statistics[i][j] = minimax();
+
+                }
+            }
+        }
+
+        for (int i = 0; i < numberOfRows; i++) {
+            for (int j = 0; j < numberOfColumns; j++) {
+                System.out.print(statistics[i][j]);
+
+            }
+            System.out.println();
+        }
+
+
+    }
+
+    /**
+     * if computer wins return 1
+     * if user wins return -1
+     * if tie return 0
+     *
+     *
+     *
+     * */
+    private int minimax() {
+        return 0;
     }
 
     public void check() {
         System.out.println(checkForWin(Cell.CellStatus.COMPUTER));
     }
 
-    public boolean checkForWin(Cell.CellStatus cellStatus) {
-
-//        todo do this algorith if min three cells are set
-
-//        check row
+    private boolean checkLinearDriver(boolean isVertical, Cell.CellStatus cellStatus) {
         for (int i = 0; i < numberOfColumns; i++) {
             int count = 0;
 
             for (int j = 0; j < numberOfRows; j++) {
-                if (table[i][j].getCellStatus() == cellStatus) {
+
+                if (table[isVertical ? i : j][isVertical ? j : i].getCellStatus() == cellStatus) {
                     count++;
                 }
             }
@@ -67,50 +128,51 @@ public class Table {
             }
         }
 
-//        check column
-        for (int i = 0; i < numberOfRows; i++) {
-            int count = 0;
+        return false;
+    }
 
-            for (int j = 0; j < numberOfColumns; j++) {
-                if (table[i][j].getCellStatus() == cellStatus) {
-                    count++;
-                }
-            }
+    public boolean checkForWin(Cell.CellStatus cellStatus) {
 
-            if (count == howManyInRowToWin) {
-                System.out.println("column");
-                return true;
-            }
+//        todo do this algorith if min three cells are set
+
+//        check row
+        if (checkLinearDriver(false, cellStatus)) {
+            return true;
+        }
+
+        if (checkLinearDriver(true, cellStatus)) {
+            return true;
         }
 
 //        check main diagonal
+        int count = 0;
 //        fixme i suppose that num of rows = num of columns
         for (int i = 0; i < numberOfRows; i++) {
-            int count = 0;
 
             if (table[i][i].getCellStatus() == cellStatus) {
                 count++;
             }
 
-            if (count == howManyInRowToWin) {
-                System.out.println("main diagonal");
-                return true;
-            }
+        }
+
+        if (count == howManyInRowToWin) {
+            System.out.println("main diagonal");
+            return true;
         }
 
         //        check non-main diagonal
+        count = 0;
         for (int i = 0; i < numberOfRows; i++) {
-            int count = 0;
 
-
-                if (table[i][numberOfColumns - 1 - i].getCellStatus() == cellStatus) {
-                    count++;
-                }
-
-            if (count == howManyInRowToWin) {
-                System.out.println("main diagonal");
-                return true;
+            if (table[i][numberOfColumns - 1 - i].getCellStatus() == cellStatus) {
+                count++;
             }
+
+        }
+
+        if (count == howManyInRowToWin) {
+            System.out.println("main diagonal");
+            return true;
         }
 
         return false;

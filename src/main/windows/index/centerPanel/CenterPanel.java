@@ -196,7 +196,7 @@ public class CenterPanel extends JPanel implements PropertyChangeListener {
             }
         }
 
-        private boolean checkForGameOver(int i, int j) {
+        private boolean checkForGameOver() {
 //            todo
 //            if (table.getCell(i, j).getCellStatus()  == Cell.CellStatus.MINE && !buttons[i][j].isEnabled()) {
             if (false) {
