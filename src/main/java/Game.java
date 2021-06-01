@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.TreeMap;
 
 public class Game {
 
@@ -39,16 +40,22 @@ public class Game {
             System.out.print("Enter y: ");
             int y = Integer.parseInt(sc.nextLine());
 
-            g.updateGame(x, y, Owner.COMPUTER);
+            g.updateGame(x, y, Owner.USER);
 
             g.printBoard();
 
-//            computer move
+            //            computer move
 //            g.computerMove();
-            g.isGameWon();
+
+//          todo check if other won
+            if (g.isGameWon()) {
+                break;
+            }
+
             System.out.println();
         }
 
+        System.out.println("end of game");
     }
 
 
@@ -78,10 +85,21 @@ public class Game {
      * @return true if player1 won
      */
     public boolean isGameWon() {
+//
+//        this.tiles = new Tile[width][length];
+//        for (int y = 0; y < width; y++) {
+//
+//            for (int x = 0; x < length; x++) {
+//                tiles[y][x] = new Tile();
+//
+//            }
+//        }
+
+
         /*
-            xxx
-            ...
-            ...
+            x..
+            x..
+            x..
          */
         int count;
 
@@ -100,10 +118,11 @@ public class Game {
         }
 
         /*
-            x..
-            x..
-            x..
+            xxx
+            ...
+            ...
          */
+
         for (int y = 0; y < width; y++) {
             count = 0;
 
@@ -117,6 +136,59 @@ public class Game {
                 return true;
             }
         }
+
+        /*
+            x..
+            .x.
+            ..x
+         */
+        
+
+
+//        int minFromBoth = length < width ? length : width;
+//        System.out.println("smaller is " + minFromBoth);
+//        for (int x = 0; x < minFromBoth; x++) {
+//            boolean areAllUsers1 = true;
+//            count = 0;
+//
+//            for (int y = 0; y < minFromBoth; y++) {
+//                if (tiles[y][x].getOwner() == Owner.USER) {
+//                    count += 1;
+//                } else {
+//                    areAllUsers1 = false;
+//                    System.out.println("no for x = " + x);
+//                    break;
+//                }
+//
+////                if (x == y) {
+////                    if (tiles[y][x].getOwner() == Owner.USER) {
+////                        count += 1;
+////                    } else {
+////                        areAllUsers1 = false;
+////                        System.out.println("no for x = " + x);
+////                        break;
+////                    }
+////
+////                }
+//
+//            }
+//
+//            if (areAllUsers1) {
+//                System.out.println("cout " + count);
+//                System.out.println("widht" + width);
+//                if (count == width) {
+//                    System.out.println("yes for x = " + x);
+//                    return true;
+//
+//                } else {
+//                    System.out.println("width mismatch");
+//                }
+//
+//            }
+//
+//        }
+
+
 
 //        todo diagonals
 
