@@ -142,7 +142,57 @@ public class Game {
             .x.
             ..x
          */
-        
+//        int offset = 0;
+        if (length > width) {
+            int perX = length - width +1;
+            System.out.println("len > wid " + perX);
+
+            for (int offset = 0; offset < perX; offset ++) {
+                boolean areAllUser1 = true;
+                System.out.println("offset " + offset);
+                for (int x = 0; x < width ; x++) {
+                    System.out.println("x " + x);
+                    if (tiles[x][x+offset].getOwner() == Owner.USER) {
+                    } else {
+                        areAllUser1 = false;
+                        break;
+                    }
+
+                }
+                if ( areAllUser1) {
+                    System.out.println("all same");
+                    return true;
+
+                }
+
+            }
+
+
+        } else if (width > length) {
+            int perX = length - width + 1;
+            System.out.println("len < wid " + perX);
+
+        } else {
+//            both values are same
+            System.out.println("same");
+        }
+
+        //        int minFromBoth = length < width ? length : width;
+
+
+//        for (int x = 0; x < length; x++) {
+//            count = 0;
+//
+//            for (int y = 0; y < width; y++) {
+//                if (tiles[y][x].getOwner() == Owner.USER) {
+//                    count += 1;
+//                }
+//            }
+//            if (count == width) {
+//                System.out.println("player1 wins");
+//                return true;
+//            }
+//        }
 
 
 //        int minFromBoth = length < width ? length : width;
