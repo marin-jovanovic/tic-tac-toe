@@ -3,9 +3,9 @@ import java.util.TreeMap;
 
 public class Game {
 
-    private final int length = 4;
+    private final int length = 3;
 
-    private final int width = 2;
+    private final int width = 3;
 
     private final boolean isUserX = true;
     private final Tile[][] tiles;
@@ -169,12 +169,50 @@ public class Game {
 
 
         } else if (width > length) {
-            int perX = length - width + 1;
-            System.out.println("len < wid " + perX);
+            int perX = width - length +1;
+            System.out.println("reversed len > wid " + perX);
 
+            for (int offset = 0; offset < perX; offset ++) {
+                boolean areAllUser1 = true;
+                System.out.println("offset " + offset);
+                for (int x = 0; x < length ; x++) {
+                    System.out.println("x " + x);
+                    if (tiles[x+offset][x].getOwner() == Owner.USER) {
+                    } else {
+                        areAllUser1 = false;
+                        break;
+                    }
+
+                }
+                if ( areAllUser1) {
+                    System.out.println("all same");
+                    return true;
+
+                }
+
+            }
         } else {
 //            both values are same
             System.out.println("same");
+//            for (int offset = 0; offset < perX; offset ++) {
+                boolean areAllUser1 = true;
+//                System.out.println("offset " + offset);
+                for (int x = 0; x < length ; x++) {
+                    System.out.println("x " + x);
+                    if (tiles[x][x].getOwner() == Owner.USER) {
+                    } else {
+                        areAllUser1 = false;
+                        break;
+                    }
+
+                }
+                if ( areAllUser1) {
+                    System.out.println("all same");
+                    return true;
+
+                }
+
+//            }
         }
 
         //        int minFromBoth = length < width ? length : width;
