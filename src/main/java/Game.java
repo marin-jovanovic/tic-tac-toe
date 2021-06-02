@@ -3,13 +3,13 @@ import java.util.TreeMap;
 
 public class Game {
 
-    private final int length = 4;
+    private final int length = 3;
 
     public int getLength() {
         return length;
     }
 
-    private final int width = 2;
+    private final int width = 5;
 
     public int getWidth() {
         return width;
@@ -88,7 +88,6 @@ public class Game {
 
         return true;
     }
-
 
     private boolean gameWonDriverMain(int xMax, int yMax, boolean isReversed) {
         int count;
@@ -207,13 +206,17 @@ public class Game {
 //        todo fix this
 //        non main diagonal
         if (length > width) {
-
+            System.out.println("first part");
             int perX = length - width +1;
-
+            System.out.println(perX);
             for (int offset = 0; offset < perX; offset ++) {
+//                System.out.println("offset " + offset);
+
                 boolean areAllUser1 = true;
                 for (int x = 0; x < width ; x++) {
-                    if (tiles[x][x+offset].getOwner() != Owner.USER) {
+//                    System.out.println((x) + ", " + (length - x - 1 - offset));
+
+                    if (tiles[x][length - x - 1 - offset].getOwner() != Owner.USER) {
                         areAllUser1 = false;
                         break;
                     }
@@ -226,13 +229,16 @@ public class Game {
 
 
         } else if (width > length) {
+            System.out.println("drugi dio");
 //            todo fix this
             int perX = width - length +1;
 
             for (int offset = 0; offset < perX; offset ++) {
                 boolean areAllUser1 = true;
+                System.out.println("offset" + offset);
                 for (int x = 0; x < length ; x++) {
-                    if (tiles[x+offset][x].getOwner() != Owner.USER) {
+                    System.out.println((length - x - 1 + offset) + ", " + x);
+                    if (tiles[length - x - 1 + offset][x].getOwner() != Owner.USER) {
                         areAllUser1 = false;
                         break;
                     }

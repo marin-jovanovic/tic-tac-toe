@@ -1,10 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class TestingGui extends JFrame{
     private JButton[][] buttons;
@@ -12,10 +8,12 @@ public class TestingGui extends JFrame{
     public TestingGui() {
         setVisible(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        Game g = new Game();
-        setLayout(new GridLayout(0, g.getLength()));
+        AtomicReference<Game> g = new AtomicReference<>(new Game());
+        setLayout(new GridLayout(0, g.get().getLength()));
         setSize(500, 500);
-        buttons = new JButton[g.getWidth()][g.getLength()];
+        buttons = new JButton[g.get().getWidth()][g.get().getLength()];
+
+
 //       this.tiles = new Tile[width][length];
 //        for (int y = 0; y < width; y++) {
 //
@@ -25,8 +23,8 @@ public class TestingGui extends JFrame{
 //            }
 //        }
 
-        for (int i = 0; i < g.getWidth(); i++) {
-            for (int j = 0; j < g.getLength(); j++) {
+        for (int i = 0; i < g.get().getWidth(); i++) {
+            for (int j = 0; j < g.get().getLength(); j++) {
 
                 buttons[i][j] = new JButton(i + " " + j);
 
@@ -35,9 +33,9 @@ public class TestingGui extends JFrame{
                 int finalI = i;
                 int finalJ = j;
                 buttons[i][j].addActionListener(e -> {
-                    g.updateGame(finalJ, finalI, Owner.USER);
-                    g.printBoard();
-                    if (g.isGameWon()) {
+                    g.get().updateGame(finalJ, finalI, Owner.USER);
+                    g.get().printBoard();
+                    if (g.get().isGameWon()) {
                         System.out.println("+++++++++++++++++++++++++++++++++++++++++++");
 
                     }
@@ -45,6 +43,13 @@ public class TestingGui extends JFrame{
                 });
             }
         }
+
+        JButton restartBtn = new JButton("restart");
+        add(restartBtn);
+        restartBtn.addActionListener(e -> {
+            g.set(new Game());
+        });
+
 
     }
     public static void main(String[] args) {
