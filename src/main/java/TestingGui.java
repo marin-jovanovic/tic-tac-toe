@@ -2,8 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class TestingGui extends JFrame{
-    private JButton[][] buttons;
+public class TestingGui extends JFrame {
+    private final JButton[][] buttons;
 
     public TestingGui() {
         setVisible(true);
@@ -33,7 +33,8 @@ public class TestingGui extends JFrame{
                 int finalI = i;
                 int finalJ = j;
                 buttons[i][j].addActionListener(e -> {
-                    g.get().updateGame(finalJ, finalI, Owner.USER);
+                    g.get().updateGame(finalJ, finalI, Owner.USER_1);
+                    buttons[finalI][finalJ].setEnabled(false);
                     g.get().printBoard();
                     if (g.get().isGameWon()) {
                         System.out.println("+++++++++++++++++++++++++++++++++++++++++++");
@@ -48,10 +49,18 @@ public class TestingGui extends JFrame{
         add(restartBtn);
         restartBtn.addActionListener(e -> {
             g.set(new Game());
+            for (int i = 0; i < g.get().getWidth(); i++) {
+                for (int j = 0; j < g.get().getLength(); j++) {
+
+                    buttons[i][j].setEnabled(true);
+
+                }
+            }
         });
 
 
     }
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(TestingGui::new);
     }
