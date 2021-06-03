@@ -3,8 +3,8 @@ import java.util.Scanner;
 
 public class Game {
 
-    private final int length = 5;
-    private final int width = 3;
+    private final int length = 3;
+    private final int width = 5;
     private final boolean isUserX = true;
     private final Tile[][] tiles;
 
@@ -118,17 +118,17 @@ public class Game {
      * @return true if all code {Owner.USER_1} on non-main diagonal(s)
      */
     private boolean gameWonNonMainDriverDiagonals(int length, int width, boolean isReversed) {
-
         int t = !isReversed ? length - width : -length + width;
         int perX = t + 1;
 
         for (int offset = 0; offset < perX; offset++) {
-
+            System.out.println("offset " + offset);
             boolean areAllUser1 = true;
             for (int x = 0; x < (isReversed ? length : width); x++) {
                 int a = !isReversed ? x : length - x - 1 - offset;
                 int b = !isReversed ? length - x - 1 - offset : x;
 
+                System.out.println(a + " " + b);
                 if (tiles[a][b].getOwner() != Owner.USER_1) {
                     areAllUser1 = false;
                     break;
@@ -139,6 +139,26 @@ public class Game {
                 return true;
             }
         }
+//        int t = !isReversed ? length - width : -length + width;
+//        int perX = t + 1;
+//
+//        for (int offset = 0; offset < perX; offset++) {
+//
+//            boolean areAllUser1 = true;
+//            for (int x = 0; x < (isReversed ? length : width); x++) {
+//                int a = !isReversed ? x : length - x - 1 - offset;
+//                int b = !isReversed ? length - x - 1 - offset : x;
+//
+//                if (tiles[a][b].getOwner() != Owner.USER_1) {
+//                    areAllUser1 = false;
+//                    break;
+//                }
+//            }
+//            if (areAllUser1) {
+//                System.out.println("player1  first won");
+//                return true;
+//            }
+//        }
 
         return false;
     }
@@ -179,6 +199,8 @@ public class Game {
      * @return true if player1 won
      */
     public boolean isGameWon() {
+//        todo improve performance
+//          calculate only by newly placed tile if it contributed to wictory
 
         for (boolean state : List.of(true, false)) {
             /*
