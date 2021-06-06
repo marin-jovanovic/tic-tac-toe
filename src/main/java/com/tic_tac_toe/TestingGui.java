@@ -1,3 +1,5 @@
+package com.tic_tac_toe;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.concurrent.atomic.AtomicReference;
@@ -25,21 +27,21 @@ public class TestingGui extends JFrame {
 				int finalY = y;
 				buttons[y][x].addActionListener(e -> {
 
-					g.get().setTile(new Point(finalX, finalY), Owner.USER_1);
+					g.get().setTile(new com.tic_tac_toe.Point(finalX, finalY), Owner.USER_1);
 
 					buttons[finalY][finalX].setEnabled(false);
 					buttons[finalY][finalX].setText("o");
 
 					g.get().printBoard();
 
-					if (g.get().isGameWon(new Point(finalX, finalY), Owner.USER_1)) {
+					if (g.get().isGameWon(new com.tic_tac_toe.Point(finalX, finalY), Owner.USER_1)) {
 						System.out.println("+++++++++++++++++++++++++++++++++++++++++++");
 					}
 
 					System.out.println();
 
 					Point computerMove = g.get().computerMove();
-					g.get().setTile(new Point(computerMove.x(), computerMove.y()), Owner.COMPUTER);
+					g.get().setTile(new com.tic_tac_toe.Point(computerMove.x(), computerMove.y()), Owner.COMPUTER);
 					buttons[computerMove.y()][computerMove.x()].setEnabled(false);
 					buttons[computerMove.y()][computerMove.x()].setText("x");
 

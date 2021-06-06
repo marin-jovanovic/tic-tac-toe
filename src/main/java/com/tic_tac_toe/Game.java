@@ -1,5 +1,4 @@
-import java.nio.channels.Pipe;
-import java.util.Scanner;
+package com.tic_tac_toe;
 
 public class Game implements Winnable {
 
@@ -25,12 +24,27 @@ public class Game implements Winnable {
 		}
 	}
 
-	record MinimaxResult(Point whereTo, int result) {
+	class MinimaxResult {
+		private Point whereTo;
+		private int result;
+
+		MinimaxResult(Point whereTo, int result) {
+			this.whereTo = whereTo;
+			this.result = result;
+		}
+
 		@Override
 		public String toString() {
 			return whereTo + " -> " + result;
 		}
 
+		public int getResult() {
+			return result;
+		}
+
+		public Point getWhereTo() {
+			return whereTo;
+		}
 	}
 
 	public static void main(String[] args) {
@@ -40,10 +54,10 @@ public class Game implements Winnable {
 		g.tiles[1][0].setOwner(Owner.USER_1);
 		g.tiles[2][1].setOwner(Owner.COMPUTER);
 
-//		g.tiles[1][1].setOwner(Owner.COMPUTER);
-//		g.tiles[1][2].setOwner(Owner.USER_1);
+//		g.tiles[1][1].setOwner(com.tic_tac_toe.Owner.COMPUTER);
+//		g.tiles[1][2].setOwner(com.tic_tac_toe.Owner.USER_1);
 //
-//		g.tiles[2][0].setOwner(Owner.USER_1);
+//		g.tiles[2][0].setOwner(com.tic_tac_toe.Owner.USER_1);
 
 		g.printBoard();
 //		System.out.println();
@@ -68,12 +82,12 @@ public class Game implements Winnable {
 //			g.printBoard();
 //
 ////			            computer move
-//            Point p = g.computerMove();
+//            com.tic_tac_toe.Point p = g.computerMove();
 //
-//            g.setTile(p, Owner.COMPUTER);
+//            g.setTile(p, com.tic_tac_toe.Owner.COMPUTER);
 //
 ////          todo check if other won
-//			if (g.isGameWon(p, Owner.COMPUTER)) {
+//			if (g.isGameWon(p, com.tic_tac_toe.Owner.COMPUTER)) {
 //				break;
 //			}
 //
@@ -81,10 +95,10 @@ public class Game implements Winnable {
 //			int x = Integer.parseInt(sc.nextLine());
 //			System.out.print("Enter y: ");
 //			int y = Integer.parseInt(sc.nextLine());
-//			g.setTile(new Point(x, y), Owner.USER_1);
+//			g.setTile(new com.tic_tac_toe.Point(x, y), com.tic_tac_toe.Owner.USER_1);
 //
 ////          todo check if other won
-//			if (g.isGameWon(new Point(x, y), Owner.USER_1)) {
+//			if (g.isGameWon(new com.tic_tac_toe.Point(x, y), com.tic_tac_toe.Owner.USER_1)) {
 //				break;
 //			}
 //
@@ -120,7 +134,7 @@ public class Game implements Winnable {
 
 		System.out.println(a);
 
-		return a.whereTo();
+		return a.getWhereTo();
 	}
 
 	private static void printFormatted(Object val, int offset) {
@@ -175,11 +189,11 @@ public class Game implements Winnable {
 					} else {
 						if (turn == Owner.COMPUTER) {
 							MinimaxResult r = minimax(Owner.USER_1, depth+1);
-							sum += r.result();
+							sum += r.getResult();
 
 						} else if (turn == Owner.USER_1) {
 							MinimaxResult r = minimax(Owner.COMPUTER, depth+1);
-							sum += r.result();
+							sum += r.getResult();
 						}
 					}
 

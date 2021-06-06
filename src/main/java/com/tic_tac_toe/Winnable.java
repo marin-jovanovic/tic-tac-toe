@@ -1,3 +1,10 @@
+package com.tic_tac_toe;
+
+import com.tic_tac_toe.Owner;
+import com.tic_tac_toe.Point;
+import com.tic_tac_toe.PositionOfDot;
+import com.tic_tac_toe.Tile;
+
 public interface Winnable {
 
 	int getYAxisLength();
@@ -245,7 +252,7 @@ public interface Winnable {
 
 	}
 
-	private boolean checkDiagonals(Point p, Owner owner) {
+	 default boolean checkDiagonals(Point p, Owner owner) {
 		//  todo check len
 		//  todo if same x and y no need to check this
 

@@ -1,3 +1,7 @@
+package com.tic_tac_toe;
+
+import com.tic_tac_toe.Owner;
+
 public class Tile {
 	private Owner owner;
 
@@ -14,7 +18,7 @@ public class Tile {
 	 * @return true if field is updated else false
 	 */
 	public boolean setOwner(Owner owner) {
-//		if (this.owner != Owner.NONE) {
+//		if (this.owner != com.tic_tac_toe.Owner.NONE) {
 //			System.out.println("owner already set, err");
 //			return false;
 //		}
