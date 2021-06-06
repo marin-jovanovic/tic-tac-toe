@@ -6,8 +6,8 @@ public class Game {
 
 //    private final int xAxisLength = 12;
     private final int xAxisLength = 8;
-//    private final int yAxisLength = 8;
-    private final int yAxisLength = 12;
+    private final int yAxisLength = 8;
+//    private final int yAxisLength = 12;
 
     private final boolean isUserX = true;
     private final Tile[][] tiles;
@@ -296,7 +296,92 @@ public class Game {
 //todo check len
 //        todo if same x and y no need to check this
 
-        mainDiagonalCheck(xAxisLength, yAxisLength, newX, newY);
+//        mainDiagonalCheck(xAxisLength, yAxisLength, newX, newY);
+
+        if (xAxisLength > yAxisLength) {
+            System.out.println("first");
+
+//            point 1
+            int x1 = 0;
+            int y1 = yAxisLength - 1;
+
+//            point 2
+            int x2 = yAxisLength - 1;
+            int y2 = 0;
+
+//            position of cell based on position of lower line
+//            we want it to be on it or on top of it
+            PositionOfDot lowerLine = isGoodCandidate(x1, y1, x2, y2, newX, newY);
+
+//            point 1
+            x1 = xAxisLength - yAxisLength;
+            y1 = yAxisLength - 1;
+
+//            point 2
+            x2 = xAxisLength - 1;
+            y2 = 0;
+
+//            position of cell based on position of upper line
+//            we want it to be on it or below of it
+            PositionOfDot upperLine = isGoodCandidate(x1, y1, x2, y2, newX, newY);
+
+            if (lowerLine != PositionOfDot.UP && upperLine != PositionOfDot.DOWN) {
+                System.out.println("good candidate");
+            } else {
+                System.out.println("not good candidate");
+//            todo skip main diagonal
+            }
+
+        } else if (xAxisLength < yAxisLength) {
+
+//            point 1
+            int x1 = 0;
+            int y1 = xAxisLength - 1;
+
+//            point 2
+            int x2 = xAxisLength - 1;
+            int y2 = 0;
+
+//        bellow or on the upper line
+            PositionOfDot upperLineOk = isGoodCandidate(x1, y1, x2, y2, newX, newY);
+
+            x1 = 0;
+            y1 = yAxisLength - 1;
+
+            x2 = xAxisLength - 1;
+            y2 = yAxisLength - xAxisLength;
+
+//        higher then or on the lower line
+            PositionOfDot lowerLineOk = isGoodCandidate(x1, y1, x2, y2, newX, newY);
+
+            if (upperLineOk != PositionOfDot.UP && lowerLineOk != PositionOfDot.DOWN) {
+                System.out.println("EXCVELET candidate");
+            } else {
+                System.out.println("not good candidate");
+//            todo skip main diagonal
+            }
+
+        } else {
+//            we want cell to be on the main diagonal
+//            there is no range in this case
+
+//            point 1
+            int x1 = 0;
+            int y1 = yAxisLength - 1;
+
+//            point 2
+            int x2 = xAxisLength - 1;
+            int y2 = 0;
+
+            PositionOfDot line = isGoodCandidate(x1, y1, x2, y2, newX, newY);
+
+            if (line == PositionOfDot.ON) {
+                System.out.println("on line");
+            } else {
+                System.out.println("not good candidate");
+//                todo skip
+            }
+        }
 
 
 //        boolean areAllUser1 = true;
