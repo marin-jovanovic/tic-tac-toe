@@ -1,13 +1,12 @@
-import javax.crypto.spec.OAEPParameterSpec;
-import java.util.List;
+import java.awt.*;
 import java.util.Scanner;
 
 public class Game {
 
 //    private final int xAxisLength = 12;
     private final int xAxisLength = 8;
-    private final int yAxisLength = 8;
-//    private final int yAxisLength = 12;
+//    private final int yAxisLength = 8;
+    private final int yAxisLength = 12;
 
     private final boolean isUserX = true;
     private final Tile[][] tiles;
@@ -73,22 +72,22 @@ public class Game {
      *
      * @return true if move is made else false
      */
-//    public boolean computerMove() {
-//        boolean isOneOrMoreEmpty = false;
-//
-//        for (int x = 0; x < yAxisLength; x++) {
-//            for (int y = 0; y < xAxisLength; y++) {
-//                if (tiles[x][y].isTileEmpty()) {
-//                    System.out.println("tile empty at " + x + " " + y);
-//                    isOneOrMoreEmpty = true;
-//
-//
-//                }
-//            }
-//        }
-//
-//        return true;
-//    }
+    public boolean computerMove() {
+        boolean isOneOrMoreEmpty = false;
+
+        for (int x = 0; x < yAxisLength; x++) {
+            for (int y = 0; y < xAxisLength; y++) {
+                if (tiles[x][y].isTileEmpty()) {
+                    System.out.println("tile empty at " + x + " " + y);
+                    isOneOrMoreEmpty = true;
+
+
+                }
+            }
+        }
+
+        return true;
+    }
 
 //    private boolean gameWonDriverMain(int length, int width, boolean isReversed) {
 //
@@ -175,97 +174,73 @@ public class Game {
 //        return false;
     }
 
-
-    /**
-     * Minor, Counter, Secondary, Anti, secondary
-     *
-     * @param length x
-     * @param width y
-     * @param isReversed length <= width
-     * @return true if all code {Owner.USER_1} on non-main diagonal(s)
-     */
-//    private boolean gameWonNonMainDriverDiagonals(int length, int width, boolean isReversed) {
-//        int t = !isReversed ? length - width : -length + width;
-//        int perX = t + 1;
-//
-//        for (int offset = 0; offset < perX; offset++) {
-//            System.out.println("offset " + offset);
-//            boolean areAllUser1 = true;
-//            for (int x = 0; x < (isReversed ? length : width); x++) {
-//                int a = !isReversed ? x : length - x - 1 - offset;
-//                int b = !isReversed ? length - x - 1 - offset : x;
-//
-//                System.out.println(a + " " + b);
-//                if (tiles[a][b].getOwner() != Owner.USER_1) {
-//                    areAllUser1 = false;
-//                    break;
-//                }
-//            }
-//            if (areAllUser1) {
-//                System.out.println("player1  first won");
-//                return true;
-//            }
-//        }
-////        int t = !isReversed ? length - width : -length + width;
-////        int perX = t + 1;
-////
-////        for (int offset = 0; offset < perX; offset++) {
-////
-////            boolean areAllUser1 = true;
-////            for (int x = 0; x < (isReversed ? length : width); x++) {
-////                int a = !isReversed ? x : length - x - 1 - offset;
-////                int b = !isReversed ? length - x - 1 - offset : x;
-////
-////                if (tiles[a][b].getOwner() != Owner.USER_1) {
-////                    areAllUser1 = false;
-////                    break;
-////                }
-////            }
-////            if (areAllUser1) {
-////                System.out.println("player1  first won");
-////                return true;
-////            }
-////        }
-//
-//        return false;
-//    }
-
-
-    /**
-     *
-//     * @param length x
-//     * @param width y
-//     * @param isReversed length <= width
-//     * @return true if all {@code Owner.USER_1} on main diagonal(s)
-     */
-//    private boolean gameWonDriverMainDiagonals(int length, int width, boolean isReversed) {
-//        int t = !isReversed ? length - width : -(length - width);
-//        int perX = t + 1;
-//
-//        for (int offset = 0; offset < perX; offset++) {
-//            boolean areAllUser1 = true;
-//            for (int x = 0; x < (isReversed ? length: width); x++) {
-//                int a = !isReversed ? x : x + offset;
-//                int b = !isReversed ? x + offset : x;
-//
-//                if (tiles[a][b].getOwner() != Owner.USER_1) {
-//                    areAllUser1 = false;
-//                    break;
-//                }
-//            }
-//            if (areAllUser1) {
-//                System.out.println("player1 first won");
-//                return true;
-//            }
-//        }
-//
-//        return false;
-//    }
-
     enum PositionOfDot {
         UP,
         DOWN,
         ON
+    }
+
+    private class Dot {
+        private int x;
+        private int y;
+
+        Dot(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        @Override
+        public String toString() {
+            return "(" +
+                     x +
+                    ", " + y +
+                    ")";
+        }
+
+        public int getX() {
+            return x;
+        }
+
+        public int getY() {
+            return y;
+        }
+    }
+
+    private  PositionOfDot isGoodCandidate(Dot p1, Dot p2, Dot point) {
+        System.out.println(p1 + ", " + p2 + " ? " + point);
+
+        Dot v1 = new Dot(
+          p2.getX() - p1.getX(),
+          p2.getY() - p1.getY()
+        );
+
+        Dot v2 = new Dot(
+          p2.getX() - point.getX(),
+          p2.getY() - point.getY()
+        );
+
+//        int v1_x_up = x2 - x1;
+//        int v1_y_up = y2 - y1;
+//
+//        int v2_x_up = x2 - pointX;
+//        int v2_y_up = y2 - pointY;
+
+        int xp = v1.getX() * v2.getY() - v1.getY() * v2.getX();
+
+//        int xp = v1_x_up * v2_y_up - v1_y_up * v2_x_up;
+//        System.out.println("x pr " + xp);
+
+        if (xp > 0) {
+            System.out.println("up");
+            return PositionOfDot.UP;
+        } else if (xp < 0) {
+            System.out.println("down");
+            return PositionOfDot.DOWN;
+        } else {
+            System.out.println("on the line");
+            return PositionOfDot.ON;
+        }
+
     }
 
     private  PositionOfDot isGoodCandidate(int x1,int  y1, int x2, int y2, int pointX, int pointY) {
@@ -296,9 +271,9 @@ public class Game {
 //todo check len
 //        todo if same x and y no need to check this
 
-        mainDiagonalCheck(xAxisLength, yAxisLength, newX, newY);
+        isGameWinnableByMainDiagonal(xAxisLength, yAxisLength, newX, newY);
 
-        secondaryDiagonalCheck(xAxisLength, yAxisLength, newX, newY);
+        isGameWinnableBySecondaryDiagonal(xAxisLength, yAxisLength, newX, newY);
 
 
 //        boolean areAllUser1 = true;
@@ -363,7 +338,8 @@ public class Game {
 
     }
 
-    private void secondaryDiagonalCheck(int xAxisLength, int yAxisLength, int newX, int newY) {
+    //     * Minor, Counter, Secondary, Anti, secondary
+    private void isGameWinnableBySecondaryDiagonal(int xAxisLength, int yAxisLength, int newX, int newY) {
         if (xAxisLength > yAxisLength) {
             System.out.println("first");
 
@@ -431,7 +407,7 @@ public class Game {
 //            we want cell to be on the main diagonal
 //            there is no range in this case
 
-            //            ad hoc solution
+//            ad hoc solution
 
             if (newX + newY == xAxisLength - 1) {
                 System.out.println("on line");
@@ -439,69 +415,93 @@ public class Game {
                 System.out.println("not good candidate");
 //                todo skip
             }
-        
+
         }
     }
 
-    private void mainDiagonalCheck(int xAxisLength, int yAxisLength, int newX, int newY) {
+    private boolean isGameWinnableByMainDiagonal(int xAxisLength, int yAxisLength, int newX, int newY) {
+        Dot p = new Dot(newX, newY);
+
         if (xAxisLength > yAxisLength) {
 
+
 //            point 1
-            int x1 = 0;
-            int y1 = 0;
+            Dot p1 = new Dot(0, 0);
+//            int x1 = 0;
+//            int y1 = 0;
 
 //            point 2
-            int x2 = yAxisLength - 1;
-            int y2 = yAxisLength - 1;
+            Dot p2 = new Dot(yAxisLength - 1, yAxisLength - 1);
+//            int x2 = yAxisLength - 1;
+//            int y2 = yAxisLength - 1;
 
 //            position of cell based on position of lower line
 //            we want it to be on it or on top of it
-            PositionOfDot lowerLine = isGoodCandidate(x1, y1, x2, y2, newX, newY);
+//            PositionOfDot lowerLine = isGoodCandidate(x1, y1, x2, y2, newX, newY);
+            PositionOfDot lowerLine = isGoodCandidate(p1, p2, p);
 
 //            point 1
-            x1 = xAxisLength - yAxisLength;
-            y1 = 0;
+            p1 = new Dot(xAxisLength - yAxisLength, 0);
+//            x1 = xAxisLength - yAxisLength;
+//            y1 = 0;
 
 //            point 2
-            x2 = xAxisLength - 1;
-            y2 = yAxisLength - 1;
+            p2 = new Dot(xAxisLength - 1, yAxisLength - 1);
+//            x2 = xAxisLength - 1;
+//            y2 = yAxisLength - 1;
 
 //            position of cell based on position of upper line
 //            we want it to be on it or below of it
-            PositionOfDot upperLine = isGoodCandidate(x1, y1, x2, y2, newX, newY);
+//            PositionOfDot upperLine = isGoodCandidate(x1, y1, x2, y2, newX, newY);
+            PositionOfDot upperLine = isGoodCandidate(p1, p2, p);
 
             if (lowerLine != PositionOfDot.DOWN && upperLine != PositionOfDot.UP) {
                 System.out.println("good candidate");
+                return true;
+
             } else {
                 System.out.println("not good candidate");
-//            todo skip main diagonal
+                return false;
             }
 
         } else if (xAxisLength < yAxisLength) {
 
-            int x1 = 0;
-            int y1 = 0;
+//            point 1
+//            int x1 = 0;
+//            int y1 = 0;
+//
+//            point 2
+//            int x2 = xAxisLength - 1;
+//            int y2 = xAxisLength - 1;
 
-            int x2 = xAxisLength - 1;
-            int y2 = xAxisLength - 1;
+//            position of cell based on position of upper line
+//            PositionOfDot upperLineOk = isGoodCandidate(x1, y1, x2, y2, newX, newY);
+            PositionOfDot upperLineOk = isGoodCandidate(
+              new Dot(0, 0),
+              new Dot(xAxisLength - 1, xAxisLength - 1),
+              p
+            );
 
-//        bellow or on the upper line
-            PositionOfDot upperLineOk = isGoodCandidate(x1, y1, x2, y2, newX, newY);
-
-            x1 = 0;
-            y1 = yAxisLength - xAxisLength;
-
-            x2 = xAxisLength - 1;
-            y2 = yAxisLength - 1;
+//            x1 = 0;
+//            y1 = yAxisLength - xAxisLength;
+//
+//            x2 = xAxisLength - 1;
+//            y2 = yAxisLength - 1;
 
 //        higher then or on the lower line
-            PositionOfDot lowerLineOk = isGoodCandidate(x1, y1, x2, y2, newX, newY);
+//            PositionOfDot lowerLineOk = isGoodCandidate(x1, y1, x2, y2, newX, newY);
+            PositionOfDot lowerLineOk = isGoodCandidate(
+              new Dot(0, yAxisLength - xAxisLength),
+              new Dot(xAxisLength - 1, yAxisLength - 1),
+              p
+            );
 
             if (upperLineOk != PositionOfDot.UP && lowerLineOk != PositionOfDot.DOWN) {
-                System.out.println("EXCVELET candidate");
+                System.out.println("good candidate");
+                return true;
             } else {
                 System.out.println("not good candidate");
-//            todo skip main diagonal
+                return false;
             }
 
         } else {
@@ -511,16 +511,19 @@ public class Game {
 //            ad hoc solution
 
             if (newX == newY) {
-                System.out.println("on line");
+                System.out.println("good candidate");
+                return true;
             } else {
                 System.out.println("not good candidate");
-//                todo skip
+                return false;
             }
 
         }
     }
 
     /**
+     * main driver for checking if game is won
+     *
      * @return true if player1 won
      */
     public boolean isGameWon(int newX, int newY) {
@@ -528,17 +531,7 @@ public class Game {
 //          calculate only by newly placed tile if it contributed to wictory
 
 //        for (boolean state : List.of(true, false)) {
-//            /*
-//                xxx
-//                ...
-//                ...
-//
-//                and
-//
-//                x..
-//                x..
-//                x..
-//             */
+
         if (checkHorizontalAndVertical(xAxisLength, yAxisLength, newX, newY)) {
             return true;
         }
@@ -547,90 +540,18 @@ public class Game {
             return true;
         }
 
-
-
         return false;
 
-//        int count;
-//
-//        boolean isReversed = false;
-//        int x = newX;
-//        count = 0;
-//
-//        for (int y = 0; y < (isReversed ? width : length); y++) {
-//            if (tiles[!isReversed ? x : y][!isReversed ? y : x].getOwner() == Owner.USER_1) {
-//                count += 1;
-//            }
-//        }
-//
-//        if (count == (!isReversed ? length : width)) {
-//            System.out.println("player1 wins");
-//            return true;
-//        }
-//
-//        isReversed = true;
-//        x = newY;
-//        count = 0;
-//
-//        for (int y = 0; y < (isReversed ? width : length); y++) {
-//            if (tiles[!isReversed ? x : y][!isReversed ? y : x].getOwner() == Owner.USER_1) {
-//                count += 1;
-//            }
-//        }
-//
-//        if (count == (!isReversed ? length : width)) {
-//            System.out.println("player1 wins");
-//            return true;
-//        }
-
-
-
-//        return false;
-
-//
-//
-//
-//
-//            if (gameWonDriverMain(length, width, state)) {
-//                return true;
-//            }
-//
-//
-//        }
-//
-//            /*
-//                main diagonal
-//                x..
-//                .x.
-//                ..x
-//            */
-//
-//        if (gameWonDriverMainDiagonals(length, width, length <= width )) {
-//            return true;
-//        }
-//
-//            /*
-//                non main diagonal
-//                ..x
-//                .x.
-//                x..
-//            */
-//        if (gameWonNonMainDriverDiagonals(length, width, length <= width)) {
-//            return true;
-//        }
-//
-
-//        return false;
     }
 
-//    public void maxValue() {
-//
-//    }
-
-//    public void minValue() {
-//
-//    }
-
+    /**
+     * update board
+     *
+     * @param x
+     * @param y
+     * @param owner
+     * @return
+     */
     public boolean updateGame(int x, int y, Owner owner) {
         if (x >= xAxisLength) {
             System.out.println("x to big");
