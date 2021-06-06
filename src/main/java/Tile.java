@@ -14,10 +14,10 @@ public class Tile {
 	 * @return true if field is updated else false
 	 */
 	public boolean setOwner(Owner owner) {
-		if (this.owner != Owner.NONE) {
-			System.out.println("owner already set, err");
-			return false;
-		}
+//		if (this.owner != Owner.NONE) {
+//			System.out.println("owner already set, err");
+//			return false;
+//		}
 
 		this.owner = owner;
 		return true;

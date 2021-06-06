@@ -1,7 +1,9 @@
 public interface Winnable {
 
 	int getYAxisLength();
+
 	int getXAxisLength();
+
 	Tile getTile(int x, int y);
 
 	/**
@@ -9,15 +11,15 @@ public interface Winnable {
 	 *
 	 * @return true if player1 won
 	 */
-	default boolean isGameWon(Point p) {
+	default boolean isGameWon(Point p, Owner owner) {
 
 //        for (boolean state : List.of(true, false)) {
 
-		if (checkHorizontalAndVertical(p)) {
+		if (checkHorizontalAndVertical(p, owner)) {
 			return true;
 		}
 
-		return checkDiagonals(p);
+		return checkDiagonals(p, owner);
 
 	}
 
@@ -26,7 +28,7 @@ public interface Winnable {
 	default boolean isGameWinnableBySecondaryDiagonal(Point p) {
 
 		if (getXAxisLength() > getYAxisLength()) {
-			System.out.println("first");
+//			System.out.println("first");
 
 //            position of cell based on position of lower line
 //            we want it to be on it or on top of it
@@ -46,11 +48,10 @@ public interface Winnable {
 
 
 			if (lowerLine != PositionOfDot.UP && upperLine != PositionOfDot.DOWN) {
-				System.out.println("good candidate");
+//				System.out.println("good candidate");
 				return true;
 			} else {
-				System.out.println("not good candidate");
-//            todo skip main diagonal
+//				System.out.println("not good candidate");
 				return false;
 			}
 
@@ -73,12 +74,11 @@ public interface Winnable {
 			);
 
 			if (upperLineOk != PositionOfDot.UP && lowerLineOk != PositionOfDot.DOWN) {
-				System.out.println("good candidate");
+//				System.out.println("good candidate");
 				return true;
 
 			} else {
-				System.out.println("not good candidate");
-//            todo skip main diagonal
+//				System.out.println("not good candidate");
 				return false;
 			}
 
@@ -89,11 +89,10 @@ public interface Winnable {
 //            ad hoc solution
 
 			if (p.getX() + p.getY() == getXAxisLength() - 1) {
-				System.out.println("on line");
+//				System.out.println("on line");
 				return true;
 			} else {
-				System.out.println("not good candidate");
-//                todo skip
+//				System.out.println("not good candidate");
 				return false;
 			}
 
@@ -121,11 +120,11 @@ public interface Winnable {
 			);
 
 			if (lowerLine != PositionOfDot.DOWN && upperLine != PositionOfDot.UP) {
-				System.out.println("good candidate");
+//				System.out.println("good candidate");
 				return true;
 
 			} else {
-				System.out.println("not good candidate");
+//				System.out.println("not good candidate");
 				return false;
 			}
 
@@ -146,10 +145,10 @@ public interface Winnable {
 			);
 
 			if (upperLineOk != PositionOfDot.UP && lowerLineOk != PositionOfDot.DOWN) {
-				System.out.println("good candidate");
+//				System.out.println("good candidate");
 				return true;
 			} else {
-				System.out.println("not good candidate");
+//				System.out.println("not good candidate");
 				return false;
 			}
 
@@ -160,25 +159,24 @@ public interface Winnable {
 //            ad hoc solution
 
 			if (p.getX() == p.getY()) {
-				System.out.println("good candidate");
+//				System.out.println("good candidate");
 				return true;
 			} else {
-				System.out.println("not good candidate");
+//				System.out.println("not good candidate");
 				return false;
 			}
 
 		}
 	}
 
-	default boolean checkHorizontalAndVertical(Point p) {
+	default boolean checkHorizontalAndVertical(Point p, Owner owner) {
 		boolean allSame = true;
 
 //        check y axis
 		for (int y = 0; y < getYAxisLength(); y++) {
 //            System.out.println(newX + " " + y);
 
-//			if (tiles[y][p.getX()].getOwner() != Owner.USER_1) {
-			if (getTile(p.getX(), y).getOwner() != Owner.USER_1) {
+			if (getTile(p.getX(), y).getOwner() != owner) {
 
 				allSame = false;
 				break;
@@ -193,18 +191,18 @@ public interface Winnable {
 		}
 
 //        check x axis
-		allSame = true;
 
 		for (int x = 0; x < getXAxisLength(); x++) {
 //            System.out.println(x + " " + newY);
 
-			if (getTile(x, p.getY()).getOwner() == Owner.USER_1) {
+			if (getTile(x, p.getY()).getOwner() == owner) {
 
 			} else {
 				return false;
 			}
 
 		}
+
 		System.out.println("player1 won");
 
 		return true;
@@ -220,7 +218,7 @@ public interface Winnable {
 	 * @return
 	 */
 	default PositionOfDot isGoodCandidate(Point p1, Point p2, Point point) {
-		System.out.println(p1 + ", " + p2 + " ? " + point);
+//		System.out.println(p1 + ", " + p2 + " ? " + point);
 
 		Point v1 = new Point(
 				p2.getX() - p1.getX(),
@@ -235,45 +233,45 @@ public interface Winnable {
 		int xp = v1.getX() * v2.getY() - v1.getY() * v2.getX();
 
 		if (xp > 0) {
-			System.out.println("up");
+//			System.out.println("up");
 			return PositionOfDot.UP;
 		} else if (xp < 0) {
-			System.out.println("down");
+//			System.out.println("down");
 			return PositionOfDot.DOWN;
 		} else {
-			System.out.println("on the line");
+//			System.out.println("on the line");
 			return PositionOfDot.ON;
 		}
 
 	}
 
-	private boolean checkDiagonals(Point p) {
-		//todo check len
-		//        todo if same x and y no need to check this
+	private boolean checkDiagonals(Point p, Owner owner) {
+		//  todo check len
+		//  todo if same x and y no need to check this
 
-		System.out.println("x " + getXAxisLength());
-		System.out.println("y " + getYAxisLength());
-		System.out.println("new x " + p.getX());
-		System.out.println("new y " + p.getY());
+//		System.out.println("x " + getXAxisLength());
+//		System.out.println("y " + getYAxisLength());
+//		System.out.println("new x " + p.getX());
+//		System.out.println("new y " + p.getY());
 
 		if (isGameWinnableByMainDiagonal(p)) {
 
 			boolean areAllUser1 = true;
 
 			for (int x = p.getX() + 1, y = p.getY() + 1; x < getXAxisLength() && y < getYAxisLength(); x++, y++) {
-				System.out.println(x + " " + y);
-				if (getTile(x, y).getOwner() != Owner.USER_1) {
+//				System.out.println(x + " " + y);
+				if (getTile(x, y).getOwner() != owner) {
 					areAllUser1 = false;
 					break;
 				}
 			}
 
-			System.out.println();
+//			System.out.println();
 
 			if (areAllUser1) {
 				for (int x = p.getX() - 1, y = p.getY() - 1; x >= 0 && y >= 0; x--, y--) {
-					System.out.println(x + " " + y);
-					if (getTile(x, y).getOwner() != Owner.USER_1) {
+//					System.out.println(x + " " + y);
+					if (getTile(x, y).getOwner() != owner) {
 						areAllUser1 = false;
 						break;
 					}
@@ -285,27 +283,27 @@ public interface Winnable {
 				}
 			}
 
-			System.out.println();
+//			System.out.println();
 
 		} else if (isGameWinnableBySecondaryDiagonal(p)) {
 
 			boolean areAllUser1 = true;
 
 			for (int x = p.getX() + 1, y = p.getY() - 1; x < getXAxisLength() && y >= 0; x++, y--) {
-				System.out.println(x + " " + y);
-				if (getTile(x, y).getOwner() != Owner.USER_1) {
+//				System.out.println(x + " " + y);
+				if (getTile(x, y).getOwner() != owner) {
 					areAllUser1 = false;
 					break;
 				}
 			}
 
-			System.out.println();
+//			System.out.println();
 
 			if (areAllUser1) {
 				for (int x = p.getX() - 1, y = p.getY() + 1; x >= 0 && y < getYAxisLength(); x--, y++) {
-					System.out.println(x + " " + y);
+//					System.out.println(x + " " + y);
 
-					if (getTile(x, y).getOwner() != Owner.USER_1) {
+					if (getTile(x, y).getOwner() != owner) {
 						return false;
 					}
 				}

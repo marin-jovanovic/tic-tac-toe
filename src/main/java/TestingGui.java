@@ -25,17 +25,20 @@ public class TestingGui extends JFrame {
 				int finalY = y;
 				buttons[y][x].addActionListener(e -> {
 
-					g.get().updateGame(new Point(finalX, finalY), Owner.USER_1);
+					g.get().setTile(new Point(finalX, finalY), Owner.USER_1);
 
 					buttons[finalY][finalX].setEnabled(false);
 
 					g.get().printBoard();
 
-					if (g.get().isGameWon(new Point(finalX, finalY))) {
+					if (g.get().isGameWon(new Point(finalX, finalY), Owner.USER_1)) {
 						System.out.println("+++++++++++++++++++++++++++++++++++++++++++");
 					}
 
 					System.out.println();
+
+//					g.get().computerMove();
+
 				});
 			}
 		}
