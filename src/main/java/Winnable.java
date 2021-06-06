@@ -186,7 +186,7 @@ public interface Winnable {
 
 //        System.out.println();
 		if (allSame) {
-			System.out.println("player1 won");
+//			System.out.println(owner + " won");
 			return true;
 		}
 
@@ -203,7 +203,7 @@ public interface Winnable {
 
 		}
 
-		System.out.println("player1 won");
+//		System.out.println(owner + " won");
 
 		return true;
 
@@ -278,7 +278,7 @@ public interface Winnable {
 				}
 
 				if (areAllUser1) {
-					System.out.println("player1 won");
+//					System.out.println(owner +" won");
 					return true;
 				}
 			}
@@ -307,7 +307,7 @@ public interface Winnable {
 						return false;
 					}
 				}
-				System.out.println("player1 won");
+//				System.out.println(owner +" won");
 
 				return true;
 			}

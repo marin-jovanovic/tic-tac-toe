@@ -28,6 +28,7 @@ public class TestingGui extends JFrame {
 					g.get().setTile(new Point(finalX, finalY), Owner.USER_1);
 
 					buttons[finalY][finalX].setEnabled(false);
+					buttons[finalY][finalX].setText("o");
 
 					g.get().printBoard();
 
@@ -37,7 +38,11 @@ public class TestingGui extends JFrame {
 
 					System.out.println();
 
-//					g.get().computerMove();
+					Point computerMove = g.get().computerMove();
+					g.get().setTile(new Point(computerMove.x(), computerMove.y()), Owner.COMPUTER);
+					buttons[computerMove.y()][computerMove.x()].setEnabled(false);
+					buttons[computerMove.y()][computerMove.x()].setText("x");
+
 
 				});
 			}

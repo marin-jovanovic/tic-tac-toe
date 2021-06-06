@@ -25,6 +25,14 @@ public class Game implements Winnable {
 		}
 	}
 
+	record MinimaxResult(Point whereTo, int result) {
+		@Override
+		public String toString() {
+			return whereTo + " -> " + result;
+		}
+
+	}
+
 	public static void main(String[] args) {
 		Game g = new Game();
 
@@ -108,11 +116,11 @@ public class Game implements Winnable {
 	 */
 	public Point computerMove() {
 
-		int a =  minimax(Owner.COMPUTER, 1);
+		MinimaxResult a =  minimax(Owner.COMPUTER, 1);
 
 		System.out.println(a);
 
-		return new Point(1, 1);
+		return a.whereTo();
 	}
 
 	private static void printFormatted(Object val, int offset) {
@@ -124,14 +132,12 @@ public class Game implements Winnable {
 		System.out.println(buffer + val);
 	}
 
-	private int minimax(Owner turn, int depth) {
-
+	private MinimaxResult minimax(Owner turn, int depth) {
 
 		int m;
 //		todo catch
 		int bestX = -1;
 		int bestY = -1;
-
 
 		if (turn == Owner.COMPUTER) {
 			m = Integer.MIN_VALUE;
@@ -150,11 +156,17 @@ public class Game implements Winnable {
 					Point p = new Point(x, y);
 
 					setTile(p, turn);
-					System.out.println();
-					printBoard(depth);
+
+					if (depth == 1) {
+						System.out.println();
+						printBoard(depth);
+
+					}
 
 					if (isGameWon(p, turn)) {
-						printFormatted("game won " + turn, depth);
+						if (depth == 1) {
+							printFormatted("game won " + turn, depth);
+						}
 						if (turn == Owner.COMPUTER) {
 							sum++;
 						} else if (turn == Owner.USER_1) {
@@ -162,12 +174,12 @@ public class Game implements Winnable {
 						}
 					} else {
 						if (turn == Owner.COMPUTER) {
-							int r = minimax(Owner.USER_1, depth+1);
-							sum += r;
+							MinimaxResult r = minimax(Owner.USER_1, depth+1);
+							sum += r.result();
 
 						} else if (turn == Owner.USER_1) {
-							int r = minimax(Owner.COMPUTER, depth+1);
-							sum += r;
+							MinimaxResult r = minimax(Owner.COMPUTER, depth+1);
+							sum += r.result();
 						}
 					}
 
@@ -179,15 +191,20 @@ public class Game implements Winnable {
 							bestX = x;
 							bestY = y;
 
-							printFormatted("new best move " + m + " " + new Point(bestX, bestY), depth);
+							if (depth == 1) {
+
+								printFormatted("new best move " + m + " " + new Point(bestX, bestY), depth);
+							}
 						}
 					} else {
 						if (sum < m) {
 							m = sum;
 							bestX = x;
 							bestY = y;
+							if (depth == 1) {
 
-							printFormatted("new best move " + m + " " + new Point(bestX, bestY), depth);
+								printFormatted("new best move " + m + " " + new Point(bestX, bestY), depth);
+							}
 						}
 					}
 
@@ -195,18 +212,23 @@ public class Game implements Winnable {
 			}
 		}
 		if (! isSomethingPlaced		) {
-			printFormatted("tie" , depth);
 			m = 0;
+			if (depth == 1) {
+				printFormatted("tie" , depth);
+				printFormatted("returning " + m, depth);
+				printFormatted("best move " + new Point(bestX, bestY), depth);
+				System.out.println();
+
+			}
+			return new MinimaxResult(new Point(bestX, bestY), m);
+		}
+		if (depth == 1) {
 			printFormatted("returning " + m, depth);
 			printFormatted("best move " + new Point(bestX, bestY), depth);
 			System.out.println();
-			return 0;
-		}
 
-		printFormatted("returning " + m, depth);
-		printFormatted("best move " + new Point(bestX, bestY), depth);
-		System.out.println();
-		return m;
+		}
+		return new MinimaxResult(new Point(bestX, bestY), m);
 	}
 
 
