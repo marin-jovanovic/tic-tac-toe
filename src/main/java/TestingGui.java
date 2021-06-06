@@ -9,13 +9,13 @@ public class TestingGui extends JFrame {
 		setVisible(true);
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		AtomicReference<Game> g = new AtomicReference<>(new Game());
-		setLayout(new GridLayout(0, g.get().getxAxisLength()));
+		setLayout(new GridLayout(0, g.get().getXAxisLength()));
 		setSize(500, 500);
-		buttons = new JButton[g.get().getyAxisLength()][g.get().getxAxisLength()];
+		buttons = new JButton[g.get().getYAxisLength()][g.get().getXAxisLength()];
 
 
-		for (int y = 0; y < g.get().getyAxisLength(); y++) {
-			for (int x = 0; x < g.get().getxAxisLength(); x++) {
+		for (int y = 0; y < g.get().getYAxisLength(); y++) {
+			for (int x = 0; x < g.get().getXAxisLength(); x++) {
 
 				buttons[y][x] = new JButton(x + " " + y);
 
@@ -44,8 +44,8 @@ public class TestingGui extends JFrame {
 		add(restartBtn);
 		restartBtn.addActionListener(e -> {
 			g.set(new Game());
-			for (int i = 0; i < g.get().getyAxisLength(); i++) {
-				for (int j = 0; j < g.get().getxAxisLength(); j++) {
+			for (int i = 0; i < g.get().getYAxisLength(); i++) {
+				for (int j = 0; j < g.get().getXAxisLength(); j++) {
 
 					buttons[i][j].setEnabled(true);
 
