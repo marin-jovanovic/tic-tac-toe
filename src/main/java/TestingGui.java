@@ -9,37 +9,33 @@ public class TestingGui extends JFrame {
         setVisible(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         AtomicReference<Game> g = new AtomicReference<>(new Game());
-        setLayout(new GridLayout(0, g.get().getLength()));
+        setLayout(new GridLayout(0, g.get().getxAxisLength()));
         setSize(500, 500);
-        buttons = new JButton[g.get().getWidth()][g.get().getLength()];
+        buttons = new JButton[g.get().getyAxisLength()][g.get().getxAxisLength()];
 
 
-//       this.tiles = new Tile[width][length];
-//        for (int y = 0; y < width; y++) {
-//
-//            for (int x = 0; x < length; x++) {
-//                tiles[y][x] = new Tile();
-//
-//            }
-//        }
 
-        for (int i = 0; i < g.get().getWidth(); i++) {
-            for (int j = 0; j < g.get().getLength(); j++) {
+        for (int y = 0; y < g.get().getyAxisLength(); y++) {
+            for (int x = 0; x < g.get().getxAxisLength(); x++) {
 
-                buttons[i][j] = new JButton(i + " " + j);
+                buttons[y][x] = new JButton(x + " " + y);
 
+                this.add(buttons[y][x]);
 
-                this.add(buttons[i][j]);
-                int finalI = i;
-                int finalJ = j;
-                buttons[i][j].addActionListener(e -> {
-                    g.get().updateGame(finalJ, finalI, Owner.USER_1);
-                    buttons[finalI][finalJ].setEnabled(false);
+                int finalX = x;
+                int finalY = y;
+                buttons[y][x].addActionListener(e -> {
+
+                    g.get().updateGame(finalX, finalY, Owner.USER_1);
+
+                    buttons[finalY][finalX].setEnabled(false);
+
                     g.get().printBoard();
-                    if (g.get().isGameWon()) {
-                        System.out.println("+++++++++++++++++++++++++++++++++++++++++++");
 
+                    if (g.get().isGameWon(finalX, finalY)) {
+                        System.out.println("+++++++++++++++++++++++++++++++++++++++++++");
                     }
+
                     System.out.println();
                 });
             }
@@ -49,8 +45,8 @@ public class TestingGui extends JFrame {
         add(restartBtn);
         restartBtn.addActionListener(e -> {
             g.set(new Game());
-            for (int i = 0; i < g.get().getWidth(); i++) {
-                for (int j = 0; j < g.get().getLength(); j++) {
+            for (int i = 0; i < g.get().getyAxisLength(); i++) {
+                for (int j = 0; j < g.get().getxAxisLength(); j++) {
 
                     buttons[i][j].setEnabled(true);
 

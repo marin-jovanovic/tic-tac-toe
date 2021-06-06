@@ -1,10 +1,12 @@
+import javax.crypto.spec.OAEPParameterSpec;
 import java.util.List;
 import java.util.Scanner;
 
 public class Game {
 
-    private final int length = 3;
-    private final int width = 5;
+    private final int xAxisLength = 8;
+    private final int yAxisLength = 12;
+
     private final boolean isUserX = true;
     private final Tile[][] tiles;
 
@@ -15,10 +17,10 @@ public class Game {
      */
     public Game() {
 
-        this.tiles = new Tile[width][length];
-        for (int y = 0; y < width; y++) {
+        this.tiles = new Tile[yAxisLength][xAxisLength];
+        for (int y = 0; y < yAxisLength; y++) {
 
-            for (int x = 0; x < length; x++) {
+            for (int x = 0; x < xAxisLength; x++) {
                 tiles[y][x] = new Tile();
 
             }
@@ -46,7 +48,7 @@ public class Game {
 //            g.computerMove();
 
 //          todo check if other won
-            if (g.isGameWon()) {
+            if (g.isGameWon(x, y)) {
                 break;
             }
 
@@ -56,12 +58,12 @@ public class Game {
         System.out.println("end of game");
     }
 
-    public int getLength() {
-        return length;
+    public int getxAxisLength() {
+        return xAxisLength;
     }
 
-    public int getWidth() {
-        return width;
+    public int getyAxisLength() {
+        return yAxisLength;
     }
 
     /**
@@ -69,43 +71,106 @@ public class Game {
      *
      * @return true if move is made else false
      */
-    public boolean computerMove() {
-        boolean isOneOrMoreEmpty = false;
+//    public boolean computerMove() {
+//        boolean isOneOrMoreEmpty = false;
+//
+//        for (int x = 0; x < yAxisLength; x++) {
+//            for (int y = 0; y < xAxisLength; y++) {
+//                if (tiles[x][y].isTileEmpty()) {
+//                    System.out.println("tile empty at " + x + " " + y);
+//                    isOneOrMoreEmpty = true;
+//
+//
+//                }
+//            }
+//        }
+//
+//        return true;
+//    }
 
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < length; y++) {
-                if (tiles[x][y].isTileEmpty()) {
-                    System.out.println("tile empty at " + x + " " + y);
-                    isOneOrMoreEmpty = true;
+//    private boolean gameWonDriverMain(int length, int width, boolean isReversed) {
+//
+//        int count;
+//
+//        for (int x = 0; x < (isReversed ? length : width); x++) {
+//            count = 0;
+//
+//            for (int y = 0; y < (isReversed ? width : length); y++) {
+//                if (tiles[!isReversed ? x : y][!isReversed ? y : x].getOwner() == Owner.USER_1) {
+//                    count += 1;
+//                }
+//            }
+//
+//            if (count == (!isReversed ? length : width)) {
+//                System.out.println("player1 wins");
+//                return true;
+//            }
+//        }
+//
+//        return false;
+//    }
 
+    private boolean checkHorizontalAndVertical(int xAxisLength, int yAxisLength, int newX, int newY) {
+        boolean allSame = true;
 
-                }
+//        check y axis
+        for (int y = 0; y < yAxisLength; y++) {
+//            System.out.println(newX + " " + y);
+            if (tiles[y][newX].getOwner() == Owner.USER_1) {
+
+            } else {
+                allSame = false;
+                break;
+                //                return false;
             }
+
         }
+
+        System.out.println();
+        if (allSame) {
+            System.out.println("player1 won");
+            return true;
+        }
+
+//        check x axis
+        allSame = true;
+
+        for (int x = 0; x < xAxisLength; x++) {
+//            System.out.println(x + " " + newY);
+
+            if (tiles[newY][x].getOwner() == Owner.USER_1) {
+
+            } else {
+                return false;
+            }
+
+        }
+        System.out.println("player1 won");
 
         return true;
-    }
 
-    private boolean gameWonDriverMain(int length, int width, boolean isReversed) {
-
-        int count;
-
-        for (int x = 0; x < (isReversed ? length : width); x++) {
-            count = 0;
-
-            for (int y = 0; y < (isReversed ? width : length); y++) {
-                if (tiles[!isReversed ? x : y][!isReversed ? y : x].getOwner() == Owner.USER_1) {
-                    count += 1;
-                }
-            }
-
-            if (count == (!isReversed ? length : width)) {
-                System.out.println("player1 wins");
-                return true;
-            }
-        }
-
-        return false;
+//
+//        for (boolean state : List.of(true, false)) {
+//
+//                    int count;
+//
+//                    boolean isReversed = state;
+//                    int x = !isReversed ? newX : newY;
+//                    count = 0;
+//
+//                    for (int y = 0; y < (isReversed ? width : length); y++) {
+//                        if (tiles[!isReversed ? x : y][!isReversed ? y : x].getOwner() == Owner.USER_1) {
+//                            count += 1;
+//                        }
+//                    }
+//
+//                    if (count == (!isReversed ? length : width)) {
+//                        System.out.println("player1 wins");
+//                        return true;
+//                    }
+//
+//                }
+//        return false;
     }
 
 
@@ -117,38 +182,18 @@ public class Game {
      * @param isReversed length <= width
      * @return true if all code {Owner.USER_1} on non-main diagonal(s)
      */
-    private boolean gameWonNonMainDriverDiagonals(int length, int width, boolean isReversed) {
-        int t = !isReversed ? length - width : -length + width;
-        int perX = t + 1;
-
-        for (int offset = 0; offset < perX; offset++) {
-            System.out.println("offset " + offset);
-            boolean areAllUser1 = true;
-            for (int x = 0; x < (isReversed ? length : width); x++) {
-                int a = !isReversed ? x : length - x - 1 - offset;
-                int b = !isReversed ? length - x - 1 - offset : x;
-
-                System.out.println(a + " " + b);
-                if (tiles[a][b].getOwner() != Owner.USER_1) {
-                    areAllUser1 = false;
-                    break;
-                }
-            }
-            if (areAllUser1) {
-                System.out.println("player1  first won");
-                return true;
-            }
-        }
+//    private boolean gameWonNonMainDriverDiagonals(int length, int width, boolean isReversed) {
 //        int t = !isReversed ? length - width : -length + width;
 //        int perX = t + 1;
 //
 //        for (int offset = 0; offset < perX; offset++) {
-//
+//            System.out.println("offset " + offset);
 //            boolean areAllUser1 = true;
 //            for (int x = 0; x < (isReversed ? length : width); x++) {
 //                int a = !isReversed ? x : length - x - 1 - offset;
 //                int b = !isReversed ? length - x - 1 - offset : x;
 //
+//                System.out.println(a + " " + b);
 //                if (tiles[a][b].getOwner() != Owner.USER_1) {
 //                    areAllUser1 = false;
 //                    break;
@@ -159,9 +204,29 @@ public class Game {
 //                return true;
 //            }
 //        }
-
-        return false;
-    }
+////        int t = !isReversed ? length - width : -length + width;
+////        int perX = t + 1;
+////
+////        for (int offset = 0; offset < perX; offset++) {
+////
+////            boolean areAllUser1 = true;
+////            for (int x = 0; x < (isReversed ? length : width); x++) {
+////                int a = !isReversed ? x : length - x - 1 - offset;
+////                int b = !isReversed ? length - x - 1 - offset : x;
+////
+////                if (tiles[a][b].getOwner() != Owner.USER_1) {
+////                    areAllUser1 = false;
+////                    break;
+////                }
+////            }
+////            if (areAllUser1) {
+////                System.out.println("player1  first won");
+////                return true;
+////            }
+////        }
+//
+//        return false;
+//    }
 
 
     /**
@@ -171,95 +236,281 @@ public class Game {
      * @param isReversed length <= width
      * @return true if all {@code Owner.USER_1} on main diagonal(s)
      */
-    private boolean gameWonDriverMainDiagonals(int length, int width, boolean isReversed) {
-        int t = !isReversed ? length - width : -(length - width);
-        int perX = t + 1;
+//    private boolean gameWonDriverMainDiagonals(int length, int width, boolean isReversed) {
+//        int t = !isReversed ? length - width : -(length - width);
+//        int perX = t + 1;
+//
+//        for (int offset = 0; offset < perX; offset++) {
+//            boolean areAllUser1 = true;
+//            for (int x = 0; x < (isReversed ? length: width); x++) {
+//                int a = !isReversed ? x : x + offset;
+//                int b = !isReversed ? x + offset : x;
+//
+//                if (tiles[a][b].getOwner() != Owner.USER_1) {
+//                    areAllUser1 = false;
+//                    break;
+//                }
+//            }
+//            if (areAllUser1) {
+//                System.out.println("player1 first won");
+//                return true;
+//            }
+//        }
+//
+//        return false;
+//    }
 
-        for (int offset = 0; offset < perX; offset++) {
-            boolean areAllUser1 = true;
-            for (int x = 0; x < (isReversed ? length: width); x++) {
-                int a = !isReversed ? x : x + offset;
-                int b = !isReversed ? x + offset : x;
+    enum PositionOfDot {
+        UP,
+        DOWN,
+        ON
+    }
 
-                if (tiles[a][b].getOwner() != Owner.USER_1) {
+    private  PositionOfDot isGoodCandidate(int x1,int  y1, int x2, int y2, int pointX, int pointY) {
+        int v1_x_up = x2 - x1;
+        int v1_y_up = y2 - y1;
+
+        int v2_x_up = x2 - pointX;
+        int v2_y_up = y2 - pointY;
+
+//        System.out.println("(" + v1_x_up + ", " + v1_y_up+ "), (" + v2_x_up + ", " + v2_y_up + ")");
+
+        int xp = v1_x_up * v2_y_up - v1_y_up * v2_x_up;
+        System.out.println("x pr " + xp);
+
+        if (xp > 0) {
+            System.out.println("up");
+            return PositionOfDot.UP;
+        } else if (xp < 0) {
+            System.out.println("down");
+            return PositionOfDot.DOWN;
+        } else {
+            System.out.println("on the line");
+            return PositionOfDot.ON;
+        }
+
+    }
+
+    private boolean checkDiagonals(int xAxisLength, int yAxisLength, int newX, int newY) {
+//todo check len
+
+//        min length
+        int perX = Math.min(xAxisLength, yAxisLength);
+        System.out.println("per x " + perX);
+
+        int x1 = 0;
+        int y1 = 0;
+
+        int x2 = perX - 1;
+        int y2 = perX - 1;
+
+//        bellow or on the upper line
+        PositionOfDot upperLineOk = isGoodCandidate(x1, y1, x2, y2, newX, newY);
+
+        x1 = 0;
+        y1 = yAxisLength - perX;
+
+        x2 = perX - 1;
+        y2 = yAxisLength;
+
+//        higher then or on the lower line
+        PositionOfDot lowerLineOk = isGoodCandidate(x1, y1, x2, y2, newX, newY);
+
+        if (upperLineOk != PositionOfDot.UP && lowerLineOk != PositionOfDot.DOWN) {
+            System.out.println("EXCVELET candidate");
+        } else {
+            System.out.println("not good candidate");
+        }
+
+
+        int v1_x_down = 0;
+        int v1_y_down = yAxisLength - perX;
+
+        int v2_x_down = perX;
+        int v2_y_down = yAxisLength;
+
+
+
+//        int v1_x =
+
+        boolean areAllUser1 = true;
+
+        System.out.println("x " + xAxisLength);
+        System.out.println("y " + yAxisLength) ;
+        System.out.println("newx " + newX);
+        System.out.println("newy " + newY);
+
+        for (int x = newX, y = newY;  x < xAxisLength && y < yAxisLength; x++, y++) {
+                System.out.println(x + " " + y);
+            if (tiles[y][x].getOwner() != Owner.USER_1) {
+                areAllUser1 = false;
+                break;
+            }
+
+        }
+
+        System.out.println();
+
+        if (areAllUser1) {
+            for (int x = newX, y = newY;  x >= 0 && y >= 0; x--, y--) {
+                System.out.println(x + " " + y);
+                if (tiles[y][x].getOwner() != Owner.USER_1) {
                     areAllUser1 = false;
                     break;
                 }
             }
+
             if (areAllUser1) {
-                System.out.println("player1 first won");
+                System.out.println("player1 won");
                 return true;
             }
         }
 
+        System.out.println("-------");
+
+        areAllUser1 = true;
+        for (int x = newX, y = newY;  x < xAxisLength && y >= 0; x++, y--) {
+            System.out.println(x + " " + y);
+            if (tiles[y][x].getOwner() != Owner.USER_1) {
+                areAllUser1 = false;
+                break;
+            }
+        }
+        System.out.println();
+
+        if (areAllUser1) {
+            for (int x = newX, y = newY; x >= 0 && y < yAxisLength; x--, y++) {
+                System.out.println(x + " " + y);
+
+                if (tiles[y][x].getOwner() != Owner.USER_1) {
+                    return false;
+                }
+            }
+            System.out.println("player1 won");
+
+            return true;
+        }
+
         return false;
+
     }
 
     /**
      * @return true if player1 won
      */
-    public boolean isGameWon() {
+    public boolean isGameWon(int newX, int newY) {
 //        todo improve performance
 //          calculate only by newly placed tile if it contributed to wictory
 
-        for (boolean state : List.of(true, false)) {
-            /*
-                xxx
-                ...
-                ...
-
-                and
-
-                x..
-                x..
-                x..
-             */
-
-            if (gameWonDriverMain(length, width, state)) {
-                return true;
-            }
-
-
-        }
-
-            /*
-                main diagonal
-                x..
-                .x.
-                ..x
-            */
-
-        if (gameWonDriverMainDiagonals(length, width, length <= width )) {
+//        for (boolean state : List.of(true, false)) {
+//            /*
+//                xxx
+//                ...
+//                ...
+//
+//                and
+//
+//                x..
+//                x..
+//                x..
+//             */
+        if (checkHorizontalAndVertical(xAxisLength, yAxisLength, newX, newY)) {
             return true;
         }
 
-            /*
-                non main diagonal
-                ..x
-                .x.
-                x..
-            */
-        if (gameWonNonMainDriverDiagonals(length, width, length <= width)) {
+        if (checkDiagonals(xAxisLength, yAxisLength, newX, newY)) {
             return true;
         }
+
 
 
         return false;
+
+//        int count;
+//
+//        boolean isReversed = false;
+//        int x = newX;
+//        count = 0;
+//
+//        for (int y = 0; y < (isReversed ? width : length); y++) {
+//            if (tiles[!isReversed ? x : y][!isReversed ? y : x].getOwner() == Owner.USER_1) {
+//                count += 1;
+//            }
+//        }
+//
+//        if (count == (!isReversed ? length : width)) {
+//            System.out.println("player1 wins");
+//            return true;
+//        }
+//
+//        isReversed = true;
+//        x = newY;
+//        count = 0;
+//
+//        for (int y = 0; y < (isReversed ? width : length); y++) {
+//            if (tiles[!isReversed ? x : y][!isReversed ? y : x].getOwner() == Owner.USER_1) {
+//                count += 1;
+//            }
+//        }
+//
+//        if (count == (!isReversed ? length : width)) {
+//            System.out.println("player1 wins");
+//            return true;
+//        }
+
+
+
+//        return false;
+
+//
+//
+//
+//
+//            if (gameWonDriverMain(length, width, state)) {
+//                return true;
+//            }
+//
+//
+//        }
+//
+//            /*
+//                main diagonal
+//                x..
+//                .x.
+//                ..x
+//            */
+//
+//        if (gameWonDriverMainDiagonals(length, width, length <= width )) {
+//            return true;
+//        }
+//
+//            /*
+//                non main diagonal
+//                ..x
+//                .x.
+//                x..
+//            */
+//        if (gameWonNonMainDriverDiagonals(length, width, length <= width)) {
+//            return true;
+//        }
+//
+
+//        return false;
     }
 
-    public void maxValue() {
+//    public void maxValue() {
+//
+//    }
 
-    }
-
-    public void minValue() {
-
-    }
+//    public void minValue() {
+//
+//    }
 
     public boolean updateGame(int x, int y, Owner owner) {
-        if (x >= length) {
+        if (x >= xAxisLength) {
             System.out.println("x to big");
             return false;
-        } else if (y >= width) {
+        } else if (y >= yAxisLength) {
             System.out.println("y to big");
             return false;
         }
@@ -272,10 +523,10 @@ public class Game {
     }
 
     public void printBoard() {
-        for (int y = 0; y < width; y++) {
+        for (int y = 0; y < yAxisLength; y++) {
             String buffer = "";
 
-            for (int x = 0; x < length; x++) {
+            for (int x = 0; x < xAxisLength; x++) {
                 if (isUserX) {
                     if (tiles[y][x].getOwner() == Owner.USER_1) {
                         buffer += "x ";
