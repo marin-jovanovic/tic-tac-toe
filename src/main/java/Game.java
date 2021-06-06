@@ -296,8 +296,74 @@ public class Game {
 //todo check len
 //        todo if same x and y no need to check this
 
-//        mainDiagonalCheck(xAxisLength, yAxisLength, newX, newY);
+        mainDiagonalCheck(xAxisLength, yAxisLength, newX, newY);
 
+        secondaryDiagonalCheck(xAxisLength, yAxisLength, newX, newY);
+
+
+//        boolean areAllUser1 = true;
+//
+//        System.out.println("x " + xAxisLength);
+//        System.out.println("y " + yAxisLength) ;
+//        System.out.println("newx " + newX);
+//        System.out.println("newy " + newY);
+////
+//        for (int x = newX, y = newY;  x < xAxisLength && y < yAxisLength; x++, y++) {
+//                System.out.println(x + " " + y);
+//            if (tiles[y][x].getOwner() != Owner.USER_1) {
+//                areAllUser1 = false;
+//                break;
+//            }
+//
+//        }
+//
+//        System.out.println();
+//
+//        if (areAllUser1) {
+//            for (int x = newX, y = newY;  x >= 0 && y >= 0; x--, y--) {
+//                System.out.println(x + " " + y);
+//                if (tiles[y][x].getOwner() != Owner.USER_1) {
+//                    areAllUser1 = false;
+//                    break;
+//                }
+//            }
+//
+//            if (areAllUser1) {
+//                System.out.println("player1 won");
+//                return true;
+//            }
+//        }
+//
+//        System.out.println("-------");
+//
+//        areAllUser1 = true;
+//        for (int x = newX, y = newY;  x < xAxisLength && y >= 0; x++, y--) {
+//            System.out.println(x + " " + y);
+//            if (tiles[y][x].getOwner() != Owner.USER_1) {
+//                areAllUser1 = false;
+//                break;
+//            }
+//        }
+//        System.out.println();
+//
+//        if (areAllUser1) {
+//            for (int x = newX, y = newY; x >= 0 && y < yAxisLength; x--, y++) {
+//                System.out.println(x + " " + y);
+//
+//                if (tiles[y][x].getOwner() != Owner.USER_1) {
+//                    return false;
+//                }
+//            }
+//            System.out.println("player1 won");
+//
+//            return true;
+//        }
+
+        return false;
+
+    }
+
+    private void secondaryDiagonalCheck(int xAxisLength, int yAxisLength, int newX, int newY) {
         if (xAxisLength > yAxisLength) {
             System.out.println("first");
 
@@ -365,85 +431,16 @@ public class Game {
 //            we want cell to be on the main diagonal
 //            there is no range in this case
 
-//            point 1
-            int x1 = 0;
-            int y1 = yAxisLength - 1;
+            //            ad hoc solution
 
-//            point 2
-            int x2 = xAxisLength - 1;
-            int y2 = 0;
-
-            PositionOfDot line = isGoodCandidate(x1, y1, x2, y2, newX, newY);
-
-            if (line == PositionOfDot.ON) {
+            if (newX + newY == xAxisLength - 1) {
                 System.out.println("on line");
             } else {
                 System.out.println("not good candidate");
 //                todo skip
             }
+        
         }
-
-
-//        boolean areAllUser1 = true;
-//
-//        System.out.println("x " + xAxisLength);
-//        System.out.println("y " + yAxisLength) ;
-//        System.out.println("newx " + newX);
-//        System.out.println("newy " + newY);
-////
-//        for (int x = newX, y = newY;  x < xAxisLength && y < yAxisLength; x++, y++) {
-//                System.out.println(x + " " + y);
-//            if (tiles[y][x].getOwner() != Owner.USER_1) {
-//                areAllUser1 = false;
-//                break;
-//            }
-//
-//        }
-//
-//        System.out.println();
-//
-//        if (areAllUser1) {
-//            for (int x = newX, y = newY;  x >= 0 && y >= 0; x--, y--) {
-//                System.out.println(x + " " + y);
-//                if (tiles[y][x].getOwner() != Owner.USER_1) {
-//                    areAllUser1 = false;
-//                    break;
-//                }
-//            }
-//
-//            if (areAllUser1) {
-//                System.out.println("player1 won");
-//                return true;
-//            }
-//        }
-//
-//        System.out.println("-------");
-//
-//        areAllUser1 = true;
-//        for (int x = newX, y = newY;  x < xAxisLength && y >= 0; x++, y--) {
-//            System.out.println(x + " " + y);
-//            if (tiles[y][x].getOwner() != Owner.USER_1) {
-//                areAllUser1 = false;
-//                break;
-//            }
-//        }
-//        System.out.println();
-//
-//        if (areAllUser1) {
-//            for (int x = newX, y = newY; x >= 0 && y < yAxisLength; x--, y++) {
-//                System.out.println(x + " " + y);
-//
-//                if (tiles[y][x].getOwner() != Owner.USER_1) {
-//                    return false;
-//                }
-//            }
-//            System.out.println("player1 won");
-//
-//            return true;
-//        }
-
-        return false;
-
     }
 
     private void mainDiagonalCheck(int xAxisLength, int yAxisLength, int newX, int newY) {
@@ -511,22 +508,15 @@ public class Game {
 //            we want cell to be on the main diagonal
 //            there is no range in this case
 
-//            point 1
-            int x1 = 0;
-            int y1 = 0;
+//            ad hoc solution
 
-//            point 2
-            int x2 = xAxisLength - 1;
-            int y2 = yAxisLength - 1;
-
-            PositionOfDot line = isGoodCandidate(x1, y1, x2, y2, newX, newY);
-
-            if (line == PositionOfDot.ON) {
+            if (newX == newY) {
                 System.out.println("on line");
             } else {
                 System.out.println("not good candidate");
 //                todo skip
             }
+
         }
     }
 
