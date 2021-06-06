@@ -4,9 +4,11 @@ import java.util.Scanner;
 
 public class Game {
 
-    private final int xAxisLength = 8;
-    private final int yAxisLength = 12;
-
+    private final int xAxisLength = 12;
+//    private final int xAxisLength = 8;
+    private final int yAxisLength = 8;
+//    private final int yAxisLength = 12;
+//
     private final boolean isUserX = true;
     private final Tile[][] tiles;
 
@@ -231,10 +233,10 @@ public class Game {
 
     /**
      *
-     * @param length x
-     * @param width y
-     * @param isReversed length <= width
-     * @return true if all {@code Owner.USER_1} on main diagonal(s)
+//     * @param length x
+//     * @param width y
+//     * @param isReversed length <= width
+//     * @return true if all {@code Owner.USER_1} on main diagonal(s)
      */
 //    private boolean gameWonDriverMainDiagonals(int length, int width, boolean isReversed) {
 //        int t = !isReversed ? length - width : -(length - width);
@@ -267,6 +269,7 @@ public class Game {
     }
 
     private  PositionOfDot isGoodCandidate(int x1,int  y1, int x2, int y2, int pointX, int pointY) {
+        System.out.println("(" + x1 + ", " + y1+ "), (" + x2 + ", " + y2 + ")");
         int v1_x_up = x2 - x1;
         int v1_y_up = y2 - y1;
 
@@ -293,45 +296,73 @@ public class Game {
 
     private boolean checkDiagonals(int xAxisLength, int yAxisLength, int newX, int newY) {
 //todo check len
+//        todo if same x and y no need to check this
 
+        if (xAxisLength > yAxisLength) {
 //        min length
-        int perX = Math.min(xAxisLength, yAxisLength);
-        System.out.println("per x " + perX);
+            int perX = yAxisLength;
+//            int perX = Math.min(xAxisLength, yAxisLength);
+            System.out.println("per x " + perX);
 
-        int x1 = 0;
-        int y1 = 0;
+            int x1 = 0;
+            int y1 = 0;
 
-        int x2 = perX - 1;
-        int y2 = perX - 1;
+            int x2 = perX - 1;
+            int y2 = perX - 1;
 
 //        bellow or on the upper line
-        PositionOfDot upperLineOk = isGoodCandidate(x1, y1, x2, y2, newX, newY);
+            PositionOfDot lowerLine = isGoodCandidate(x1, y1, x2, y2, newX, newY);
 
-        x1 = 0;
-        y1 = yAxisLength - perX;
+            x1 = xAxisLength - perX;
+            y1 = 0;
 
-        x2 = perX - 1;
-        y2 = yAxisLength;
+            x2 = xAxisLength - 1;
+            y2 = perX - 1;
 
 //        higher then or on the lower line
-        PositionOfDot lowerLineOk = isGoodCandidate(x1, y1, x2, y2, newX, newY);
+            PositionOfDot upperLine = isGoodCandidate(x1, y1, x2, y2, newX, newY);
 
-        if (upperLineOk != PositionOfDot.UP && lowerLineOk != PositionOfDot.DOWN) {
-            System.out.println("EXCVELET candidate");
+            if (lowerLine != PositionOfDot.DOWN && upperLine != PositionOfDot.UP) {
+                System.out.println("EXCVELET candidate");
+            } else {
+                System.out.println("not good candidate");
+//            todo skip main diagonal
+            }
+        } else if (xAxisLength < yAxisLength) {
+//        min length
+            int perX = Math.min(xAxisLength, yAxisLength);
+            System.out.println("per x " + perX);
+
+            int x1 = 0;
+            int y1 = 0;
+
+            int x2 = perX - 1;
+            int y2 = perX - 1;
+
+//        bellow or on the upper line
+            PositionOfDot upperLineOk = isGoodCandidate(x1, y1, x2, y2, newX, newY);
+
+            x1 = 0;
+            y1 = yAxisLength - perX;
+
+            x2 = perX - 1;
+            y2 = yAxisLength - 1;
+
+//        higher then or on the lower line
+            PositionOfDot lowerLineOk = isGoodCandidate(x1, y1, x2, y2, newX, newY);
+
+            if (upperLineOk != PositionOfDot.UP && lowerLineOk != PositionOfDot.DOWN) {
+                System.out.println("EXCVELET candidate");
+            } else {
+                System.out.println("not good candidate");
+//            todo skip main diagonal
+            }
         } else {
-            System.out.println("not good candidate");
+//            no need for checking
         }
 
 
-        int v1_x_down = 0;
-        int v1_y_down = yAxisLength - perX;
 
-        int v2_x_down = perX;
-        int v2_y_down = yAxisLength;
-
-
-
-//        int v1_x =
 
         boolean areAllUser1 = true;
 
