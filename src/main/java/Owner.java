@@ -1,7 +1,7 @@
 public enum Owner {
-    COMPUTER,
-    USER_1,
-    NONE
+	COMPUTER,
+	USER_1,
+	NONE
 
 
 }
