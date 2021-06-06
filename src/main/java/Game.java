@@ -3,9 +3,9 @@ import java.util.Scanner;
 public class Game {
 
 	//    private final int xAxisLength = 12;
-	private final int xAxisLength = 8;
+	private final int xAxisLength = 4;
 	//    private final int yAxisLength = 8;
-	private final int yAxisLength = 12;
+	private final int yAxisLength = 6;
 
 	private final boolean isUserX = true;
 	private final Tile[][] tiles;
@@ -40,7 +40,7 @@ public class Game {
 			System.out.print("Enter y: ");
 			int y = Integer.parseInt(sc.nextLine());
 
-			g.updateGame(x, y, Owner.USER_1);
+			g.updateGame(new Point(x, y), Owner.USER_1);
 
 			g.printBoard();
 
@@ -48,7 +48,7 @@ public class Game {
 //            g.computerMove();
 
 //          todo check if other won
-			if (g.isGameWon(x, y)) {
+			if (g.isGameWon(new Point(x, y))) {
 				break;
 			}
 
@@ -80,7 +80,6 @@ public class Game {
 					System.out.println("tile empty at " + x + " " + y);
 					isOneOrMoreEmpty = true;
 
-
 				}
 			}
 		}
@@ -88,14 +87,14 @@ public class Game {
 		return true;
 	}
 
-	private boolean checkHorizontalAndVertical(int xAxisLength, int yAxisLength, int newX, int newY) {
+	private boolean checkHorizontalAndVertical(Point p) {
 		boolean allSame = true;
 
 //        check y axis
 		for (int y = 0; y < yAxisLength; y++) {
 //            System.out.println(newX + " " + y);
 
-			if (tiles[y][newX].getOwner() != Owner.USER_1) {
+			if (tiles[y][p.getX()].getOwner() != Owner.USER_1) {
 
 				allSame = false;
 				break;
@@ -115,7 +114,7 @@ public class Game {
 		for (int x = 0; x < xAxisLength; x++) {
 //            System.out.println(x + " " + newY);
 
-			if (tiles[newY][x].getOwner() == Owner.USER_1) {
+			if (tiles[p.getY()][x].getOwner() == Owner.USER_1) {
 
 			} else {
 				return false;
@@ -128,6 +127,14 @@ public class Game {
 
 	}
 
+	/**
+	 * check where {@code point} is in relation to line defined by {@code p1} and {@code p1}
+	 *
+	 * @param p1
+	 * @param p2
+	 * @param point
+	 * @return
+	 */
 	private PositionOfDot isGoodCandidate(Point p1, Point p2, Point point) {
 		System.out.println(p1 + ", " + p2 + " ? " + point);
 
@@ -156,79 +163,81 @@ public class Game {
 
 	}
 
-	private boolean checkDiagonals(int xAxisLength, int yAxisLength, int newX, int newY) {
-//todo check len
-//        todo if same x and y no need to check this
+	private boolean checkDiagonals(Point p) {
+		//todo check len
+		//        todo if same x and y no need to check this
 
-		isGameWinnableByMainDiagonal(xAxisLength, yAxisLength, new Point(newX, newY));
+		System.out.println("x " + xAxisLength);
+		System.out.println("y " + yAxisLength);
+		System.out.println("new x " + p.getX());
+		System.out.println("new y " + p.getY());
 
-		isGameWinnableBySecondaryDiagonal(xAxisLength, yAxisLength, new Point(newX, newY));
+		if (isGameWinnableByMainDiagonal(p)) {
 
+			boolean areAllUser1 = true;
 
-//        boolean areAllUser1 = true;
-//
-//        System.out.println("x " + xAxisLength);
-//        System.out.println("y " + yAxisLength) ;
-//        System.out.println("newx " + newX);
-//        System.out.println("newy " + newY);
-////
-//        for (int x = newX, y = newY;  x < xAxisLength && y < yAxisLength; x++, y++) {
-//                System.out.println(x + " " + y);
-//            if (tiles[y][x].getOwner() != Owner.USER_1) {
-//                areAllUser1 = false;
-//                break;
-//            }
-//
-//        }
-//
-//        System.out.println();
-//
-//        if (areAllUser1) {
-//            for (int x = newX, y = newY;  x >= 0 && y >= 0; x--, y--) {
-//                System.out.println(x + " " + y);
-//                if (tiles[y][x].getOwner() != Owner.USER_1) {
-//                    areAllUser1 = false;
-//                    break;
-//                }
-//            }
-//
-//            if (areAllUser1) {
-//                System.out.println("player1 won");
-//                return true;
-//            }
-//        }
-//
-//        System.out.println("-------");
-//
-//        areAllUser1 = true;
-//        for (int x = newX, y = newY;  x < xAxisLength && y >= 0; x++, y--) {
-//            System.out.println(x + " " + y);
-//            if (tiles[y][x].getOwner() != Owner.USER_1) {
-//                areAllUser1 = false;
-//                break;
-//            }
-//        }
-//        System.out.println();
-//
-//        if (areAllUser1) {
-//            for (int x = newX, y = newY; x >= 0 && y < yAxisLength; x--, y++) {
-//                System.out.println(x + " " + y);
-//
-//                if (tiles[y][x].getOwner() != Owner.USER_1) {
-//                    return false;
-//                }
-//            }
-//            System.out.println("player1 won");
-//
-//            return true;
-//        }
+			for (int x = p.getX() + 1, y = p.getY() + 1; x < xAxisLength && y < yAxisLength; x++, y++) {
+				System.out.println(x + " " + y);
+				if (tiles[y][x].getOwner() != Owner.USER_1) {
+					areAllUser1 = false;
+					break;
+				}
+			}
+
+			System.out.println();
+
+			if (areAllUser1) {
+				for (int x = p.getX() - 1, y = p.getY() - 1; x >= 0 && y >= 0; x--, y--) {
+					System.out.println(x + " " + y);
+					if (tiles[y][x].getOwner() != Owner.USER_1) {
+						areAllUser1 = false;
+						break;
+					}
+				}
+
+				if (areAllUser1) {
+					System.out.println("player1 won");
+					return true;
+				}
+			}
+
+			System.out.println();
+
+		} else if (isGameWinnableBySecondaryDiagonal(p)) {
+
+			boolean areAllUser1 = true;
+
+			for (int x = p.getX() + 1, y = p.getY() - 1; x < xAxisLength && y >= 0; x++, y--) {
+				System.out.println(x + " " + y);
+				if (tiles[y][x].getOwner() != Owner.USER_1) {
+					areAllUser1 = false;
+					break;
+				}
+			}
+
+			System.out.println();
+
+			if (areAllUser1) {
+				for (int x = p.getX() - 1, y = p.getY() + 1; x >= 0 && y < yAxisLength; x--, y++) {
+					System.out.println(x + " " + y);
+
+					if (tiles[y][x].getOwner() != Owner.USER_1) {
+						return false;
+					}
+				}
+				System.out.println("player1 won");
+
+				return true;
+			}
+
+		}
 
 		return false;
 
 	}
 
 	//     * Minor, Counter, Secondary, Anti, secondary
-	private void isGameWinnableBySecondaryDiagonal(int xAxisLength, int yAxisLength, Point p) {
+	private boolean isGameWinnableBySecondaryDiagonal(Point p) {
 
 		if (xAxisLength > yAxisLength) {
 			System.out.println("first");
@@ -252,9 +261,11 @@ public class Game {
 
 			if (lowerLine != PositionOfDot.UP && upperLine != PositionOfDot.DOWN) {
 				System.out.println("good candidate");
+				return true;
 			} else {
 				System.out.println("not good candidate");
 //            todo skip main diagonal
+				return false;
 			}
 
 		} else if (xAxisLength < yAxisLength) {
@@ -276,10 +287,13 @@ public class Game {
 			);
 
 			if (upperLineOk != PositionOfDot.UP && lowerLineOk != PositionOfDot.DOWN) {
-				System.out.println("EXCVELET candidate");
+				System.out.println("good candidate");
+				return true;
+
 			} else {
 				System.out.println("not good candidate");
 //            todo skip main diagonal
+				return false;
 			}
 
 		} else {
@@ -290,15 +304,17 @@ public class Game {
 
 			if (p.getX() + p.getY() == xAxisLength - 1) {
 				System.out.println("on line");
+				return true;
 			} else {
 				System.out.println("not good candidate");
 //                todo skip
+				return false;
 			}
 
 		}
 	}
 
-	private boolean isGameWinnableByMainDiagonal(int xAxisLength, int yAxisLength, Point p) {
+	private boolean isGameWinnableByMainDiagonal(Point p) {
 
 		if (xAxisLength > yAxisLength) {
 
@@ -373,40 +389,30 @@ public class Game {
 	 *
 	 * @return true if player1 won
 	 */
-	public boolean isGameWon(int newX, int newY) {
-//        todo improve performance
-//          calculate only by newly placed tile if it contributed to wictory
+	public boolean isGameWon(Point p) {
 
 //        for (boolean state : List.of(true, false)) {
 
-		if (checkHorizontalAndVertical(xAxisLength, yAxisLength, newX, newY)) {
+		if (checkHorizontalAndVertical(p)) {
 			return true;
 		}
 
-        return checkDiagonals(xAxisLength, yAxisLength, newX, newY);
+		return checkDiagonals(p);
 
-    }
+	}
 
-	/**
-	 * update board
-	 *
-	 * @param x
-	 * @param y
-	 * @param owner
-	 * @return
-	 */
-	public boolean updateGame(int x, int y, Owner owner) {
-		if (x >= xAxisLength) {
+	public boolean updateGame(Point p, Owner owner) {
+		if (p.getX() >= xAxisLength) {
 			System.out.println("x to big");
 			return false;
-		} else if (y >= yAxisLength) {
+		} else if (p.getY() >= yAxisLength) {
 			System.out.println("y to big");
 			return false;
 		}
 
-		System.out.println("updating  " + x + " " + y);
+		System.out.println("updating  " + p.getX() + " " + p.getY());
 
-		tiles[y][x].setOwner(owner);
+		tiles[p.getY()][p.getX()].setOwner(owner);
 
 		return true;
 	}

@@ -25,13 +25,13 @@ public class TestingGui extends JFrame {
 				int finalY = y;
 				buttons[y][x].addActionListener(e -> {
 
-					g.get().updateGame(finalX, finalY, Owner.USER_1);
+					g.get().updateGame(new Point(finalX, finalY), Owner.USER_1);
 
 					buttons[finalY][finalX].setEnabled(false);
 
 					g.get().printBoard();
 
-					if (g.get().isGameWon(finalX, finalY)) {
+					if (g.get().isGameWon(new Point(finalX, finalY))) {
 						System.out.println("+++++++++++++++++++++++++++++++++++++++++++");
 					}
 
