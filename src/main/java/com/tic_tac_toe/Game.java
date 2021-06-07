@@ -5,14 +5,10 @@ public class Game implements Winnable {
 	private final int xAxisLength = 3;
 	private final int yAxisLength = 3;
 
+
 	private final boolean isUserX = true;
 	private final Tile[][] tiles;
 
-	/**
-	 * len = 4, wid = 2
-	 * ....
-	 * ....
-	 */
 	public Game() {
 
 		this.tiles = new Tile[yAxisLength][xAxisLength];
@@ -45,67 +41,6 @@ public class Game implements Winnable {
 		public Point getWhereTo() {
 			return whereTo;
 		}
-	}
-
-	public static void main(String[] args) {
-		Game g = new Game();
-
-		g.tiles[0][0].setOwner(Owner.USER_1);
-		g.tiles[1][0].setOwner(Owner.USER_1);
-		g.tiles[2][1].setOwner(Owner.COMPUTER);
-
-//		g.tiles[1][1].setOwner(com.tic_tac_toe.Owner.COMPUTER);
-//		g.tiles[1][2].setOwner(com.tic_tac_toe.Owner.USER_1);
-//
-//		g.tiles[2][0].setOwner(com.tic_tac_toe.Owner.USER_1);
-
-		g.printBoard();
-//		System.out.println();
-
-		Point p = g.computerMove();
-
-		g.setTile(p, Owner.COMPUTER);
-
-//          todo check if other won
-		if (g.isGameWon(p, Owner.COMPUTER)) {
-			System.out.println("game won");
-		}
-
-
-
-//		Scanner sc = new Scanner(System.in);
-
-
-//
-//		while (true) {
-//
-//			g.printBoard();
-//
-////			            computer move
-//            com.tic_tac_toe.Point p = g.computerMove();
-//
-//            g.setTile(p, com.tic_tac_toe.Owner.COMPUTER);
-//
-////          todo check if other won
-//			if (g.isGameWon(p, com.tic_tac_toe.Owner.COMPUTER)) {
-//				break;
-//			}
-//
-//			System.out.print("Enter x: ");
-//			int x = Integer.parseInt(sc.nextLine());
-//			System.out.print("Enter y: ");
-//			int y = Integer.parseInt(sc.nextLine());
-//			g.setTile(new com.tic_tac_toe.Point(x, y), com.tic_tac_toe.Owner.USER_1);
-//
-////          todo check if other won
-//			if (g.isGameWon(new com.tic_tac_toe.Point(x, y), com.tic_tac_toe.Owner.USER_1)) {
-//				break;
-//			}
-//
-//			System.out.println();
-//		}
-
-		System.out.println("end of game");
 	}
 
 	@Override
@@ -171,16 +106,9 @@ public class Game implements Winnable {
 
 					setTile(p, turn);
 
-					if (depth == 1) {
-						System.out.println();
-						printBoard(depth);
-
-					}
-
 					if (isGameWon(p, turn)) {
-						if (depth == 1) {
-							printFormatted("game won " + turn, depth);
-						}
+						printFormatted("game won " + turn, depth);
+
 						if (turn == Owner.COMPUTER) {
 							sum++;
 						} else if (turn == Owner.USER_1) {
@@ -199,29 +127,14 @@ public class Game implements Winnable {
 
 					setTile(p, Owner.NONE);
 //todo randomize
-					if (turn == Owner.COMPUTER) {
-						if (sum > m) {
-							m = sum;
-							bestX = x;
-							bestY = y;
+					if ((turn == Owner.COMPUTER && sum > m) || (turn == Owner.USER_1 && sum < m)) {
+						m = sum;
+						bestX = x;
+						bestY = y;
 
-							if (depth == 1) {
+						printFormatted("new best move " + m + " " + new Point(bestX, bestY), depth);
 
-								printFormatted("new best move " + m + " " + new Point(bestX, bestY), depth);
-							}
-						}
-					} else {
-						if (sum < m) {
-							m = sum;
-							bestX = x;
-							bestY = y;
-							if (depth == 1) {
-
-								printFormatted("new best move " + m + " " + new Point(bestX, bestY), depth);
-							}
-						}
 					}
-
 				}
 			}
 		}
@@ -254,8 +167,6 @@ public class Game implements Winnable {
 			System.out.println("y to big");
 			return false;
 		}
-
-//		System.out.println("updating  " + p.getX() + " " + p.getY());
 
 		tiles[p.getY()][p.getX()].setOwner(owner);
 
@@ -294,37 +205,5 @@ public class Game implements Winnable {
 
 		}
 	}
-
-
-
-	public void printBoard() {
-		for (int y = 0; y < yAxisLength; y++) {
-			String buffer = "";
-
-			for (int x = 0; x < xAxisLength; x++) {
-				if (isUserX) {
-					if (tiles[y][x].getOwner() == Owner.USER_1) {
-						buffer += "x ";
-					} else if (tiles[y][x].getOwner() == Owner.COMPUTER) {
-						buffer += "o ";
-					} else if (tiles[y][x].getOwner() == Owner.NONE) {
-						buffer += ". ";
-					}
-
-				} else {
-					if (tiles[y][x].getOwner() == Owner.USER_1) {
-						buffer += "o ";
-					} else if (tiles[y][x].getOwner() == Owner.COMPUTER) {
-						buffer += "x ";
-					} else if (tiles[y][x].getOwner() == Owner.NONE) {
-						buffer += ". ";
-					}
-				}
-			}
-			System.out.println(buffer);
-
-		}
-	}
-
 
 }
