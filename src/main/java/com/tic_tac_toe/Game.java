@@ -27,10 +27,18 @@ public class Game implements Winnable {
 	class MinimaxResult {
 		private Point whereTo;
 		private int result;
+		private boolean isWinningMove;
 
 		MinimaxResult(Point whereTo, int result) {
 			this.whereTo = whereTo;
 			this.result = result;
+			this.isWinningMove = false;
+		}
+
+		MinimaxResult(Point whereTo, int result, boolean isWinningMove) {
+			this.whereTo = whereTo;
+			this.result = result;
+			this.isWinningMove = isWinningMove;
 		}
 
 		@Override
@@ -44,6 +52,10 @@ public class Game implements Winnable {
 
 		public Point getWhereTo() {
 			return whereTo;
+		}
+
+		public boolean getIsWinningMove() {
+			return isWinningMove;
 		}
 	}
 
@@ -72,13 +84,17 @@ public class Game implements Winnable {
 		bestMovesLayerOne = new ArrayList<>();
 		MinimaxResult a =  minimax(Owner.COMPUTER, 1);
 
-		System.out.println(a);
-		System.out.println("best moves");
-		bestMovesLayerOne.forEach(e -> System.out.println(e));
+		if (a.getIsWinningMove()) {
+			return a.getWhereTo();
+		}
+
+//		System.out.println(a);
+//		System.out.println("best moves");
+//		bestMovesLayerOne.forEach(e -> System.out.println(e));
 		bestMovesLayerOne.add(a.getWhereTo());
 		Random rand = new Random();
 		Point randomElement = bestMovesLayerOne.get(rand.nextInt(bestMovesLayerOne.size()));
-		System.out.println("chosen" + randomElement);
+//		System.out.println("chosen" + randomElement);
 		return randomElement;
 //		return a.getWhereTo();
 	}
@@ -122,7 +138,13 @@ public class Game implements Winnable {
 					setTile(p, turn);
 
 					if (isGameWon(p, turn)) {
+
 						printFormatted("game won " + turn, depth);
+
+						if (depth == 1) {
+							System.out.println("auto win");
+							return new MinimaxResult(p,  m, true);
+						}
 
 						if (turn == Owner.COMPUTER) {
 							sum++;
@@ -141,12 +163,10 @@ public class Game implements Winnable {
 					}
 
 					setTile(p, Owner.NONE);
-//todo randomize
-//					check if best move
+
+					//					check if best move
 					if ((turn == Owner.COMPUTER && sum >= m) || (turn == Owner.USER_1 && sum <= m)) {
-//						System.out.println(
-//								"depth=" + depth
-//						);
+
 						if (sum == m && depth == 1) {
 							bestMovesLayerOne.add(new Point(x, y));
 
