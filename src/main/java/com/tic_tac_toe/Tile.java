@@ -1,7 +1,5 @@
 package com.tic_tac_toe;
 
-import com.tic_tac_toe.Owner;
-
 public class Tile {
 	private Owner owner;
 

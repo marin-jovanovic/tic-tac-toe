@@ -2,20 +2,13 @@ package com.tic_tac_toe;
 
 import javax.swing.*;
 import java.awt.*;
-import java.net.URL;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class TestingGui extends JFrame {
 	private final JButton[][] buttons;
-
-
-	ImageIcon getImageIcon(String val) {
-			return new ImageIcon(Objects.requireNonNull(TestingGui.class.getResource("/images/"+val+".png")));
-	}
-
 	JTextField jTextField;
-	
+
 	public TestingGui() {
 		setVisible(true);
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -95,6 +88,10 @@ public class TestingGui extends JFrame {
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(TestingGui::new);
+	}
+
+	ImageIcon getImageIcon(String val) {
+		return new ImageIcon(Objects.requireNonNull(TestingGui.class.getResource("/images/" + val + ".png")));
 	}
 
 }

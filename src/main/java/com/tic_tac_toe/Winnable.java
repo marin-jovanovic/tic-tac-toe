@@ -1,10 +1,5 @@
 package com.tic_tac_toe;
 
-import com.tic_tac_toe.Owner;
-import com.tic_tac_toe.Point;
-import com.tic_tac_toe.PositionOfDot;
-import com.tic_tac_toe.Tile;
-
 public interface Winnable {
 
 	int getYAxisLength();
@@ -54,13 +49,9 @@ public interface Winnable {
 			);
 
 
-			if (lowerLine != PositionOfDot.UP && upperLine != PositionOfDot.DOWN) {
-//				System.out.println("good candidate");
-				return true;
-			} else {
-//				System.out.println("not good candidate");
-				return false;
-			}
+			//				System.out.println("good candidate");
+			//				System.out.println("not good candidate");
+			return lowerLine != PositionOfDot.UP && upperLine != PositionOfDot.DOWN;
 
 		} else if (getXAxisLength() < getYAxisLength()) {
 
@@ -80,14 +71,9 @@ public interface Winnable {
 					p
 			);
 
-			if (upperLineOk != PositionOfDot.UP && lowerLineOk != PositionOfDot.DOWN) {
-//				System.out.println("good candidate");
-				return true;
-
-			} else {
-//				System.out.println("not good candidate");
-				return false;
-			}
+			//				System.out.println("good candidate");
+			//				System.out.println("not good candidate");
+			return upperLineOk != PositionOfDot.UP && lowerLineOk != PositionOfDot.DOWN;
 
 		} else {
 //            we want cell to be on the main diagonal
@@ -95,13 +81,9 @@ public interface Winnable {
 
 //            ad hoc solution
 
-			if (p.getX() + p.getY() == getXAxisLength() - 1) {
-//				System.out.println("on line");
-				return true;
-			} else {
-//				System.out.println("not good candidate");
-				return false;
-			}
+			//				System.out.println("on line");
+			//				System.out.println("not good candidate");
+			return p.getX() + p.getY() == getXAxisLength() - 1;
 
 		}
 	}
@@ -126,14 +108,9 @@ public interface Winnable {
 					p
 			);
 
-			if (lowerLine != PositionOfDot.DOWN && upperLine != PositionOfDot.UP) {
-//				System.out.println("good candidate");
-				return true;
-
-			} else {
-//				System.out.println("not good candidate");
-				return false;
-			}
+			//				System.out.println("good candidate");
+			//				System.out.println("not good candidate");
+			return lowerLine != PositionOfDot.DOWN && upperLine != PositionOfDot.UP;
 
 		} else if (getXAxisLength() < getYAxisLength()) {
 
@@ -151,13 +128,9 @@ public interface Winnable {
 					p
 			);
 
-			if (upperLineOk != PositionOfDot.UP && lowerLineOk != PositionOfDot.DOWN) {
-//				System.out.println("good candidate");
-				return true;
-			} else {
-//				System.out.println("not good candidate");
-				return false;
-			}
+			//				System.out.println("good candidate");
+			//				System.out.println("not good candidate");
+			return upperLineOk != PositionOfDot.UP && lowerLineOk != PositionOfDot.DOWN;
 
 		} else {
 //            we want cell to be on the main diagonal
@@ -165,13 +138,9 @@ public interface Winnable {
 
 //            ad hoc solution
 
-			if (p.getX() == p.getY()) {
-//				System.out.println("good candidate");
-				return true;
-			} else {
-//				System.out.println("not good candidate");
-				return false;
-			}
+			//				System.out.println("good candidate");
+			//				System.out.println("not good candidate");
+			return p.getX() == p.getY();
 
 		}
 	}
@@ -252,7 +221,7 @@ public interface Winnable {
 
 	}
 
-	 default boolean checkDiagonals(Point p, Owner owner) {
+	default boolean checkDiagonals(Point p, Owner owner) {
 		//  todo check len
 		//  todo if same x and y no need to check this
 
@@ -284,10 +253,8 @@ public interface Winnable {
 					}
 				}
 
-				if (areAllUser1) {
-//					System.out.println(owner +" won");
-					return true;
-				}
+				//					System.out.println(owner +" won");
+				return areAllUser1;
 			}
 
 //			System.out.println();
