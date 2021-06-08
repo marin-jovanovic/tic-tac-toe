@@ -1,5 +1,9 @@
 package com.tic_tac_toe;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 public class Game implements Winnable {
 
 	private final int xAxisLength = 3;
@@ -65,11 +69,18 @@ public class Game implements Winnable {
 	 */
 	public Point computerMove() {
 
+		bestMovesLayerOne = new ArrayList<>();
 		MinimaxResult a =  minimax(Owner.COMPUTER, 1);
 
 		System.out.println(a);
-
-		return a.getWhereTo();
+		System.out.println("best moves");
+		bestMovesLayerOne.forEach(e -> System.out.println(e));
+		bestMovesLayerOne.add(a.getWhereTo());
+		Random rand = new Random();
+		Point randomElement = bestMovesLayerOne.get(rand.nextInt(bestMovesLayerOne.size()));
+		System.out.println("chosen" + randomElement);
+		return randomElement;
+//		return a.getWhereTo();
 	}
 
 	private static void printFormatted(Object val, int offset) {
@@ -80,6 +91,10 @@ public class Game implements Winnable {
 
 		System.out.println(buffer + val);
 	}
+
+	private List<Point> bestMovesLayerOne;
+//	= new ArrayList<>();
+
 
 	private MinimaxResult minimax(Owner turn, int depth) {
 
@@ -127,10 +142,21 @@ public class Game implements Winnable {
 
 					setTile(p, Owner.NONE);
 //todo randomize
-					if ((turn == Owner.COMPUTER && sum > m) || (turn == Owner.USER_1 && sum < m)) {
-						m = sum;
-						bestX = x;
-						bestY = y;
+//					check if best move
+					if ((turn == Owner.COMPUTER && sum >= m) || (turn == Owner.USER_1 && sum <= m)) {
+//						System.out.println(
+//								"depth=" + depth
+//						);
+						if (sum == m && depth == 1) {
+							bestMovesLayerOne.add(new Point(x, y));
+
+						} else  {
+							m = sum;
+							bestX = x;
+							bestY = y;
+							bestMovesLayerOne.clear();
+						}
+
 
 						printFormatted("new best move " + m + " " + new Point(bestX, bestY), depth);
 
@@ -140,21 +166,17 @@ public class Game implements Winnable {
 		}
 		if (! isSomethingPlaced		) {
 			m = 0;
-			if (depth == 1) {
 				printFormatted("tie" , depth);
 				printFormatted("returning " + m, depth);
 				printFormatted("best move " + new Point(bestX, bestY), depth);
 				System.out.println();
 
-			}
 			return new MinimaxResult(new Point(bestX, bestY), m);
 		}
-		if (depth == 1) {
 			printFormatted("returning " + m, depth);
 			printFormatted("best move " + new Point(bestX, bestY), depth);
 			System.out.println();
 
-		}
 		return new MinimaxResult(new Point(bestX, bestY), m);
 	}
 
