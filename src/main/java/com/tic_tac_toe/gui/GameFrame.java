@@ -15,6 +15,7 @@ public class GameFrame extends JFrame {
 	private Game game;
 	private final JButton[][] buttons;
 	private final JButton restartButton;
+	private final JTextField jTextField;
 
 	public GameFrame() {
 		setVisible(true);
@@ -23,6 +24,7 @@ public class GameFrame extends JFrame {
 		game = new Game();
 		int yLength = game.getYAxisLength();
 		int xLength = game.getXAxisLength();
+
 
 		setLayout(new GridLayout(0, game.getXAxisLength()));
 //		todo
@@ -43,10 +45,9 @@ public class GameFrame extends JFrame {
 		restartButton = new RestartButton();
 		add(restartButton);
 
-	}
+		jTextField = new JTextField();
+		add(jTextField);
 
-//	public ImageIcon getImageIcon(String val) {
-//		return new ImageIcon(Objects.requireNonNull(TestingGui.class.getResource("/images/" + val + ".png")));
-//	}
+	}
 
 }

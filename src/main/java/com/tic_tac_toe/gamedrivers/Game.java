@@ -1,5 +1,7 @@
 package com.tic_tac_toe.gamedrivers;
 
+import com.tic_tac_toe.gamedrivers.minimax.MinimaxResult;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -9,15 +11,26 @@ public class Game implements Winnable {
 	// interface sagregation
 	/// more client specific  then general purpose
 
-	private final int xAxisLength = 3;
-	private final int yAxisLength = 3;
+	private int xAxisLength;
+	private int yAxisLength;
 
 
 	private final boolean isUserX = true;
 	private final Tile[][] tiles;
 	private List<Point> bestMovesLayerOne;
 
+	private GameMode gameMode;
+
+	public GameMode getGameMode() {
+		return gameMode;
+	}
+
 	public Game() {
+		this.xAxisLength = 3;
+		this.yAxisLength = 3;
+
+//		todo
+		this.gameMode = GameMode.USER_VS_COMPUTER;
 
 		this.tiles = new Tile[yAxisLength][xAxisLength];
 
@@ -60,6 +73,36 @@ public class Game implements Winnable {
 	public Point computerMove() {
 
 		bestMovesLayerOne = new ArrayList<>();
+
+		/*
+		strategy desing patern
+
+		interface if {
+			racunajmax
+		}
+
+		class minimax impl if{
+			@override
+			racunajmax
+		}
+
+		class minimaxbolji impl if{
+		}
+		...
+
+		class game {
+			tip alg;
+
+			game() {
+				alg = minimax/minimaxnajbolji
+			}
+
+		}
+
+			MinimaxResult a = alg.racunajmax(TileOwner.COMPUTER, 1);
+
+		 */
+
 		MinimaxResult a = minimax(TileOwner.COMPUTER, 1);
 
 		if (a.getIsWinningMove()) {
@@ -233,41 +276,6 @@ public class Game implements Winnable {
 			}
 			System.out.println(buffer);
 
-		}
-	}
-
-	class MinimaxResult {
-		private final Point whereTo;
-		private final int result;
-		private final boolean isWinningMove;
-
-		MinimaxResult(Point whereTo, int result) {
-			this.whereTo = whereTo;
-			this.result = result;
-			this.isWinningMove = false;
-		}
-
-		MinimaxResult(Point whereTo, int result, boolean isWinningMove) {
-			this.whereTo = whereTo;
-			this.result = result;
-			this.isWinningMove = isWinningMove;
-		}
-
-		@Override
-		public String toString() {
-			return whereTo + " -> " + result;
-		}
-
-		public int getResult() {
-			return result;
-		}
-
-		public Point getWhereTo() {
-			return whereTo;
-		}
-
-		public boolean getIsWinningMove() {
-			return isWinningMove;
 		}
 	}
 
