@@ -1,6 +1,11 @@
 package com.tic_tac_toe.gamedrivers;
 
+//import com.tic_tac_toe.gamedrivers.minimax.BasicMinimax;
+import com.tic_tac_toe.gamedrivers.minimax.Minimax;
 import com.tic_tac_toe.gamedrivers.minimax.MinimaxResult;
+import com.tic_tac_toe.gamedrivers.point.Point;
+import com.tic_tac_toe.gamedrivers.tile.Tile;
+import com.tic_tac_toe.gamedrivers.tile.TileOwner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,13 +26,15 @@ public class Game implements Winnable {
 
 	private GameMode gameMode;
 
-	public GameMode getGameMode() {
-		return gameMode;
-	}
+
+	private Minimax minimaxAlgorithm;
 
 	public Game() {
 		this.xAxisLength = 3;
 		this.yAxisLength = 3;
+
+//		this.minimaxAlgorithm = new BasicMinimax();
+
 
 //		todo
 		this.gameMode = GameMode.USER_VS_COMPUTER;
@@ -50,6 +57,11 @@ public class Game implements Winnable {
 		System.out.println(buffer.toString() + val);
 	}
 
+	public GameMode getGameMode() {
+		return gameMode;
+	}
+
+//	for winnable interface
 	@Override
 	public int getXAxisLength() {
 		return xAxisLength;
@@ -65,6 +77,7 @@ public class Game implements Winnable {
 		return tiles[y][x];
 	}
 
+//
 	/**
 	 * minmax alg driver for computer move
 	 *

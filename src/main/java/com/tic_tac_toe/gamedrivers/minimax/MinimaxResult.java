@@ -1,6 +1,6 @@
 package com.tic_tac_toe.gamedrivers.minimax;
 
-import com.tic_tac_toe.gamedrivers.Point;
+import com.tic_tac_toe.gamedrivers.point.Point;
 
 public class MinimaxResult {
 	private final Point whereTo;

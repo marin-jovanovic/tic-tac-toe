@@ -1,8 +1,8 @@
 package com.tic_tac_toe.gui;
 
 import com.tic_tac_toe.gamedrivers.Game;
-import com.tic_tac_toe.gamedrivers.TileOwner;
-import com.tic_tac_toe.gamedrivers.Point;
+import com.tic_tac_toe.gamedrivers.tile.TileOwner;
+import com.tic_tac_toe.gamedrivers.point.Point;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,7 +33,7 @@ public class TestingGui extends JFrame {
 				int finalY = y;
 				buttons[y][x].addActionListener(e -> {
 
-					g.get().setTile(new com.tic_tac_toe.gamedrivers.Point(finalX, finalY), TileOwner.USER_1);
+					g.get().setTile(new Point(finalX, finalY), TileOwner.USER_1);
 
 					buttons[finalY][finalX].setEnabled(false);
 					buttons[finalY][finalX].setDisabledIcon(getImageIcon("o"));
@@ -41,7 +41,7 @@ public class TestingGui extends JFrame {
 
 					g.get().printBoard(0);
 
-					if (g.get().isGameWon(new com.tic_tac_toe.gamedrivers.Point(finalX, finalY), TileOwner.USER_1)) {
+					if (g.get().isGameWon(new Point(finalX, finalY), TileOwner.USER_1)) {
 						System.out.println("game won");
 						jTextField.setText("VICTORY");
 						for (int i = 0; i < g.get().getYAxisLength(); i++) {
@@ -59,7 +59,7 @@ public class TestingGui extends JFrame {
 
 					Point computerMove = g.get().computerMove();
 
-					g.get().setTile(new com.tic_tac_toe.gamedrivers.Point(computerMove.getX(), computerMove.getY()), TileOwner.COMPUTER);
+					g.get().setTile(new Point(computerMove.getX(), computerMove.getY()), TileOwner.COMPUTER);
 					buttons[computerMove.getY()][computerMove.getX()].setEnabled(false);
 					buttons[computerMove.getY()][computerMove.getX()].setIcon(getImageIcon("x"));
 					buttons[computerMove.getY()][computerMove.getX()].setDisabledIcon(getImageIcon("x"));

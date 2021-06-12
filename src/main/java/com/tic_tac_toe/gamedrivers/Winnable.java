@@ -1,5 +1,10 @@
 package com.tic_tac_toe.gamedrivers;
 
+import com.tic_tac_toe.gamedrivers.point.Point;
+import com.tic_tac_toe.gamedrivers.point.PointDotPosition;
+import com.tic_tac_toe.gamedrivers.tile.Tile;
+import com.tic_tac_toe.gamedrivers.tile.TileOwner;
+
 public interface Winnable {
 	// template method design pattern
 

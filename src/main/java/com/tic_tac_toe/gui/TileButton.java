@@ -9,7 +9,7 @@ public class TileButton extends JButton {
 	public TileButton() {
 
 
-		this.addActionListener();
+//		this.addActionListener();
 //		this.addActionListener(event -> {
 //			this.setEnabled(false);
 ////			todo load pre-made images (create class then load)
