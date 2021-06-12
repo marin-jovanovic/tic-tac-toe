@@ -1,10 +1,9 @@
 package com.tic_tac_toe.gui;
 
-import com.tic_tac_toe.gamedrivers.Game;
+import com.tic_tac_toe.gamedrivers.board.Game;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Objects;
 
 public class GameFrame extends JFrame {
 

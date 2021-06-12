@@ -1,6 +1,7 @@
 package com.tic_tac_toe.gui;
 
-import com.tic_tac_toe.gamedrivers.Game;
+import com.tic_tac_toe.gamedrivers.board.Game;
+import com.tic_tac_toe.gamedrivers.board.MinimaxBasicImplementation;
 import com.tic_tac_toe.gamedrivers.tile.TileOwner;
 import com.tic_tac_toe.gamedrivers.point.Point;
 
