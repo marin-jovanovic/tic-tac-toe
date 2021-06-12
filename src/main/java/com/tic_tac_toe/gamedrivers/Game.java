@@ -1,10 +1,13 @@
-package com.tic_tac_toe;
+package com.tic_tac_toe.gamedrivers;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class Game implements Winnable {
+	// solid principle, single principle,
+	// interface sagregation
+	/// more client specific  then general purpose
 
 	private final int xAxisLength = 3;
 	private final int yAxisLength = 3;
@@ -57,7 +60,7 @@ public class Game implements Winnable {
 	public Point computerMove() {
 
 		bestMovesLayerOne = new ArrayList<>();
-		MinimaxResult a = minimax(Owner.COMPUTER, 1);
+		MinimaxResult a = minimax(TileOwner.COMPUTER, 1);
 
 		if (a.getIsWinningMove()) {
 			return a.getWhereTo();
@@ -70,7 +73,7 @@ public class Game implements Winnable {
 	}
 
 	//	todo check if more than n elems are placed (needed for win)
-	private MinimaxResult minimax(Owner turn, int depth) {
+	private MinimaxResult minimax(TileOwner turn, int depth) {
 
 		int m;
 //		todo catch
@@ -79,7 +82,7 @@ public class Game implements Winnable {
 
 		Point bestPoint = null;
 
-		if (turn == Owner.COMPUTER) {
+		if (turn == TileOwner.COMPUTER) {
 			m = Integer.MIN_VALUE;
 		} else {
 			m = Integer.MAX_VALUE;
@@ -123,34 +126,34 @@ public class Game implements Winnable {
 
 					if (isGameWon(p, turn)) {
 
-						printFormatted("game won " + turn, depth);
+//						printFormatted("game won " + turn, depth);
 
 //						win on first try
 						if (depth == 1) {
-							System.out.println("auto win");
+//							System.out.println("auto win");
 							return new MinimaxResult(p, m, true);
 						}
 
-						if (turn == Owner.COMPUTER) {
+						if (turn == TileOwner.COMPUTER) {
 							sum++;
-						} else if (turn == Owner.USER_1) {
+						} else if (turn == TileOwner.USER_1) {
 							sum--;
 						}
 					} else {
-						if (turn == Owner.COMPUTER) {
-							MinimaxResult r = minimax(Owner.USER_1, depth + 1);
+						if (turn == TileOwner.COMPUTER) {
+							MinimaxResult r = minimax(TileOwner.USER_1, depth + 1);
 							sum += r.getResult();
 
-						} else if (turn == Owner.USER_1) {
-							MinimaxResult r = minimax(Owner.COMPUTER, depth + 1);
+						} else if (turn == TileOwner.USER_1) {
+							MinimaxResult r = minimax(TileOwner.COMPUTER, depth + 1);
 							sum += r.getResult();
 						}
 					}
 
-					setTile(p, Owner.NONE);
+					setTile(p, TileOwner.NONE);
 
 					//					check if best move
-					if ((turn == Owner.COMPUTER && sum >= m) || (turn == Owner.USER_1 && sum <= m)) {
+					if ((turn == TileOwner.COMPUTER && sum >= m) || (turn == TileOwner.USER_1 && sum <= m)) {
 
 						if (sum == m && depth == 1) {
 							bestMovesLayerOne.add(new Point(x, y));
@@ -164,7 +167,7 @@ public class Game implements Winnable {
 						}
 
 
-						printFormatted("new best move " + m + " " + bestPoint, depth);
+//						printFormatted("new best move " + m + " " + bestPoint, depth);
 
 					}
 				}
@@ -172,21 +175,21 @@ public class Game implements Winnable {
 		}
 		if (!isSomethingPlaced) {
 			m = 0;
-			printFormatted("tie", depth);
-			printFormatted("returning " + m, depth);
-			printFormatted("best move " + bestPoint, depth);
-			System.out.println();
+//			printFormatted("tie", depth);
+//			printFormatted("returning " + m, depth);
+//			printFormatted("best move " + bestPoint, depth);
+//			System.out.println();
 
 			return new MinimaxResult(bestPoint, m);
 		}
-		printFormatted("returning " + m, depth);
-		printFormatted("best move " + new Point(bestX, bestY), depth);
-		System.out.println();
+//		printFormatted("returning " + m, depth);
+//		printFormatted("best move " + new Point(bestX, bestY), depth);
+//		System.out.println();
 
 		return new MinimaxResult(bestPoint, m);
 	}
 
-	public boolean setTile(Point p, Owner owner) {
+	public boolean setTile(Point p, TileOwner tileOwner) {
 		if (p.getX() >= xAxisLength) {
 			System.out.println("x to big");
 			return false;
@@ -195,7 +198,7 @@ public class Game implements Winnable {
 			return false;
 		}
 
-		tiles[p.getY()][p.getX()].setOwner(owner);
+		tiles[p.getY()][p.getX()].setOwner(tileOwner);
 
 		return true;
 	}
@@ -210,20 +213,20 @@ public class Game implements Winnable {
 
 			for (int x = 0; x < xAxisLength; x++) {
 				if (isUserX) {
-					if (tiles[y][x].getOwner() == Owner.USER_1) {
+					if (tiles[y][x].getOwner() == TileOwner.USER_1) {
 						buffer.append("x ");
-					} else if (tiles[y][x].getOwner() == Owner.COMPUTER) {
+					} else if (tiles[y][x].getOwner() == TileOwner.COMPUTER) {
 						buffer.append("o ");
-					} else if (tiles[y][x].getOwner() == Owner.NONE) {
+					} else if (tiles[y][x].getOwner() == TileOwner.NONE) {
 						buffer.append(". ");
 					}
 
 				} else {
-					if (tiles[y][x].getOwner() == Owner.USER_1) {
+					if (tiles[y][x].getOwner() == TileOwner.USER_1) {
 						buffer.append("o ");
-					} else if (tiles[y][x].getOwner() == Owner.COMPUTER) {
+					} else if (tiles[y][x].getOwner() == TileOwner.COMPUTER) {
 						buffer.append("x ");
-					} else if (tiles[y][x].getOwner() == Owner.NONE) {
+					} else if (tiles[y][x].getOwner() == TileOwner.NONE) {
 						buffer.append(". ");
 					}
 				}
