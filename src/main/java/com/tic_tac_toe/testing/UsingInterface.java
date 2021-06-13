@@ -5,13 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * code design from https://refactoring.guru/design-patterns/observer
- */
+public class UsingInterface {
 
-public class NewListenerImpl {
 	public static void main(String[] args) {
-		NewListenerImpl newListener = new NewListenerImpl();
+		UsingInterface newListener = new UsingInterface();
 		newListener.launcher();
 	}
 
@@ -25,23 +22,24 @@ public class NewListenerImpl {
 		SAVE
 	}
 
-	class EventManager {
-		Map<EventType, List<EventListener>> listeners;
+	interface EventManager {
 
-		EventManager() {
-			listeners = new HashMap<>();
-		}
+		Map<EventType, List<EventListener>> getListeners();
 
-		void subscribe(EventType eventType, EventListener listener) {
+		default void subscribe(EventType eventType, EventListener listener) {
+			Map<EventType, List<EventListener>> listeners = getListeners();
+
 
 			if (listeners.containsKey(eventType)) {
 				listeners.get(eventType).add(listener);
- 			} else {
+			} else {
 				listeners.put(eventType, new ArrayList<EventListener>() {{add(listener);}});
 			}
 		}
 
-		boolean unsubscribe(EventType eventType, EventListener listener) {
+		default boolean unsubscribe(EventType eventType, EventListener listener) {
+			Map<EventType, List<EventListener>> listeners = getListeners();
+
 			if (! listeners.get(eventType).contains(listener)) {
 				System.out.println("listener unsubscribe error");
 
@@ -53,9 +51,9 @@ public class NewListenerImpl {
 
 		}
 
-		void notify(EventType eventType, String data) {
+		default void notify(EventType eventType, String data) {
 
-			for (EventListener eventListener : listeners.get(eventType)) {
+			for (EventListener eventListener : getListeners().get(eventType)) {
 				eventListener.update(data);
 			}
 
@@ -63,54 +61,55 @@ public class NewListenerImpl {
 	}
 
 
-	class EditorOne {
-		EventManager events;
-
-		EditorOne() {
-			events = new EventManager();
-		}
+	class EditorOne implements EventManager{
 
 		void openFile() {
-			System.out.println("file opened");
+			System.out.println("file opened 1");
 
-			events.notify(EventType.OPEN, "file 1");
+			notify(EventType.OPEN, "file 1");
 		}
 
 		void saveFile() {
-			System.out.println("file saved");
+			System.out.println("file saved 1");
 
-			events.notify(EventType.SAVE, "save 1");
+			notify(EventType.SAVE, "save 1");
+		}
+
+		Map<EventType, List<EventListener>> listeners = new HashMap<>();
+
+		@Override
+		public Map<EventType, List<EventListener>> getListeners() {
+			return listeners;
 		}
 	}
 
-	class EditorTwo {
-		EventManager events;
-
-		EditorTwo() {
-			events = new EventManager();
-		}
+	class EditorTwo implements EventManager{
 
 		void openFile() {
-			System.out.println("file opened");
+			System.out.println("file opened 2");
 
-			events.notify(EventType.OPEN, "file 2");
+			notify(EventType.OPEN, "file 2");
 		}
 
 		void saveFile() {
-			System.out.println("file saved");
+			System.out.println("file saved 2");
 
-			events.notify(EventType.SAVE, "save 2");
+			notify(EventType.SAVE, "save 2");
+		}
+
+		Map<EventType, List<EventListener>> listeners = new HashMap<>();
+
+		@Override
+		public Map<EventType, List<EventListener>> getListeners() {
+			return listeners;
 		}
 	}
-
 
 	interface EventListener {
 		void update(String filename);
 	}
 
 	class LoggingListener implements EventListener {
-
-
 		@Override
 		public void update(String filename) {
 			System.out.println("LoggingListener update; " + filename);
@@ -118,7 +117,6 @@ public class NewListenerImpl {
 	}
 
 	class EmailAlertListener implements EventListener {
-
 		@Override
 		public void update(String filename) {
 			System.out.println("EmailAlertListener update; " + filename);
@@ -129,14 +127,14 @@ public class NewListenerImpl {
 	class Application {
 		void config() {
 			EditorOne editorOne = new EditorOne();
-			EditorTwo editorTwo = new EditorTwo();
+	 		EditorTwo editorTwo = new EditorTwo();
 
 			LoggingListener logger = new LoggingListener();
-			editorOne.events.subscribe(EventType.OPEN, logger);
-			editorTwo.events.subscribe(EventType.OPEN, logger);
+			editorOne.subscribe(EventType.OPEN, logger);
+			editorTwo.subscribe(EventType.OPEN, logger);
 
 			EmailAlertListener emailAlert = new EmailAlertListener();
-			editorOne.events.subscribe(EventType.SAVE, emailAlert);
+			editorOne.subscribe(EventType.SAVE, emailAlert);
 
 			editorOne.openFile();
 			System.out.println("-------");
@@ -144,7 +142,7 @@ public class NewListenerImpl {
 			editorTwo.openFile();
 			System.out.println("-------");
 
-			editorOne.events.unsubscribe(EventType.OPEN, logger);
+			editorOne.unsubscribe(EventType.OPEN, logger);
 
 			editorOne.openFile();
 			System.out.println("-------");
@@ -155,9 +153,9 @@ public class NewListenerImpl {
 			editorOne.saveFile();
 			System.out.println("-------");
 
-
 		}
 
 	}
+
 
 }
