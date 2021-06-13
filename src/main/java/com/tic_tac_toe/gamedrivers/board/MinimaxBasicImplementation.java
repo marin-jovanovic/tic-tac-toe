@@ -11,6 +11,7 @@ import java.util.Random;
 
 public interface MinimaxBasicImplementation {
     List<Point> bestMovesLayerOne = new ArrayList<>();
+
     Tile getTile(int x, int y);
 
     default Point computerMove() {
