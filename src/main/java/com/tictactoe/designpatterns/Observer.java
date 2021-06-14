@@ -5,7 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+// code based on pseudo-code from https://refactoring.guru/design-patterns/observer
+
 public class Observer {
+
+
 
 	enum EventType {
 		OPEN,

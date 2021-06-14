@@ -10,7 +10,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class TileListenerUserVsComputer implements ActionListener {
+public class TileListenerUserVsComputer implements ActionListener, GameMode {
 	private final Point point;
 	private final Game game;
 	private final GamePanel gui;
@@ -55,5 +55,10 @@ public class TileListenerUserVsComputer implements ActionListener {
 		}
 
 		game.printBoard(0);
+	}
+
+	@Override
+	public void playOneIteration() {
+
 	}
 }
