@@ -88,7 +88,7 @@ public class FactoryDP {
 		}
 
 		public static void main(String[] args) {
-			Application application =  new Application();
+			Application application = new Application();
 			application.driver();
 		}
 
