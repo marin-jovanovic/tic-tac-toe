@@ -1,4 +1,4 @@
-package com.tictactoe.designpatterns;
+package com.tictactoe.designpatterns.creational;
 
 public class AbstractFactoryDP {
 
