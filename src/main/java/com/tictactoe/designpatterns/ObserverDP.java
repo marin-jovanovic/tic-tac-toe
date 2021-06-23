@@ -7,7 +7,7 @@ import java.util.Map;
 
 // code based on pseudo-code from https://refactoring.guru/design-patterns/observer
 
-public class Observer {
+public class ObserverDP {
 
 
 
@@ -119,8 +119,8 @@ public class Observer {
 	}
 
 	public static void main(String[] args) {
-		Observer observer = new Observer();
-		observer.launcher();
+		ObserverDP observerDP = new ObserverDP();
+		observerDP.launcher();
 	}
 
 	void launcher() {
