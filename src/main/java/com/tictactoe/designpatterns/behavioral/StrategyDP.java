@@ -1,4 +1,4 @@
-package com.tictactoe.designpatterns;
+package com.tictactoe.designpatterns.behavioral;
 
 // code based on pseudo-code from https://refactoring.guru/design-patterns/observer
 

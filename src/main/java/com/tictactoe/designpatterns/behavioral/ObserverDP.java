@@ -1,4 +1,4 @@
-package com.tictactoe.designpatterns;
+package com.tictactoe.designpatterns.behavioral;
 
 import java.util.ArrayList;
 import java.util.HashMap;
