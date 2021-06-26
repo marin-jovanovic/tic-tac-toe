@@ -1,22 +1,19 @@
 package com.tictactoe.gui.gamepanel;
 
-import com.tictactoe.Utils;
 import com.tictactoe.eventhandler.EventListener;
-import com.tictactoe.eventhandler.EventManager;
 import com.tictactoe.eventhandler.EventType;
 import com.tictactoe.gamedrivers.board.Game;
 import com.tictactoe.gamedrivers.point.Point;
-import com.tictactoe.gamedrivers.tile.TileOwner;
+import com.tictactoe.gui.gamepanel.gamemode.GameMode;
+import com.tictactoe.gui.gamepanel.gamemode.UserVsUser;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GamePanel extends JPanel implements EventManager, EventListener {
+public class GamePanel extends JPanel implements EventListener {
 // todo buttons to factory
 // every design pattern likes solid principles
 
@@ -46,7 +43,8 @@ public class GamePanel extends JPanel implements EventManager, EventListener {
 				buttons[y][x] = new TileButton(new Point(y, x));
 
 //                determinate game mode
-				GameMode gameMode = new UserVsComputer(buttons[y][x], this);
+//				GameMode gameMode = new UserVsComputer(buttons[y][x], this, game);
+				GameMode gameMode = new UserVsUser(buttons[y][x], this, game);
 
 				buttons[y][x].addActionListener(gameMode);
 
@@ -100,145 +98,6 @@ public class GamePanel extends JPanel implements EventManager, EventListener {
 			for (int x = 0; x < game.getXAxisLength(); x++) {
 				buttons[y][x].setEnabled(false);
 			}
-		}
-	}
-
-	enum Command {
-		GAME_WON_PLAYER_1,
-		GAME_WON_PLAYER_2
-	}
-
-	abstract class GameMode implements ActionListener {
-		TileButton button;
-		GamePanel gamePanel;
-
-		TileOwner turn;
-
-		GameMode(GamePanel gamePanel) {
-			this.gamePanel = gamePanel;
-			turn = TileOwner.USER_1;
-		}
-
-		GameMode(TileButton button, GamePanel gamePanel) {
-			this(gamePanel);
-
-			this.button = button;
-		}
-
-		void checkGameWon(Point point) {
-			if (game.isGameWon(point, turn)) {
-				System.out.println("game won " + turn);
-
-//				gamePanel.notify(EventType.GAME_ENDED, "data todo");
-			}
-		}
-
-		void changeTurn() {
-			if (turn == TileOwner.USER_1) {
-				turn = TileOwner.COMPUTER;
-			} else if (turn == TileOwner.COMPUTER) {
-				turn = TileOwner.USER_1;
-			}
-		}
-
-		void clickButton(TileButton button, String icon) {
-			button.setEnabled(false);
-			button.setDisabledIcon(Utils.getImageIcon(icon));
-			button.setIcon(Utils.getImageIcon(icon));
-		}
-
-		Move move;
-
-		public void setMove(Move move) {
-			this.move = move;
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-
-			clickButton(this.button, "o");
-
-//			logic
-			game.setTile(button.getPoint().reverse(), TileOwner.USER_1);
-
-			game.printBoard(0);
-
-			checkGameWon(button.getPoint().reverse());
-
-			changeTurn();
-
-			Point computerMove = move.getMove();
-
-//			logic
-			game.setTile(computerMove, TileOwner.COMPUTER);
-
-			TileButton button = (TileButton) gamePanel.getButton(computerMove.getX(), computerMove.getY());
-
-			clickButton(button, "x");
-
-//            todo determinate which line (horizontal, diagonal ...) should be placed over tiles
-
-			checkGameWon(computerMove);
-
-			changeTurn();
-
-			game.printBoard(0);
-			System.out.println();
-		}
-	}
-
-	interface Move {
-		Point getMove();
-	}
-
-	class ComputerMove implements Move {
-
-		@Override
-		public Point getMove() {
-
-			System.out.println("computer move");
-
-			Point computerMove = game.computerMove();
-
-			System.out.println(computerMove);
-
-			return computerMove;
-		}
-	}
-
-	class User2Move implements Move {
-
-		@Override
-		public Point getMove() {
-//			todo
-			return null;
-		}
-	}
-
-	class UserVsComputer extends GameMode {
-
-		UserVsComputer(TileButton button, GamePanel gamePanel) {
-			super(button, gamePanel);
-
-			setMove(new ComputerMove());
-
-		}
-
-	}
-
-	class UserVsUser extends GameMode {
-
-		UserVsUser(TileButton button, GamePanel gamePanel) {
-			super(button, gamePanel);
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			this.button.setEnabled(false);
-			this.button.setDisabledIcon(Utils.getImageIcon("o"));
-			this.button.setIcon(Utils.getImageIcon("o"));
-
-			System.out.println("user2 move");
 		}
 	}
 
