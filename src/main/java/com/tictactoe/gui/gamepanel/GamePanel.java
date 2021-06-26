@@ -21,7 +21,6 @@ public class GamePanel extends JPanel implements EventManager, EventListener {
 // every design pattern likes solid principles
 
 	private final TileButton[][] buttons;
-	ActionListener tileListener;
 	Map<EventType, List<EventListener>> listeners;
 	private Game game;
 
@@ -46,16 +45,15 @@ public class GamePanel extends JPanel implements EventManager, EventListener {
 //				todo check if user vs computer or user vs user
 				buttons[y][x] = new TileButton(new Point(y, x));
 
-////                determinate game mode
+//                determinate game mode
 				GameMode gameMode = new UserVsComputer(buttons[y][x], this);
 
 				buttons[y][x].addActionListener(gameMode);
+
 				this.add(buttons[y][x]);
 
 			}
 		}
-
-
 	}
 
 	public Game getGame() {
@@ -127,11 +125,11 @@ public class GamePanel extends JPanel implements EventManager, EventListener {
 			this.button = button;
 		}
 
-		void checkGameWon() {
-			if (game.isGameWon(button.getPoint(), turn)) {
+		void checkGameWon(Point point) {
+			if (game.isGameWon(point, turn)) {
 				System.out.println("game won " + turn);
 
-				gamePanel.notify(EventType.GAME_ENDED, "data todo");
+//				gamePanel.notify(EventType.GAME_ENDED, "data todo");
 			}
 		}
 
@@ -142,48 +140,90 @@ public class GamePanel extends JPanel implements EventManager, EventListener {
 				turn = TileOwner.USER_1;
 			}
 		}
-	}
 
-	class UserVsComputer extends GameMode {
+		void clickButton(TileButton button, String icon) {
+			button.setEnabled(false);
+			button.setDisabledIcon(Utils.getImageIcon(icon));
+			button.setIcon(Utils.getImageIcon(icon));
+		}
 
-		UserVsComputer(TileButton button, GamePanel gamePanel) {
-			super(button, gamePanel);
+		Move move;
+
+		public void setMove(Move move) {
+			this.move = move;
 		}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			this.button.setEnabled(false);
-			this.button.setDisabledIcon(Utils.getImageIcon("o"));
-			this.button.setIcon(Utils.getImageIcon("o"));
+
+			clickButton(this.button, "o");
 
 //			logic
 			game.setTile(button.getPoint().reverse(), TileOwner.USER_1);
 
-			checkGameWon();
+			game.printBoard(0);
+
+			checkGameWon(button.getPoint().reverse());
 
 			changeTurn();
+
+			Point computerMove = move.getMove();
+
+//			logic
+			game.setTile(computerMove, TileOwner.COMPUTER);
+
+			TileButton button = (TileButton) gamePanel.getButton(computerMove.getX(), computerMove.getY());
+
+			clickButton(button, "x");
+
+//            todo determinate which line (horizontal, diagonal ...) should be placed over tiles
+
+			checkGameWon(computerMove);
+
+			changeTurn();
+
+			game.printBoard(0);
+			System.out.println();
+		}
+	}
+
+	interface Move {
+		Point getMove();
+	}
+
+	class ComputerMove implements Move {
+
+		@Override
+		public Point getMove() {
 
 			System.out.println("computer move");
 
 			Point computerMove = game.computerMove();
 
 			System.out.println(computerMove);
-//			logic
-			game.setTile(computerMove, TileOwner.COMPUTER);
 
-			JButton button = gamePanel.getButton(computerMove.getX(), computerMove.getY());
-			button.setEnabled(false);
-			button.setIcon(Utils.getImageIcon("x"));
-			button.setDisabledIcon(Utils.getImageIcon("x"));
-
-//            todo determinate which line (horizontal, diagonal ...) should be placed over tiles
-
-			checkGameWon();
-
-			changeTurn();
-
-			game.printBoard(0);
+			return computerMove;
 		}
+	}
+
+	class User2Move implements Move {
+
+		@Override
+		public Point getMove() {
+//			todo
+			return null;
+		}
+	}
+
+	class UserVsComputer extends GameMode {
+
+		UserVsComputer(TileButton button, GamePanel gamePanel) {
+			super(button, gamePanel);
+
+			setMove(new ComputerMove());
+
+		}
+
 	}
 
 	class UserVsUser extends GameMode {
