@@ -6,104 +6,103 @@ import java.util.EventObject;
 
 public class OldListenerImpl {
 
-    public static void main(String[] args) {
-        OldListenerImpl oldListenerImpl = new OldListenerImpl();
-        oldListenerImpl.launcher();
-    }
+	public static void main(String[] args) {
+		OldListenerImpl oldListenerImpl = new OldListenerImpl();
+		oldListenerImpl.launcher();
+	}
 
-    public void launcher() {
-        ClassOne classOne = new ClassOne();
-        ClassTwo classTwo = new ClassTwo();
+	public void launcher() {
+		ClassOne classOne = new ClassOne();
+		ClassTwo classTwo = new ClassTwo();
 
-        CustomListenerOne customListenerOne = new CustomListenerOne();
+		CustomListenerOne customListenerOne = new CustomListenerOne();
 
-        classOne.addListener(customListenerOne);
-        classOne.fireEvent(new Event(this, "gameOver"));
+		classOne.addListener(customListenerOne);
+		classOne.fireEvent(new Event(this, "gameOver"));
 
-        classOne.removeListener(customListenerOne);
-        classOne.fireEvent(new Event(this, "gameOver"));
+		classOne.removeListener(customListenerOne);
+		classOne.fireEvent(new Event(this, "gameOver"));
 
-    }
+	}
 
-    class CustomListenerOne implements Listener {
+	interface Listener extends EventListener {
 
-        @Override
-        public void eventOccured(Event event) {
-            System.out.println("listener 1");
-            System.out.println(event);
-            System.out.println(event.getSource());
-            System.out.println(event.getCommand());
-        }
-    }
+		void eventOccured(Event event);
 
-    class ClassOne  {
+	}
 
-        private EventListenerList listenerList = new EventListenerList();
+	class CustomListenerOne implements Listener {
 
-        public void fireEvent(Event event) {
-            Object[] listeners = listenerList.getListenerList();
+		@Override
+		public void eventOccured(Event event) {
+			System.out.println("listener 1");
+			System.out.println(event);
+			System.out.println(event.getSource());
+			System.out.println(event.getCommand());
+		}
+	}
 
-            for (Object listener : listeners) {
-                if (listener instanceof Listener) {
-                    ((Listener) listener).eventOccured(event);
-                    return;
-                }
-            }
+	class ClassOne {
 
-        }
+		private final EventListenerList listenerList = new EventListenerList();
 
-        public void addListener(Listener listener) {
-            listenerList.add(Listener.class, listener);
-        }
+		public void fireEvent(Event event) {
+			Object[] listeners = listenerList.getListenerList();
 
-        public void removeListener(Listener listener) {
-            listenerList.remove(Listener.class, listener);
-        }
-    }
+			for (Object listener : listeners) {
+				if (listener instanceof Listener) {
+					((Listener) listener).eventOccured(event);
+					return;
+				}
+			}
 
+		}
 
-    class ClassTwo {
-        private EventListenerList listenerList = new EventListenerList();
+		public void addListener(Listener listener) {
+			listenerList.add(Listener.class, listener);
+		}
 
-        public void fireEvent(Event event) {
-            Object[] listeners = listenerList.getListenerList();
+		public void removeListener(Listener listener) {
+			listenerList.remove(Listener.class, listener);
+		}
+	}
 
-            for (Object listener : listeners) {
-                if (listener instanceof Listener) {
-                    ((Listener) listener).eventOccured(event);
-                    return;
-                }
-            }
-        }
+	class ClassTwo {
+		private final EventListenerList listenerList = new EventListenerList();
 
-        public void addListener(Listener listener) {
-            listenerList.add(Listener.class, listener);
-        }
+		public void fireEvent(Event event) {
+			Object[] listeners = listenerList.getListenerList();
 
-        public void removeListener(Listener listener) {
-            listenerList.remove(Listener.class, listener);
-        }
-    }
+			for (Object listener : listeners) {
+				if (listener instanceof Listener) {
+					((Listener) listener).eventOccured(event);
+					return;
+				}
+			}
+		}
 
-    class Event extends EventObject {
+		public void addListener(Listener listener) {
+			listenerList.add(Listener.class, listener);
+		}
 
-        private String command;
+		public void removeListener(Listener listener) {
+			listenerList.remove(Listener.class, listener);
+		}
+	}
 
-        public Event(Object source, String command) {
-            super(source);
-            this.command = command;
-        }
+	class Event extends EventObject {
 
-        public String getCommand() {
-            return command;
-        }
+		private final String command;
 
-    }
+		public Event(Object source, String command) {
+			super(source);
+			this.command = command;
+		}
 
-    interface Listener extends EventListener {
+		public String getCommand() {
+			return command;
+		}
 
-        void eventOccured(Event event);
-
-    }
+	}
 
 }

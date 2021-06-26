@@ -1,7 +1,5 @@
 package com.tictactoe.designpatterns.behavioral;
 
-import java.awt.*;
-
 public class MediatorDP {
 
 	interface Mediator {

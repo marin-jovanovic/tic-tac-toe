@@ -3,20 +3,24 @@ package com.tictactoe.designpatterns.creational;
 
 public class BuilderDP {
 
+	interface Builder {
+		void reset();
+
+		void setSeats(String s);
+
+		void setEngine(String s);
+
+		void setTripCalculator(String s);
+
+		void setGPS(String s);
+	}
+
 	static class Car {
 
 	}
 
 	static class Manual {
 
-	}
-
-	interface Builder {
-		void reset();
-		void setSeats(String s);
-		void setEngine(String s);
-		void setTripCalculator(String s);
-		void setGPS(String s);
 	}
 
 	static class CarBuilder implements Builder {
@@ -129,6 +133,11 @@ public class BuilderDP {
 	}
 
 	static class App {
+		public static void main(String[] args) {
+			App app = new App();
+			app.makeCar();
+		}
+
 		void makeCar() {
 			Director director = new Director();
 
@@ -140,11 +149,6 @@ public class BuilderDP {
 			director.constructSportsCar(manualBuilder);
 
 			Manual manual = manualBuilder.getProduct();
-		}
-
-		public static void main(String[] args) {
-			App app = new App();
-			app.makeCar();
 		}
 	}
 

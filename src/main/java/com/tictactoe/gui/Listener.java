@@ -7,14 +7,14 @@ public interface Listener {
 
 //    PropertyChangeSupport support = new PropertyChangeSupport();
 
-    PropertyChangeSupport getSupport();
+	PropertyChangeSupport getSupport();
 
-    default void addListener(PropertyChangeListener listener) {
-        getSupport().addPropertyChangeListener(listener);
-    }
+	default void addListener(PropertyChangeListener listener) {
+		getSupport().addPropertyChangeListener(listener);
+	}
 
-    default void removeListener(PropertyChangeListener propertyChangeListener) {
-        getSupport().removePropertyChangeListener(propertyChangeListener);
-    }
+	default void removeListener(PropertyChangeListener propertyChangeListener) {
+		getSupport().removePropertyChangeListener(propertyChangeListener);
+	}
 
 }

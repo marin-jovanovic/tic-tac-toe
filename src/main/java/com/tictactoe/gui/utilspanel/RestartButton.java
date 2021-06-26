@@ -11,24 +11,24 @@ import java.util.Map;
 
 public class RestartButton extends JButton implements EventManager {
 
-    public RestartButton() {
+	Map<EventType, List<EventListener>> listeners = new HashMap<>();
 
-        this.setText("restart");
+	public RestartButton() {
 
-        this.addActionListener(event -> {
+		this.setText("restart");
 
-            notify(EventType.RESTART_BUTTON_PRESSED, "");
+		this.addActionListener(event -> {
 
-            System.out.println("restart pressed");
-        });
+			notify(EventType.RESTART_BUTTON_PRESSED, "");
 
-    }
+			System.out.println("restart pressed");
+		});
 
-    Map<EventType, List<EventListener>> listeners = new HashMap<>();
+	}
 
-    @Override
-    public Map<EventType, List<EventListener>> getListeners() {
-        return listeners;
-    }
+	@Override
+	public Map<EventType, List<EventListener>> getListeners() {
+		return listeners;
+	}
 
 }

@@ -1,9 +1,5 @@
 package com.tictactoe.designpatterns.creational;
 
-import javafx.scene.shape.Circle;
-
-import java.util.ArrayList;
-
 public class PrototypeDP {
 
 	static abstract class Shape {
@@ -11,7 +7,7 @@ public class PrototypeDP {
 		int y;
 		String color;
 
-		Shape(Shape  target) {
+		Shape(Shape target) {
 			if (target != null) {
 				this.x = target.x;
 				this.y = target.y;
@@ -101,21 +97,7 @@ public class PrototypeDP {
 			rectangle.height = 4;
 			shapes[2] = rectangle;
 
-			for (Shape s: shapes
-				 ) {
-				System.out.println(s);
-			}
-
-		}
-
-		void businessLogic() {
-			Shape[] shapesCopy = new Shape[5];
-
-			shapesCopy[0] = shapes[0].clone();
-			shapesCopy[1] = shapes[1].clone();
-			shapesCopy[2] = shapes[2].clone();
-
-			for (Shape s: shapesCopy
+			for (Shape s : shapes
 			) {
 				System.out.println(s);
 			}
@@ -129,6 +111,20 @@ public class PrototypeDP {
 
 			application.businessLogic();
 
+
+		}
+
+		void businessLogic() {
+			Shape[] shapesCopy = new Shape[5];
+
+			shapesCopy[0] = shapes[0].clone();
+			shapesCopy[1] = shapes[1].clone();
+			shapesCopy[2] = shapes[2].clone();
+
+			for (Shape s : shapesCopy
+			) {
+				System.out.println(s);
+			}
 
 		}
 	}

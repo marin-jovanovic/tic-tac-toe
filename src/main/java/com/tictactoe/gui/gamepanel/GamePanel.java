@@ -7,7 +7,6 @@ import com.tictactoe.eventhandler.EventType;
 import com.tictactoe.gamedrivers.board.Game;
 import com.tictactoe.gamedrivers.point.Point;
 import com.tictactoe.gamedrivers.tile.TileOwner;
-import com.tictactoe.gui.gamepanel.gamemode.TileListenerUserVsComputer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,10 +20,43 @@ public class GamePanel extends JPanel implements EventManager, EventListener {
 // todo buttons to factory
 // every design pattern likes solid principles
 
-	private Game game;
 	private final TileButton[][] buttons;
-
 	ActionListener tileListener;
+	Map<EventType, List<EventListener>> listeners;
+	private Game game;
+
+	public GamePanel() {
+		listeners = new HashMap<>();
+
+		initLogic();
+
+//        map logic to gui fields
+		int yLength = game.getYAxisLength();
+		int xLength = game.getXAxisLength();
+
+		setLayout(new GridLayout(0, game.getXAxisLength()));
+
+//        init buttons
+
+		buttons = new TileButton[yLength][xLength];
+
+		for (int y = 0; y < yLength; y++) {
+			for (int x = 0; x < xLength; x++) {
+
+//				todo check if user vs computer or user vs user
+				buttons[y][x] = new TileButton(new Point(y, x));
+
+////                determinate game mode
+				GameMode gameMode = new UserVsComputer(buttons[y][x], this);
+
+				buttons[y][x].addActionListener(gameMode);
+				this.add(buttons[y][x]);
+
+			}
+		}
+
+
+	}
 
 	public Game getGame() {
 		return game;
@@ -34,31 +66,71 @@ public class GamePanel extends JPanel implements EventManager, EventListener {
 		game = new Game();
 	}
 
+	public JButton getButton(int x, int y) {
+		return buttons[y][x];
+	}
+
+	@Override
+	public Map<EventType, List<EventListener>> getListeners() {
+		return listeners;
+	}
+
+	@Override
+	public void update(String action) {
+		System.out.println("restart; " + action);
+
+		newGame();
+	}
+
+	void newGame() {
+		restartButtons();
+		game = new Game();
+	}
+
+	void restartButtons() {
+		for (int y = 0; y < game.getYAxisLength(); y++) {
+			for (int x = 0; x < game.getXAxisLength(); x++) {
+				buttons[y][x].setEnabled(true);
+				buttons[y][x].setText(x + " " + y);
+				buttons[y][x].setIcon(null);
+			}
+		}
+	}
+
+	public void disableButtons() {
+		for (int y = 0; y < game.getYAxisLength(); y++) {
+			for (int x = 0; x < game.getXAxisLength(); x++) {
+				buttons[y][x].setEnabled(false);
+			}
+		}
+	}
+
+	enum Command {
+		GAME_WON_PLAYER_1,
+		GAME_WON_PLAYER_2
+	}
+
 	abstract class GameMode implements ActionListener {
 		TileButton button;
+		GamePanel gamePanel;
 
 		TileOwner turn;
 
-		GamePanel gamePanel;
-
 		GameMode(GamePanel gamePanel) {
 			this.gamePanel = gamePanel;
-		}
-
-		GameMode(TileButton button, GamePanel gamePanel) {
-			this.button = button;
-
-			this.gamePanel = gamePanel;
-
 			turn = TileOwner.USER_1;
 		}
 
-		void checkGameWon() {
+		GameMode(TileButton button, GamePanel gamePanel) {
+			this(gamePanel);
 
+			this.button = button;
+		}
+
+		void checkGameWon() {
 			if (game.isGameWon(button.getPoint(), turn)) {
 				System.out.println("game won " + turn);
-//				todo fire event
-//				this.gui.disableButtons();
+
 				gamePanel.notify(EventType.GAME_ENDED, "data todo");
 			}
 		}
@@ -76,7 +148,6 @@ public class GamePanel extends JPanel implements EventManager, EventListener {
 
 		UserVsComputer(TileButton button, GamePanel gamePanel) {
 			super(button, gamePanel);
-
 		}
 
 		@Override
@@ -128,86 +199,6 @@ public class GamePanel extends JPanel implements EventManager, EventListener {
 			this.button.setIcon(Utils.getImageIcon("o"));
 
 			System.out.println("user2 move");
-		}
-	}
-
-
-	public GamePanel() {
-		listeners = new HashMap<>();
-
-		initLogic();
-
-//        map logic to gui fields
-		int yLength = game.getYAxisLength();
-		int xLength = game.getXAxisLength();
-
-		setLayout(new GridLayout(0, game.getXAxisLength()));
-
-//        init buttons
-
-		buttons = new TileButton[yLength][xLength];
-
-		for (int y = 0; y < yLength; y++) {
-			for (int x = 0; x < xLength; x++) {
-
-//				todo check if user vs computer or user vs user
-				buttons[y][x] = new TileButton(new Point(y, x));
-
-////                determinate game mode
-				GameMode gameMode = new UserVsComputer(buttons[y][x], this);
-
-				buttons[y][x].addActionListener(gameMode);
-				this.add(buttons[y][x]);
-
-			}
-		}
-
-
-	}
-
-	public JButton getButton(int x, int y) {
-		return buttons[y][x];
-	}
-
-	Map<EventType, List<EventListener>> listeners;
-
-	@Override
-	public Map<EventType, List<EventListener>> getListeners() {
-		return listeners;
-	}
-
-	@Override
-	public void update(String action) {
-		System.out.println("restart; " + action);
-
-		newGame();
-	}
-
-	void newGame() {
-		restartButtons();
-		game = new Game();
-	}
-
-	void restartButtons() {
-		for (int y = 0; y < game.getYAxisLength(); y++) {
-			for (int x = 0; x < game.getXAxisLength(); x++) {
-				buttons[y][x].setEnabled(true);
-				buttons[y][x].setText(x + " " + y);
-				buttons[y][x].setIcon(null);
-			}
-		}
-	}
-
-	enum Command {
-		GAME_WON_PLAYER_1,
-		GAME_WON_PLAYER_2
-	}
-
-	public void disableButtons() {
-		for (int y = 0; y < game.getYAxisLength(); y++) {
-			for (int x = 0; x < game.getXAxisLength(); x++) {
-				buttons[y][x].setEnabled(false);
-			}
 		}
 	}
 

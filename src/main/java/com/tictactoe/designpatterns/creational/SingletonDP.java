@@ -6,17 +6,8 @@ package com.tictactoe.designpatterns.creational;
 public class SingletonDP {
 
 	static class Database {
-		int field;
-
-		public int getField() {
-			return field;
-		}
-
-		public void setField(int field) {
-			this.field = field;
-		}
-
 		static Database instance;
+		int field;
 
 		private Database() {
 		}
@@ -27,6 +18,14 @@ public class SingletonDP {
 			}
 
 			return instance;
+		}
+
+		public int getField() {
+			return field;
+		}
+
+		public void setField(int field) {
+			this.field = field;
 		}
 	}
 

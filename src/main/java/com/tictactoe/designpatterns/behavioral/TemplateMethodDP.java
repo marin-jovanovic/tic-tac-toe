@@ -43,11 +43,12 @@ public class TemplateMethodDP {
 
 		protected abstract Enemy closestEnemy();
 
-		class Enemy {}
-
 		abstract void sendScouts(int position);
 
 		abstract void sendWarriors(int position);
+
+		class Enemy {
+		}
 
 	}
 
@@ -63,38 +64,39 @@ public class TemplateMethodDP {
 			}
 
 		}
-			void buildUnits() {
-				boolean thereArePlentyOfResources = false;
 
-				if (thereArePlentyOfResources) {
+		void buildUnits() {
+			boolean thereArePlentyOfResources = false;
 
-					boolean thereAreNoScouts = false;
-					if (thereAreNoScouts) {
-						// Build peon, add it to scouts group.
+			if (thereArePlentyOfResources) {
 
-					} else {
-						// Build grunt, add it to warriors group.
+				boolean thereAreNoScouts = false;
+				if (thereAreNoScouts) {
+					// Build peon, add it to scouts group.
 
-					}
+				} else {
+					// Build grunt, add it to warriors group.
 
-					// ...
 				}
 
+				// ...
 			}
+
+		}
 
 		@Override
 		protected Enemy closestEnemy() {
 			return null;
 		}
 
-		void sendScouts ( int position){
+		void sendScouts(int position) {
 //			if (scouts.length > 0) {
 //				// Send scouts to position.
 //
 //			}
 		}
 
-		void sendWarriors ( int position){
+		void sendWarriors(int position) {
 //			if (warriors.length > 5) {
 //				// Send warriors to position.
 //
@@ -104,8 +106,6 @@ public class TemplateMethodDP {
 
 
 	}
-
-
 
 
 	// Subclasses can also override some operations with a default

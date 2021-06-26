@@ -1,6 +1,39 @@
 package com.tictactoe.designpatterns.structural;
 
 public class BridgeDP {
+	public static void main(String[] args) {
+		Tv tv = new Tv();
+		RemoteControl remote = new RemoteControl(tv);
+		remote.togglePower();
+
+		tv.printStatus();
+
+		Radio radio = new Radio();
+		AdvancedRemoteControl advancedRemote = new AdvancedRemoteControl(radio);
+
+		advancedRemote.togglePower();
+		advancedRemote.channelUp();
+		advancedRemote.volumeDown();
+
+		radio.printStatus();
+	}
+
+	interface Device {
+		boolean isEnabled();
+
+		void enable();
+
+		void disable();
+
+		int getVolume();
+
+		void setVolume(int percent);
+
+		int getChannel();
+
+		void setChannel(int channel);
+	}
+
 	static class RemoteControl {
 		Device device;
 
@@ -43,16 +76,6 @@ public class BridgeDP {
 			device.setVolume(0);
 		}
 
-	}
-
-	interface Device {
-		boolean isEnabled();
-		void enable();
-		void disable();
-		int  getVolume();
-		void setVolume(int percent);
-		int getChannel();
-		void setChannel(int channel);
 	}
 
 	static class Tv implements Device {
@@ -163,23 +186,5 @@ public class BridgeDP {
 			System.out.println("| Current channel is " + channel);
 			System.out.println("------------------------------------\n");
 		}
-	}
-
-
-	public static void main(String[] args) {
-		Tv tv = new Tv();
-		RemoteControl remote = new RemoteControl(tv);
-		remote.togglePower();
-
-		tv.printStatus();
-
-		Radio radio = new Radio();
-		AdvancedRemoteControl advancedRemote = new AdvancedRemoteControl(radio);
-
-		advancedRemote.togglePower();
-		advancedRemote.channelUp();
-		advancedRemote.volumeDown();
-
-		radio.printStatus();
 	}
 }

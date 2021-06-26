@@ -2,6 +2,13 @@ package com.tictactoe.designpatterns.creational;
 
 public class FactoryDP {
 
+	interface Button {
+		void render(int a, int b);
+
+		void onClick(int f);
+
+	}
+
 	static abstract class Dialog {
 		abstract Button createButton();
 
@@ -27,12 +34,6 @@ public class FactoryDP {
 		HTMLButton createButton() {
 			return new HTMLButton();
 		}
-	}
-
-	interface Button {
-		void render(int a, int b);
-		void onClick(int f);
-
 	}
 
 	static class WindowsButton implements Button {
@@ -64,16 +65,21 @@ public class FactoryDP {
 	static class Application {
 		Dialog dialog;
 
+		public static void main(String[] args) {
+			Application application = new Application();
+			application.driver();
+		}
+
 		void initialize() {
 			String configOS = "Windows";
 
 
-			if(configOS.equals("Windows")) {
+			if (configOS.equals("Windows")) {
 				dialog = new WindowsDialog();
 
-			} else if(configOS.equals("Web")) {
+			} else if (configOS.equals("Web")) {
 				dialog = new WebDialog();
-			} else{
+			} else {
 				System.out.println("Error! Unknown operating system.");
 			}
 		}
@@ -85,11 +91,6 @@ public class FactoryDP {
 			this.initialize();
 			this.dialog.render(a, b);
 
-		}
-
-		public static void main(String[] args) {
-			Application application = new Application();
-			application.driver();
 		}
 
 	}

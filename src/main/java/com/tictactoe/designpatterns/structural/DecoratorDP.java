@@ -2,8 +2,19 @@ package com.tictactoe.designpatterns.structural;
 
 public class DecoratorDP {
 
+	public static void main(String[] args) {
+		Application application = new Application();
+		application.dumbUsageExample();
+
+		System.out.println("----------------------------------");
+
+		ApplicationConfiguration applicationConfiguration = new ApplicationConfiguration();
+		applicationConfiguration.configurationExample();
+	}
+
 	interface DataSource {
 		void writeData(String data);
+
 		String readData();
 	}
 
@@ -119,7 +130,7 @@ public class DecoratorDP {
 		}
 	}
 
-	static class  ApplicationConfiguration {
+	static class ApplicationConfiguration {
 		void configurationExample() {
 			FileDataSource source = new FileDataSource("temp s ");
 
@@ -137,15 +148,5 @@ public class DecoratorDP {
 			String salary = logger.load();
 
 		}
-	}
-
-	public static void main(String[] args) {
-		Application application = new Application();
-		application.dumbUsageExample();
-
-		System.out.println("----------------------------------");
-
-		ApplicationConfiguration applicationConfiguration = new ApplicationConfiguration();
-		applicationConfiguration.configurationExample();
 	}
 }

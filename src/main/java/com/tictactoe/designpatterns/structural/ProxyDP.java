@@ -4,7 +4,9 @@ public class ProxyDP {
 
 	interface ThirdPartyYouTubeLib {
 		String listVideos();
+
 		String getVideoInfo(String id);
+
 		void downloadVideo(String id);
 	}
 
@@ -88,16 +90,16 @@ public class ProxyDP {
 	}
 
 	static class Application {
+		public static void main(String[] args) {
+			Application application = new Application();
+			application.init();
+		}
+
 		void init() {
 			ThirdPartyYouTubeClass aYoutubeService = new ThirdPartyYouTubeClass();
 			CachedYouTubeClass aYoutubeProxy = new CachedYouTubeClass(aYoutubeService);
 			YouTubeManager manager = new YouTubeManager(aYoutubeProxy);
 			manager.reactOnUserInput();
-		}
-
-		public static void main(String[] args) {
-			Application application = new Application();
-			application.init();
 		}
 	}
 

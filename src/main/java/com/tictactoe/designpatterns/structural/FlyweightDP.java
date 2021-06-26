@@ -2,9 +2,12 @@ package com.tictactoe.designpatterns.structural;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class FlyweightDP {
+
+	public static void main(String[] args) {
+
+	}
 
 	static class TreeType {
 		String name;
@@ -29,6 +32,7 @@ public class FlyweightDP {
 
 		/**
 		 * wrong implementation, used for demonstrative purposes
+		 *
 		 * @param name
 		 * @param color
 		 * @param texture
@@ -79,14 +83,10 @@ public class FlyweightDP {
 		}
 
 		void draw(String canvas) {
-			for (Tree tree: trees) {
+			for (Tree tree : trees) {
 				tree.draw(canvas);
 			}
 		}
-	}
-
-	public static void main(String[] args) {
-
 	}
 
 }

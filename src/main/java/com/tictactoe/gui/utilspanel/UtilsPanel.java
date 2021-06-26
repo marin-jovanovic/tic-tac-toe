@@ -12,36 +12,35 @@ import java.util.Map;
 
 public class UtilsPanel extends JPanel implements EventManager {
 
-    JTextField jTextField;
-    RestartButton restartButton;
+	JTextField jTextField;
+	RestartButton restartButton;
+	//    for event manager
+	Map<EventType, java.util.List<EventListener>> listeners;
 
-    public UtilsPanel() {
-        listeners = new HashMap<>();
+	public UtilsPanel() {
+		listeners = new HashMap<>();
 
-        setLayout(new GridLayout(0, 5));
+		setLayout(new GridLayout(0, 5));
 
-        jTextField = new JTextField();
-        add(jTextField);
+		jTextField = new JTextField();
+		add(jTextField);
 
-        restartButton = new RestartButton();
-        add(restartButton);
+		restartButton = new RestartButton();
+		add(restartButton);
 
-    }
+	}
 
-    public JTextField getjTextField() {
-        return jTextField;
-    }
+	public JTextField getjTextField() {
+		return jTextField;
+	}
 
-    public RestartButton getRestartButton() {
-        return restartButton;
-    }
+	public RestartButton getRestartButton() {
+		return restartButton;
+	}
 
-    //    for event manager
-    Map<EventType, java.util.List<EventListener>> listeners;
-
-    @Override
-    public Map<EventType, List<EventListener>> getListeners() {
-        return listeners;
-    }
+	@Override
+	public Map<EventType, List<EventListener>> getListeners() {
+		return listeners;
+	}
 
 }

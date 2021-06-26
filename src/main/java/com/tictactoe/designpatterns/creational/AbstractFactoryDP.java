@@ -9,6 +9,14 @@ public class AbstractFactoryDP {
 
 	}
 
+	interface Button {
+		void paint();
+	}
+
+	interface CheckBox {
+		void paint();
+	}
+
 	static class WinFactory implements GUIFactory {
 
 
@@ -36,10 +44,6 @@ public class AbstractFactoryDP {
 		}
 	}
 
-	interface Button {
-		void paint();
-	}
-
 	static class WinButton implements Button {
 
 		@Override
@@ -54,10 +58,6 @@ public class AbstractFactoryDP {
 		public void paint() {
 
 		}
-	}
-
-	interface CheckBox {
-		void paint();
 	}
 
 	static class WinCheckbox implements CheckBox {

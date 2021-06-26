@@ -5,8 +5,20 @@ import java.util.List;
 
 public class CompositeDP {
 
+	public static void main(String[] args) {
+		ImageEditor imageEditor = new ImageEditor();
+		imageEditor.load();
+
+		List<Graphic> list = new ArrayList<>();
+		list.add(new Dot(2, 3));
+		list.add(new Circle(2, 6, 6));
+
+		imageEditor.groupSelected(list);
+	}
+
 	interface Graphic {
 		void move(int x, int y);
+
 		void draw();
 	}
 
@@ -69,21 +81,22 @@ public class CompositeDP {
 		void add(Graphic child) {
 			children.add(child);
 		}
+
 		void remove(Graphic child) {
 			children.remove(child);
 		}
 
 		@Override
 		public void move(int x, int y) {
-			for (Graphic child:
-				 children) {
+			for (Graphic child :
+					children) {
 				child.move(x, y);
 			}
 		}
 
 		@Override
 		public void draw() {
-			for (Graphic child:
+			for (Graphic child :
 					children) {
 				System.out.println("draw compound graphic " + child);
 			}
@@ -109,7 +122,7 @@ public class CompositeDP {
 		void groupSelected(List<Graphic> components) {
 			CompoundGraphic group = new CompoundGraphic();
 
-			for (Graphic component: components) {
+			for (Graphic component : components) {
 				group.add(component);
 				all.remove(component);
 			}
@@ -118,17 +131,6 @@ public class CompositeDP {
 
 			all.draw();
 		}
-	}
-
-	public static void main(String[] args) {
-		ImageEditor imageEditor = new ImageEditor();
-		imageEditor.load();
-
-		List<Graphic> list = new ArrayList<>();
-		list.add(new Dot(2, 3));
-		list.add(new Circle(2, 6, 6));
-
-		imageEditor.groupSelected(list);
 	}
 
 }

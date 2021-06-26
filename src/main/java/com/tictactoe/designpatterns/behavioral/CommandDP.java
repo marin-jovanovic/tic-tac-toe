@@ -10,12 +10,12 @@ public class CommandDP {
 		Editor editor;
 		String backup;
 
-		Command(Application app, Editor editor){
+		Command(Application app, Editor editor) {
 			this.app = app;
 			this.editor = editor;
 		}
 
-		void saveBackup(){
+		void saveBackup() {
 			this.backup = editor.text;
 		}
 

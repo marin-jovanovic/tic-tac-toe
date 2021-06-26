@@ -7,8 +7,20 @@ public class VisitorDP {
 
 	interface Shape {
 		void move(int x, int y);
+
 		void draw();
+
 		void accept(Visitor v);
+	}
+
+	interface Visitor {
+		void visitDot(Dot d);
+
+		void visitCircle(Circle c);
+
+		void visitRectangle(Rectangle r);
+
+		void visitCompoundShape(CompoundShape cs);
 	}
 
 	class Dot implements Shape {
@@ -83,13 +95,6 @@ public class VisitorDP {
 		}
 	}
 
-	interface Visitor {
-		void visitDot(Dot d);
-		void visitCircle(Circle c);
-		void visitRectangle(Rectangle r);
-		void visitCompoundShape(CompoundShape cs);
-	}
-
 	class XMLExportVisitor implements Visitor {
 		@Override
 		public void visitDot(Dot d) {
@@ -118,7 +123,7 @@ public class VisitorDP {
 		void export() {
 			Visitor exportVisitor = new XMLExportVisitor();
 
-			for (Shape s: allShapes) {
+			for (Shape s : allShapes) {
 				s.accept(exportVisitor);
 			}
 		}

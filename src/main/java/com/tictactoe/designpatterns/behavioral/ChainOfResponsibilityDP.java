@@ -65,6 +65,12 @@ public class ChainOfResponsibilityDP {
 
 		Button ok = new Button();
 
+		public static void main(String[] args) {
+			Application application = new Application();
+			application.createUI();
+			application.onF1KeyPress(application.ok);
+		}
+
 		void createUI() {
 			Dialog dialog = new Dialog();
 			dialog.wikiPageURL = "https://";
@@ -83,12 +89,6 @@ public class ChainOfResponsibilityDP {
 
 		void onF1KeyPress(Component component) {
 			component.showHelp();
-		}
-
-		public static void main(String[] args) {
-			Application application = new Application();
-			application.createUI();
-			application.onF1KeyPress(application.ok);
 		}
 	}
 

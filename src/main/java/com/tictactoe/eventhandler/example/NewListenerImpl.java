@@ -25,6 +25,10 @@ public class NewListenerImpl {
 		SAVE
 	}
 
+	interface EventListener {
+		void update(String filename);
+	}
+
 	class EventManager {
 		Map<EventType, List<EventListener>> listeners;
 
@@ -36,13 +40,15 @@ public class NewListenerImpl {
 
 			if (listeners.containsKey(eventType)) {
 				listeners.get(eventType).add(listener);
- 			} else {
-				listeners.put(eventType, new ArrayList<EventListener>() {{add(listener);}});
+			} else {
+				listeners.put(eventType, new ArrayList<EventListener>() {{
+					add(listener);
+				}});
 			}
 		}
 
 		boolean unsubscribe(EventType eventType, EventListener listener) {
-			if (! listeners.get(eventType).contains(listener)) {
+			if (!listeners.get(eventType).contains(listener)) {
 				System.out.println("listener unsubscribe error");
 
 				return false;
@@ -61,7 +67,6 @@ public class NewListenerImpl {
 
 		}
 	}
-
 
 	class EditorOne {
 		EventManager events;
@@ -101,11 +106,6 @@ public class NewListenerImpl {
 
 			events.notify(EventType.SAVE, "save 2");
 		}
-	}
-
-
-	interface EventListener {
-		void update(String filename);
 	}
 
 	class LoggingListener implements EventListener {

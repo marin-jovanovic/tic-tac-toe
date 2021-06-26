@@ -5,12 +5,12 @@ import com.tictactoe.gamedrivers.tile.TileOwner;
 
 public interface Minimax {
 
-    int getYAxisLength();
+	int getYAxisLength();
 
-    int getXAxisLength();
+	int getXAxisLength();
 
-    Tile getTile(int x, int y);
+	Tile getTile(int x, int y);
 
-    MinimaxResult getResult(TileOwner turn, int depth);
+	MinimaxResult getResult(TileOwner turn, int depth);
 
 }

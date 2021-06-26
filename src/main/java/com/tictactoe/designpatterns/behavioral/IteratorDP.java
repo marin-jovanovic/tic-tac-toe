@@ -8,7 +8,14 @@ public class IteratorDP {
 
 	interface SocialNetwork {
 		ProfileIterator createFriendsIterator(String profileId);
+
 		ProfileIterator createCoworkersIterator(String profileId);
+	}
+
+	interface ProfileIterator {
+		Profile getNext();
+
+		boolean hasMore();
 	}
 
 	class Facebook implements SocialNetwork {
@@ -23,11 +30,6 @@ public class IteratorDP {
 		public List<Profile> socialGraphRequest(String profileId, String type) {
 			return null;
 		}
-	}
-
-	interface ProfileIterator {
-		Profile getNext();
-		boolean hasMore();
 	}
 
 	class FacebookIterator implements ProfileIterator {
@@ -105,7 +107,6 @@ public class IteratorDP {
 			spammer.send(iterator, "very important msg");
 		}
 	}
-
 
 
 }

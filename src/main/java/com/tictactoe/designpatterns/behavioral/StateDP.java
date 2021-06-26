@@ -1,7 +1,5 @@
 package com.tictactoe.designpatterns.behavioral;
 
-import javax.swing.*;
-
 public class StateDP {
 
 	class UserInterface {
@@ -56,12 +54,23 @@ public class StateDP {
 			state.clickPrevious();
 		}
 
-		void startPlayback() { }
-		void stopPlayback() {}
-		void nextSong() {}
-		void previousSong() {}
-		void fastForward(int time) {}
-		void rewind(int time) {}
+		void startPlayback() {
+		}
+
+		void stopPlayback() {
+		}
+
+		void nextSong() {
+		}
+
+		void previousSong() {
+		}
+
+		void fastForward(int time) {
+		}
+
+		void rewind(int time) {
+		}
 	}
 
 	abstract class State {
@@ -72,8 +81,11 @@ public class StateDP {
 		}
 
 		abstract void clickLock();
+
 		abstract void clickPlay();
+
 		abstract void clickNext();
+
 		abstract void clickPrevious();
 	}
 
