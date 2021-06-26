@@ -5,6 +5,7 @@ import com.tictactoe.eventhandler.EventType;
 import com.tictactoe.gamedrivers.board.Game;
 import com.tictactoe.gamedrivers.point.Point;
 import com.tictactoe.gui.gamepanel.gamemode.GameMode;
+import com.tictactoe.gui.gamepanel.gamemode.UserVsComputer;
 import com.tictactoe.gui.gamepanel.gamemode.UserVsUser;
 
 import javax.swing.*;
@@ -14,8 +15,6 @@ import java.util.List;
 import java.util.Map;
 
 public class GamePanel extends JPanel implements EventListener {
-// todo buttons to factory
-// every design pattern likes solid principles
 
 	private final TileButton[][] buttons;
 	Map<EventType, List<EventListener>> listeners;
@@ -33,18 +32,16 @@ public class GamePanel extends JPanel implements EventListener {
 		setLayout(new GridLayout(0, game.getXAxisLength()));
 
 //        init buttons
-
 		buttons = new TileButton[yLength][xLength];
 
 		for (int y = 0; y < yLength; y++) {
 			for (int x = 0; x < xLength; x++) {
 
-//				todo check if user vs computer or user vs user
 				buttons[y][x] = new TileButton(new Point(y, x));
 
-//                determinate game mode
-//				GameMode gameMode = new UserVsComputer(buttons[y][x], this, game);
-				GameMode gameMode = new UserVsUser(buttons[y][x], this, game);
+//              determinate game mode
+				GameMode gameMode = new UserVsComputer(buttons[y][x], this, game);
+//				GameMode gameMode = new UserVsUser(buttons[y][x], this, game);
 
 				buttons[y][x].addActionListener(gameMode);
 

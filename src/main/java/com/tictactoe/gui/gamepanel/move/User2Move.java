@@ -10,7 +10,7 @@ public class User2Move extends Move {
 	}
 
 	@Override
-	public Point makeMove() {
+	public Point getMove() {
 
 		System.out.println("user 2 move");
 

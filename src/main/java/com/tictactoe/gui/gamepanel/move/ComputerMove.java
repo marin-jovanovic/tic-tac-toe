@@ -10,13 +10,15 @@ public class ComputerMove extends Move {
 	}
 
 	@Override
-	public Point makeMove() {
+	public Point getMove() {
 
 		System.out.println("computer move");
 
 		Point computerMove = game.computerMove();
 
 		System.out.println(computerMove);
+
+
 
 		return computerMove;
 	}

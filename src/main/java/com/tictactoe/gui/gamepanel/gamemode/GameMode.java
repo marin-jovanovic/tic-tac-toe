@@ -18,6 +18,20 @@ public abstract class GameMode implements ActionListener {
 	Game game;
 	Move move;
 
+	public void setButton(TileButton button) {
+		this.button = button;
+	}
+
+	static String tileState = "o";
+
+	static void switchTileState() {
+		if (tileState.equals("o")) {
+			tileState = "x";
+		} else {
+			tileState = "o";
+		}
+	}
+
 	GameMode(GamePanel gamePanel) {
 		this.gamePanel = gamePanel;
 		turn = TileOwner.USER_1;
@@ -60,10 +74,11 @@ public abstract class GameMode implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		clickButton(this.button, "o");
+		clickButton(this.button, tileState);
+		switchTileState();
 
 //			logic
-		game.setTile(button.getPoint().reverse(), TileOwner.USER_1);
+		game.setTile(button.getPoint().reverse(), turn);
 
 		game.printBoard(0);
 
@@ -71,22 +86,27 @@ public abstract class GameMode implements ActionListener {
 
 		changeTurn();
 
-		Point computerMove = move.makeMove();
+		Point computerMove = move.getMove();
 
+		if (computerMove != null) {
 //			logic
-		game.setTile(computerMove, TileOwner.COMPUTER);
+			game.setTile(computerMove, turn);
 
-		TileButton button = (TileButton) gamePanel.getButton(computerMove.getX(), computerMove.getY());
+			TileButton button = (TileButton) gamePanel.getButton(computerMove.getX(), computerMove.getY());
 
-		clickButton(button, "x");
+			clickButton(button, tileState);
+			switchTileState();
 
 //            todo determinate which line (horizontal, diagonal ...) should be placed over tiles
 
-		checkGameWon(computerMove);
+			checkGameWon(computerMove);
 
-		changeTurn();
+			changeTurn();
 
-		game.printBoard(0);
-		System.out.println();
+			game.printBoard(0);
+			System.out.println();
+
+		}
+
 	}
 }

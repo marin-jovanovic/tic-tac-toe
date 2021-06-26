@@ -10,5 +10,5 @@ public abstract class Move {
 		this.game = game;
 	}
 
-	public abstract Point makeMove();
+	public abstract Point getMove();
 }
