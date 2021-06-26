@@ -36,4 +36,8 @@ public final class Point {
     public int getY() {
         return y;
     }
+
+    public Point reverse() {
+        return new Point(this.y, this.x);
+    }
 }

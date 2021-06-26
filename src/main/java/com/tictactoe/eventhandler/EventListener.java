@@ -1,5 +1,5 @@
 package com.tictactoe.eventhandler;
 
 public interface EventListener {
-	void update(String filename);
+	void update(String action);
 }

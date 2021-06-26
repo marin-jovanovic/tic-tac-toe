@@ -26,14 +26,12 @@ public class GamePanel extends JPanel implements EventManager, EventListener {
 
 	ActionListener tileListener;
 
-
 	public Game getGame() {
 		return game;
 	}
 
 	void initLogic() {
 		game = new Game();
-
 	}
 
 	abstract class GameMode implements ActionListener {
@@ -56,15 +54,12 @@ public class GamePanel extends JPanel implements EventManager, EventListener {
 		}
 
 		void checkGameWon() {
-			System.out.println(button);
-
-			System.out.println(button.getPoint().getX());
 
 			if (game.isGameWon(button.getPoint(), turn)) {
 				System.out.println("game won " + turn);
 //				todo fire event
 //				this.gui.disableButtons();
-//			}
+				gamePanel.notify(EventType.GAME_ENDED, "data todo");
 			}
 		}
 
@@ -86,12 +81,12 @@ public class GamePanel extends JPanel implements EventManager, EventListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-//			this.button.setEnabled(false);
 			this.button.setEnabled(false);
 			this.button.setDisabledIcon(Utils.getImageIcon("o"));
 			this.button.setIcon(Utils.getImageIcon("o"));
 
-			game.setTile(button.getPoint(), TileOwner.USER_1);
+//			logic
+			game.setTile(button.getPoint().reverse(), TileOwner.USER_1);
 
 			checkGameWon();
 
@@ -101,7 +96,9 @@ public class GamePanel extends JPanel implements EventManager, EventListener {
 
 			Point computerMove = game.computerMove();
 
-			game.setTile(new Point(computerMove.getX(), computerMove.getY()), TileOwner.COMPUTER);
+			System.out.println(computerMove);
+//			logic
+			game.setTile(computerMove, TileOwner.COMPUTER);
 
 			JButton button = gamePanel.getButton(computerMove.getX(), computerMove.getY());
 			button.setEnabled(false);
@@ -114,6 +111,7 @@ public class GamePanel extends JPanel implements EventManager, EventListener {
 
 			changeTurn();
 
+			game.printBoard(0);
 		}
 	}
 
@@ -125,14 +123,11 @@ public class GamePanel extends JPanel implements EventManager, EventListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-//			this.button.setEnabled(false);
 			this.button.setEnabled(false);
 			this.button.setDisabledIcon(Utils.getImageIcon("o"));
 			this.button.setIcon(Utils.getImageIcon("o"));
 
 			System.out.println("user2 move");
-
-
 		}
 	}
 
@@ -160,7 +155,7 @@ public class GamePanel extends JPanel implements EventManager, EventListener {
 
 ////                determinate game mode
 				GameMode gameMode = new UserVsComputer(buttons[y][x], this);
-//
+
 				buttons[y][x].addActionListener(gameMode);
 				this.add(buttons[y][x]);
 
@@ -182,8 +177,8 @@ public class GamePanel extends JPanel implements EventManager, EventListener {
 	}
 
 	@Override
-	public void update(String filename) {
-		System.out.println("restart; " + filename);
+	public void update(String action) {
+		System.out.println("restart; " + action);
 
 		newGame();
 	}
@@ -191,7 +186,6 @@ public class GamePanel extends JPanel implements EventManager, EventListener {
 	void newGame() {
 		restartButtons();
 		game = new Game();
-
 	}
 
 	void restartButtons() {
@@ -200,9 +194,6 @@ public class GamePanel extends JPanel implements EventManager, EventListener {
 				buttons[y][x].setEnabled(true);
 				buttons[y][x].setText(x + " " + y);
 				buttons[y][x].setIcon(null);
-
-				buttons[y][x].addActionListener(new TileListenerUserVsComputer(game, new Point(x, y), this));
-
 			}
 		}
 	}
