@@ -19,5 +19,4 @@ public class Tile {
 		return this.tileOwner == TileOwner.NONE;
 	}
 
-
 }
