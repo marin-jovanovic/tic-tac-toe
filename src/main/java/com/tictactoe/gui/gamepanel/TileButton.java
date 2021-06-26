@@ -7,14 +7,30 @@ import javax.swing.*;
 import java.beans.PropertyChangeSupport;
 
 public class TileButton extends JButton  {
-    private final PropertyChangeSupport support;
-    private final Game game;
+//    private final PropertyChangeSupport support;
+//    private final Game game;
+
+//todo remove this
     private final Point point;
 
-    public TileButton(Game game, Point point) {
-        support = new PropertyChangeSupport(this);
+    public Point getPoint() {
+        return point;
+    }
 
-        this.game = game;
+    //    @Override
+//    public int getX() {
+//        return point.getX();
+//    }
+//
+//    @Override
+//    public int getY() {
+//        return point.getY();
+//    }
+
+    public TileButton(Point point) {
+//        support = new PropertyChangeSupport(this);
+
+//        this.game = game;
         this.point = point;
 
         this.setText(point.getX() + " " + point.getY());

@@ -85,10 +85,10 @@ public class StateDP {
 
 		@Override
 		void clickLock() {
-			if (player.playing)
-				player.changeState(new PlayingState(player));
-			else
-				player.changeState(new ReadyState(player));
+//			if (player.playing)
+//				player.changeState(new PlayingState(player));
+//			else
+//				player.changeState(new ReadyState(player));
 
 		}
 
@@ -165,10 +165,10 @@ public class StateDP {
 		@Override
 		void clickPrevious() {
 //			if (event.doubleclick)
-			if (true)
-				player.previous();
-			else
-				player.rewind(5);
+//			if (true)
+//				player.previous();
+//			else
+//				player.rewind(5);
 		}
 	}
 }

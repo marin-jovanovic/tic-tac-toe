@@ -9,6 +9,22 @@ import java.awt.*;
 
 public class MainFrame extends JFrame {
 
+//    enum Event {
+//
+//    }
+//
+//    interface Mediator {
+//        void notify(JComponent sender, Event event);
+//    }
+//
+//    class BasicMediator implements Mediator {
+//
+//        @Override
+//        public void notify(JComponent sender, Event event) {
+//
+//        }
+//    }
+
     public MainFrame() {
         setVisible(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

@@ -30,31 +30,31 @@ public class TileListenerUserVsComputer implements ActionListener, GameMode {
 		thisButton.setDisabledIcon(Utils.getImageIcon("o"));
 		thisButton.setIcon(Utils.getImageIcon("o"));
 
-		if (game.isGameWon(this.point, TileOwner.USER_1)) {
-			System.out.println("game won");
-//				todo fire event
-			this.gui.disableButtons();
-		}
-
-		System.out.println();
-
-		Point computerMove = game.computerMove();
-
-		game.setTile(new Point(computerMove.getX(), computerMove.getY()), TileOwner.COMPUTER);
-		JButton button = gui.getButton(computerMove.getX(), computerMove.getY());
-		button.setEnabled(false);
-		button.setIcon(Utils.getImageIcon("x"));
-		button.setDisabledIcon(Utils.getImageIcon("x"));
-
-//            todo determinate which line (horizontal, diagonal ...) should be placed over tiles
-
-		if (game.isGameWon(computerMove, TileOwner.COMPUTER)) {
-			System.out.println("game lost");
-//				todo fire event
-			this.gui.disableButtons();
-		}
-
-		game.printBoard(0);
+//		if (game.isGameWon(this.point, TileOwner.USER_1)) {
+//			System.out.println("game won");
+////				todo fire event
+//			this.gui.disableButtons();
+//		}
+//
+//		System.out.println();
+//
+//		Point computerMove = game.computerMove();
+//
+//		game.setTile(new Point(computerMove.getX(), computerMove.getY()), TileOwner.COMPUTER);
+//		JButton button = gui.getButton(computerMove.getX(), computerMove.getY());
+//		button.setEnabled(false);
+//		button.setIcon(Utils.getImageIcon("x"));
+//		button.setDisabledIcon(Utils.getImageIcon("x"));
+//
+////            todo determinate which line (horizontal, diagonal ...) should be placed over tiles
+//
+//		if (game.isGameWon(computerMove, TileOwner.COMPUTER)) {
+//			System.out.println("game lost");
+////				todo fire event
+//			this.gui.disableButtons();
+//		}
+//
+//		game.printBoard(0);
 	}
 
 	@Override
