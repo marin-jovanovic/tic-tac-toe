@@ -4,9 +4,7 @@ import com.tictactoe.eventhandler.EventListener;
 import com.tictactoe.eventhandler.EventType;
 import com.tictactoe.gamedrivers.board.Game;
 import com.tictactoe.gamedrivers.point.Point;
-import com.tictactoe.gui.gamepanel.gamemode.GameMode;
-import com.tictactoe.gui.gamepanel.gamemode.UserVsComputer;
-import com.tictactoe.gui.gamepanel.gamemode.UserVsUser;
+import com.tictactoe.gui.gamepanel.gamemode.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,27 +18,37 @@ public class GamePanel extends JPanel implements EventListener {
 	Map<EventType, List<EventListener>> listeners;
 	private Game game;
 
+	int yLength;
+	int xLength;
+
 	public GamePanel() {
 		listeners = new HashMap<>();
 
 		initLogic();
 
 //        map logic to gui fields
-		int yLength = game.getYAxisLength();
-		int xLength = game.getXAxisLength();
+		yLength = game.getYAxisLength();
+		xLength = game.getXAxisLength();
 
 		setLayout(new GridLayout(0, game.getXAxisLength()));
 
 //        init buttons
 		buttons = new TileButton[yLength][xLength];
 
+		switchGameMode(new UserVsComputerBasic(this, game));
+//		switchGameMode(new UserVsUserBasic(this, game));
+	}
+
+	void switchGameMode(GameModeBasic gameModeBasic) {
 		for (int y = 0; y < yLength; y++) {
 			for (int x = 0; x < xLength; x++) {
 
 				buttons[y][x] = new TileButton(new Point(y, x));
 
+				GameModeEnhanced gameMode = new GameModeEnhanced(gameModeBasic, buttons[y][x]);
+
 //              determinate game mode
-				GameMode gameMode = new UserVsComputer(buttons[y][x], this, game);
+//				GameMode gameMode = new UserVsComputer(buttons[y][x], this, game);
 //				GameMode gameMode = new UserVsUser(buttons[y][x], this, game);
 
 				buttons[y][x].addActionListener(gameMode);
@@ -49,6 +57,7 @@ public class GamePanel extends JPanel implements EventListener {
 
 			}
 		}
+
 	}
 
 	public Game getGame() {
@@ -77,7 +86,12 @@ public class GamePanel extends JPanel implements EventListener {
 
 	void newGame() {
 		restartButtons();
-		game = new Game();
+
+		System.out.println("---");
+		System.out.println(game);
+//		game = new Game();
+		game.restart();
+		System.out.println(game);
 	}
 
 	void restartButtons() {

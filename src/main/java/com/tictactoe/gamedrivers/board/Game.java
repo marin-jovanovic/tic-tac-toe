@@ -123,4 +123,11 @@ public class Game implements Winnable, MinimaxBasicImplementation {
 		}
 	}
 
+	public void restart() {
+		for (int y = 0; y < yAxisLength; y++) {
+			for (int x = 0; x < xAxisLength; x++) {
+				tiles[y][x] = new Tile();
+			}
+		}
+	}
 }
