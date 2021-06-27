@@ -47,7 +47,7 @@ public interface MinimaxBasicImplementation {
 
 		 */
 
-		MinimaxResult a = minimax(TileOwner.COMPUTER, 1);
+		MinimaxResult a = minimax(TileOwner.USER_2, 1);
 
 		if (a.getIsWinningMove()) {
 			return a.getWhereTo();
@@ -69,7 +69,7 @@ public interface MinimaxBasicImplementation {
 
 		Point bestPoint = null;
 
-		if (turn == TileOwner.COMPUTER) {
+		if (turn == TileOwner.USER_2) {
 			m = Integer.MIN_VALUE;
 		} else {
 			m = Integer.MAX_VALUE;
@@ -121,18 +121,18 @@ public interface MinimaxBasicImplementation {
 							return new MinimaxResult(p, m, true);
 						}
 
-						if (turn == TileOwner.COMPUTER) {
+						if (turn == TileOwner.USER_2) {
 							sum++;
 						} else if (turn == TileOwner.USER_1) {
 							sum--;
 						}
 					} else {
-						if (turn == TileOwner.COMPUTER) {
+						if (turn == TileOwner.USER_2) {
 							MinimaxResult r = minimax(TileOwner.USER_1, depth + 1);
 							sum += r.getResult();
 
 						} else if (turn == TileOwner.USER_1) {
-							MinimaxResult r = minimax(TileOwner.COMPUTER, depth + 1);
+							MinimaxResult r = minimax(TileOwner.USER_2, depth + 1);
 							sum += r.getResult();
 						}
 					}
@@ -140,7 +140,7 @@ public interface MinimaxBasicImplementation {
 					setTile(p, TileOwner.NONE);
 
 					//					check if best move
-					if ((turn == TileOwner.COMPUTER && sum >= m) || (turn == TileOwner.USER_1 && sum <= m)) {
+					if ((turn == TileOwner.USER_2 && sum >= m) || (turn == TileOwner.USER_1 && sum <= m)) {
 
 						if (sum == m && depth == 1) {
 							bestMovesLayerOne.add(new Point(x, y));

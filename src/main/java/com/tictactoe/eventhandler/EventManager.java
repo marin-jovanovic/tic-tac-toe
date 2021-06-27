@@ -1,5 +1,7 @@
 package com.tictactoe.eventhandler;
 
+import com.tictactoe.eventhandler.example.EventSubtype;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +21,7 @@ public interface EventManager {
 
 		if (listeners.containsKey(eventType)) {
 			listeners.get(eventType).add(listener);
+
 		} else {
 			listeners.put(eventType, new ArrayList<EventListener>() {{
 				add(listener);
@@ -42,10 +45,10 @@ public interface EventManager {
 
 	}
 
-	default void notify(EventType eventType, String data) {
+	default void notify(EventType eventType, EventSubtype eventSubtype) {
 
 		for (EventListener eventListener : getListeners().get(eventType)) {
-			eventListener.update(data);
+			eventListener.update(eventSubtype);
 		}
 
 	}

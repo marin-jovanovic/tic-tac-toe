@@ -2,6 +2,7 @@ package com.tictactoe.gui.gamepanel;
 
 import com.tictactoe.eventhandler.EventListener;
 import com.tictactoe.eventhandler.EventType;
+import com.tictactoe.eventhandler.example.EventSubtype;
 import com.tictactoe.gamedrivers.board.Game;
 import com.tictactoe.gamedrivers.point.Point;
 import com.tictactoe.gui.gamepanel.gamemode.*;
@@ -29,6 +30,8 @@ public class GamePanel extends JPanel implements EventListener {
 	int yLength;
 	int xLength;
 
+	GameModeBasic gameModeBasic;
+
 	public GamePanel() {
 		listeners = new HashMap<>();
 
@@ -44,15 +47,23 @@ public class GamePanel extends JPanel implements EventListener {
 //        init buttons
 		buttons = new TileButton[yLength][xLength];
 
-//		switchGameMode(new UserVsComputerBasic(this, game));
-		switchGameMode(new UserVsUserBasic(this, game));
+		gameModeBasic = new UserVsComputerBasic(this, game);
+//		gameModeBasic = new UserVsUserBasic(this, game);
+
+
+		switchGameMode(gameModeBasic);
+
+	}
+
+	public GameModeBasic getGameModeBasic() {
+		return gameModeBasic;
 	}
 
 	void switchGameMode(GameModeBasic gameModeBasic) {
 		for (int y = 0; y < yLength; y++) {
 			for (int x = 0; x < xLength; x++) {
 
-				buttons[y][x] = new TileButton(new Point(y, x));
+				buttons[y][x] = new TileButton(new Point(x, y));
 
 				GameModeEnhanced gameMode = new GameModeEnhanced(gameModeBasic, buttons[y][x]);
 
@@ -83,10 +94,14 @@ public class GamePanel extends JPanel implements EventListener {
 	}
 
 	@Override
-	public void update(String action) {
-		System.out.println("restart; " + action);
+	public void update(EventSubtype eventSubtype) {
 
+		System.out.println("restart; " + eventSubtype);
+
+		notify(EventType.NEW_GAME, EventSubtype.NONE);
 		newGame();
+
+
 	}
 
 	void newGame() {

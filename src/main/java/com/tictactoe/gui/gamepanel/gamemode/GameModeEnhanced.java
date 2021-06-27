@@ -27,10 +27,10 @@ public class GameModeEnhanced implements ActionListener {
 		gameModeBasic.clickButton(this.button, GameModeBasic.tileState);
 
 //			logic
-		gameModeBasic.game.setTile(button.getPoint().reverse(), GameModeBasic.turn);
+		gameModeBasic.game.setTile(button.getPoint(), GameModeBasic.turn);
 
 //		gameModeBasic.checkGameWon(button.getPoint());
-		gameModeBasic.checkGameWon(button.getPoint().reverse());
+		gameModeBasic.checkGameWon(button.getPoint());
 
 
 		GameModeBasic.switchTileState();

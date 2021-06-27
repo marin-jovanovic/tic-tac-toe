@@ -3,6 +3,7 @@ package com.tictactoe.gui.utilspanel;
 import com.tictactoe.eventhandler.EventListener;
 import com.tictactoe.eventhandler.EventManager;
 import com.tictactoe.eventhandler.EventType;
+import com.tictactoe.eventhandler.example.EventSubtype;
 
 import javax.swing.*;
 import java.util.HashMap;
@@ -19,7 +20,7 @@ public class RestartButton extends JButton implements EventManager {
 
 		this.addActionListener(event -> {
 
-			notify(EventType.RESTART_BUTTON_PRESSED, "");
+			notify(EventType.RESTART_BUTTON_PRESSED, EventSubtype.NONE);
 
 			System.out.println("restart pressed");
 		});

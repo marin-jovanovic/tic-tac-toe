@@ -1,6 +1,10 @@
 package com.tictactoe.gui.gamepanel.gamemode;
 
 import com.tictactoe.Utils;
+import com.tictactoe.eventhandler.EventListener;
+import com.tictactoe.eventhandler.EventManager;
+import com.tictactoe.eventhandler.EventType;
+import com.tictactoe.eventhandler.example.EventSubtype;
 import com.tictactoe.gamedrivers.board.Game;
 import com.tictactoe.gamedrivers.point.Point;
 import com.tictactoe.gamedrivers.tile.TileOwner;
@@ -8,7 +12,11 @@ import com.tictactoe.gui.gamepanel.GamePanel;
 import com.tictactoe.gui.gamepanel.TileButton;
 import com.tictactoe.gui.gamepanel.move.Move;
 
-public abstract class GameModeBasic {
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public abstract class GameModeBasic implements EventManager {
 	static TileOwner turn;
 
 	GamePanel gamePanel;
@@ -25,23 +33,41 @@ public abstract class GameModeBasic {
 		}
 	}
 
-	GameModeBasic(GamePanel gamePanel) {
+	Map<EventType, List<EventListener>> listeners;
+
+	@Override
+	public Map<EventType, List<EventListener>> getListeners() {
+		return listeners;
+	}
+
+
+	GameModeBasic( GamePanel gamePanel, Game game) {
+		listeners = new HashMap<>();
+
 		this.gamePanel = gamePanel;
 
 		turn = TileOwner.USER_1;
-	}
-
-	GameModeBasic( GamePanel gamePanel, Game game) {
-		this(gamePanel);
 
 		this.game = game;
+
 	}
 
 	static void changeTurn() {
 		if (turn == TileOwner.USER_1) {
-			turn = TileOwner.COMPUTER;
-		} else if (turn == TileOwner.COMPUTER) {
+			turn = TileOwner.USER_2;
+		} else if (turn == TileOwner.USER_2) {
 			turn = TileOwner.USER_1;
+		}
+	}
+
+	EventSubtype mapTileOwnerToEventSubType(TileOwner tileOwner) {
+if (tileOwner == TileOwner.USER_1) {
+			return EventSubtype.USER_1;
+		} else if (tileOwner == TileOwner.USER_2) {
+			return EventSubtype.USER_2;
+		} else {
+			throw new IllegalArgumentException("unknown tile owner");
+
 		}
 	}
 
@@ -49,7 +75,7 @@ public abstract class GameModeBasic {
 		if (game.isGameWon(point, turn)) {
 			System.out.println("game won " + turn);
 
-//				gamePanel.notify(EventType.GAME_ENDED, "data todo");
+			notify(EventType.GAME_ENDED, mapTileOwnerToEventSubType(turn));
 		}
 	}
 

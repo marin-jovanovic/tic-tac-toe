@@ -39,6 +39,11 @@ public class MainFrame extends JFrame {
 
 		utilsPanel.getRestartButton().subscribe(EventType.RESTART_BUTTON_PRESSED, gamePanel);
 
+		gamePanel.getGameModeBasic().subscribe(EventType.GAME_ENDED, utilsPanel);
+
+		gamePanel.subscribe(EventType.NEW_GAME, utilsPanel);
+
+//		todo add ability to check if game is winnable and offer tie in advance
 	}
 
 }

@@ -1,7 +1,7 @@
 package com.tictactoe.gamedrivers.tile;
 
 public enum TileOwner {
-	COMPUTER,
+	USER_2,
 	USER_1,
 	NONE
 }

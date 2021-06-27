@@ -102,7 +102,7 @@ public class Game implements Winnable, MinimaxBasicImplementation {
 				if (isUserX) {
 					if (tiles[y][x].getOwner() == TileOwner.USER_1) {
 						buffer.append("x ");
-					} else if (tiles[y][x].getOwner() == TileOwner.COMPUTER) {
+					} else if (tiles[y][x].getOwner() == TileOwner.USER_2) {
 						buffer.append("o ");
 					} else if (tiles[y][x].getOwner() == TileOwner.NONE) {
 						buffer.append(". ");
@@ -111,7 +111,7 @@ public class Game implements Winnable, MinimaxBasicImplementation {
 				} else {
 					if (tiles[y][x].getOwner() == TileOwner.USER_1) {
 						buffer.append("o ");
-					} else if (tiles[y][x].getOwner() == TileOwner.COMPUTER) {
+					} else if (tiles[y][x].getOwner() == TileOwner.USER_2) {
 						buffer.append("x ");
 					} else if (tiles[y][x].getOwner() == TileOwner.NONE) {
 						buffer.append(". ");
