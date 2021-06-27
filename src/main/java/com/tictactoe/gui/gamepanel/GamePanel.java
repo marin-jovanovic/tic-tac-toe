@@ -53,6 +53,7 @@ public class GamePanel extends JPanel implements EventListener {
 
 		switchGameMode(gameModeBasic);
 
+		gameModeBasic.subscribe(EventType.GAME_ENDED, this);
 	}
 
 	public GameModeBasic getGameModeBasic() {
@@ -96,11 +97,21 @@ public class GamePanel extends JPanel implements EventListener {
 	@Override
 	public void update(EventSubtype eventSubtype) {
 
-		System.out.println("restart; " + eventSubtype);
+		if (eventSubtype == EventSubtype.TIE ||
+				eventSubtype == EventSubtype.USER_1 ||
+				eventSubtype == EventSubtype.USER_2) {
 
-		notify(EventType.NEW_GAME, EventSubtype.NONE);
-		newGame();
+			disableButtons();
 
+		} else if (eventSubtype == EventSubtype.NONE) {
+			System.out.println("restart; " + eventSubtype);
+
+			notify(EventType.NEW_GAME, EventSubtype.NONE);
+
+			newGame();
+		} else {
+			throw new IllegalArgumentException("unknown command");
+		}
 
 	}
 
