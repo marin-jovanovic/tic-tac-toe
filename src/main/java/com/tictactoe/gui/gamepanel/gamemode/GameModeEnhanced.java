@@ -8,16 +8,16 @@ import java.awt.event.ActionListener;
 
 public class GameModeEnhanced implements ActionListener {
 	TileButton button;
-	//	fixme
-	public void setButton(TileButton button) {
-		this.button = button;
-	}
-
 	GameModeBasic gameModeBasic;
 
 	public GameModeEnhanced(GameModeBasic gameModeBasic, TileButton button) {
 		super();
 		this.gameModeBasic = gameModeBasic;
+		this.button = button;
+	}
+
+	//	fixme
+	public void setButton(TileButton button) {
 		this.button = button;
 	}
 
@@ -29,7 +29,6 @@ public class GameModeEnhanced implements ActionListener {
 //			logic
 		gameModeBasic.game.setTile(button.getPoint(), GameModeBasic.turn);
 
-//		gameModeBasic.checkGameWon(button.getPoint());
 		gameModeBasic.checkGameWon(button.getPoint());
 
 

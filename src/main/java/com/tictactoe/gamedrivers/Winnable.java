@@ -132,6 +132,8 @@ public interface Winnable {
 
 //            ad hoc solution
 
+//			todo check if this is always true
+
 			return p.getX() == p.getY();
 
 		}
@@ -209,6 +211,7 @@ public interface Winnable {
 
 			boolean areAllUser1 = true;
 
+//			iterate over main diagonal from current point forward
 			for (int x = p.getX() + 1, y = p.getY() + 1; x < getXAxisLength() && y < getYAxisLength(); x++, y++) {
 				if (getTile(x, y).getOwner() != tileOwner) {
 					areAllUser1 = false;
@@ -216,7 +219,7 @@ public interface Winnable {
 				}
 			}
 
-
+//			iterate over main diagonal from current point backward
 			if (areAllUser1) {
 				for (int x = p.getX() - 1, y = p.getY() - 1; x >= 0 && y >= 0; x--, y--) {
 					if (getTile(x, y).getOwner() != tileOwner) {
@@ -225,10 +228,15 @@ public interface Winnable {
 					}
 				}
 
-				return areAllUser1;
+				if (areAllUser1) {
+					return true;
+				}
+//				return areAllUser1;
 			}
 
-		} else if (isGameWinnableBySecondaryDiagonal(p)) {
+		}
+
+		if (isGameWinnableBySecondaryDiagonal(p)) {
 
 			boolean areAllUser1 = true;
 

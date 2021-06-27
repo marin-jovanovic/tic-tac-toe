@@ -19,7 +19,6 @@ public class ComputerMove extends Move {
 		System.out.println(computerMove);
 
 
-
 		return computerMove;
 	}
 }

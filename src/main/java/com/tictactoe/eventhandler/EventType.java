@@ -6,6 +6,6 @@ public enum EventType {
 	NEW_GAME,
 
 	//	fired when game won or lost
-	GAME_ENDED;
+	GAME_ENDED
 
 }

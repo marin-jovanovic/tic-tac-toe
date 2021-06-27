@@ -1,10 +1,8 @@
 package com.tictactoe.gui.utilspanel;
 
 import com.tictactoe.eventhandler.EventListener;
-import com.tictactoe.eventhandler.EventManager;
 import com.tictactoe.eventhandler.EventType;
 import com.tictactoe.eventhandler.example.EventSubtype;
-import org.w3c.dom.events.EventException;
 
 import javax.swing.*;
 import java.awt.*;

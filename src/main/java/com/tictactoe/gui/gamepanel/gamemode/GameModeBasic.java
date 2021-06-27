@@ -18,30 +18,13 @@ import java.util.Map;
 
 public abstract class GameModeBasic implements EventManager {
 	static TileOwner turn;
-
+	static String tileState = "o";
 	GamePanel gamePanel;
 	Game game;
 	Move move;
-
-	static String tileState = "o";
-
-	static void switchTileState() {
-		if (tileState.equals("o")) {
-			tileState = "x";
-		} else {
-			tileState = "o";
-		}
-	}
-
 	Map<EventType, List<EventListener>> listeners;
 
-	@Override
-	public Map<EventType, List<EventListener>> getListeners() {
-		return listeners;
-	}
-
-
-	GameModeBasic( GamePanel gamePanel, Game game) {
+	GameModeBasic(GamePanel gamePanel, Game game) {
 		listeners = new HashMap<>();
 
 		this.gamePanel = gamePanel;
@@ -52,6 +35,14 @@ public abstract class GameModeBasic implements EventManager {
 
 	}
 
+	static void switchTileState() {
+		if (tileState.equals("o")) {
+			tileState = "x";
+		} else {
+			tileState = "o";
+		}
+	}
+
 	static void changeTurn() {
 		if (turn == TileOwner.USER_1) {
 			turn = TileOwner.USER_2;
@@ -60,8 +51,13 @@ public abstract class GameModeBasic implements EventManager {
 		}
 	}
 
+	@Override
+	public Map<EventType, List<EventListener>> getListeners() {
+		return listeners;
+	}
+
 	EventSubtype mapTileOwnerToEventSubType(TileOwner tileOwner) {
-if (tileOwner == TileOwner.USER_1) {
+		if (tileOwner == TileOwner.USER_1) {
 			return EventSubtype.USER_1;
 		} else if (tileOwner == TileOwner.USER_2) {
 			return EventSubtype.USER_2;
@@ -72,6 +68,10 @@ if (tileOwner == TileOwner.USER_1) {
 	}
 
 	void checkGameWon(Point point) {
+		game.printBoard(0);
+
+		System.out.println("point " + point);
+
 		if (game.isGameWon(point, turn)) {
 			System.out.println("game won " + turn);
 

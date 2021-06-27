@@ -2,7 +2,6 @@ package com.tictactoe.gamedrivers.board;
 
 import com.tictactoe.gamedrivers.GameMode;
 import com.tictactoe.gamedrivers.Winnable;
-import com.tictactoe.gamedrivers.minimax.Minimax;
 import com.tictactoe.gamedrivers.point.Point;
 import com.tictactoe.gamedrivers.tile.Tile;
 import com.tictactoe.gamedrivers.tile.TileOwner;
@@ -18,16 +17,11 @@ public class Game implements Winnable, MinimaxBasicImplementation {
 	private final int yAxisLength;
 
 
-	//	for minimax
-//	private List<Point> bestMovesLayerOne;
 	private final GameMode gameMode;
-	private Minimax minimaxAlgorithm;
 
 	public Game() {
 		this.xAxisLength = 3;
 		this.yAxisLength = 3;
-
-//		this.minimaxAlgorithm = new BasicMinimax();
 
 //		todo
 		this.gameMode = GameMode.USER_VS_COMPUTER;

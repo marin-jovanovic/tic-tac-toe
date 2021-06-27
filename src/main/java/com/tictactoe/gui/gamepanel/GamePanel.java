@@ -5,7 +5,10 @@ import com.tictactoe.eventhandler.EventType;
 import com.tictactoe.eventhandler.example.EventSubtype;
 import com.tictactoe.gamedrivers.board.Game;
 import com.tictactoe.gamedrivers.point.Point;
-import com.tictactoe.gui.gamepanel.gamemode.*;
+import com.tictactoe.gui.gamepanel.gamemode.GameModeBasic;
+import com.tictactoe.gui.gamepanel.gamemode.GameModeEnhanced;
+import com.tictactoe.gui.gamepanel.gamemode.UserVsComputerBasic;
+import com.tictactoe.gui.gamepanel.gamemode.UserVsUserBasic;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,17 +23,14 @@ public class GamePanel extends JPanel implements EventListener {
 	 * 02
 	 * 20
 	 * 11
-	 *
 	 */
 
 	private final TileButton[][] buttons;
 	Map<EventType, List<EventListener>> listeners;
-	private Game game;
-
 	int yLength;
 	int xLength;
-
 	GameModeBasic gameModeBasic;
+	private Game game;
 
 	public GamePanel() {
 		listeners = new HashMap<>();
