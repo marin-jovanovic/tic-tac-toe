@@ -18,6 +18,85 @@ public interface Winnable {
 
 	Tile getTile(int x, int y);
 
+
+	default boolean checkVerticalIfWinnable(int numOfEmptyTiles, TileOwner turn, boolean verticalCheck) {
+//		how much tiles are needed for victory this way
+
+//		boolean verticalCheck = true;
+
+//		int iUpperBound;
+//		int jUpperBound;
+
+		int iUpperBound = verticalCheck ? getXAxisLength() : getYAxisLength();
+		int jUpperBound = verticalCheck ? getYAxisLength() : getXAxisLength();
+
+		int howMuch;
+		boolean isWinnableByThisPath;
+
+		for (int i = 0; i < iUpperBound; i++) {
+			isWinnableByThisPath = true;
+
+			howMuch = 0;
+
+			for (int j = 0; j < jUpperBound; j++) {
+				if (getTile(i, j).isTileEmpty()) {
+					howMuch += 1;
+				} else if (getTile(i, j).getOwner() == turn.getOppositeTileOwner()) {
+					isWinnableByThisPath = false;
+					break;
+				}
+			}
+
+			if (isWinnableByThisPath) {
+				if (numOfEmptyTiles >= howMuch + howMuch - 1) {
+					return true;
+				}
+			}
+
+		}
+
+		return false;
+	}
+
+	default boolean canIWin(TileOwner turn) {
+
+		int numOfEmptyTiles = getNumOfEmptyTiles();
+
+		if (numOfEmptyTiles == 0) {
+			return false;
+		}
+
+
+		boolean isWinnable = checkVerticalIfWinnable(numOfEmptyTiles, turn, true);
+
+		System.out.println("winnable by vertical: " + isWinnable);
+
+		isWinnable = checkVerticalIfWinnable(numOfEmptyTiles, turn, false);
+
+		System.out.println("winnable by horizontal: " + isWinnable);
+
+
+
+		return false;
+
+
+	}
+
+	default int getNumOfEmptyTiles() {
+		int numOfEmptyTiles = 0;
+
+		for (int x = 0; x < getXAxisLength(); x++) {
+			for (int y = 0; y < getYAxisLength(); y++) {
+				if (getTile(x, y).isTileEmpty()) {
+					numOfEmptyTiles++;
+				}
+			}
+		}
+
+		return numOfEmptyTiles;
+	}
+
+
 	/**
 	 * main driver for checking if game is won
 	 *

@@ -59,13 +59,92 @@ public interface MinimaxBasicImplementation {
 		return randomElement;
 	}
 
+//todo change all to dp algs
+
+
+	public void printBoard(int offset);
+
+		//	todo check if more than n elems are placed (needed for win)
+	default MinimaxResult canIWinDriver(TileOwner turn, int depth) {
+
+		int numOfEmpty = 0;
+
+		for (int x = 0; x < getXAxisLength(); x++) {
+			for (int y = 0; y < getYAxisLength(); y++) {
+				if (getTile(x, y).isTileEmpty()) {
+					numOfEmpty += 1;
+				}
+			}
+		}
+
+		System.out.println("empty " + numOfEmpty);
+
+
+
+		return new MinimaxResult(new Point(0, 0), 0, false);
+
+	}
+
+//	default boolean canIWin(TileOwner turn) {
+//
+////		MinimaxResult minimaxResult = canIWinDriver(turn, 1);
+////
+////		System.out.println(minimaxResult);
+//
+//
+//
+////
+////		int numOfEmptyTiles = 0;
+////
+////		for (int x = 0; x < getXAxisLength(); x++) {
+////			for (int y = 0; y < getYAxisLength(); y++) {
+////				if (getTile(x, y).isTileEmpty()) {
+////
+////					numOfEmptyTiles += 1;
+//////
+//////					Point p = new Point(x, y);
+//////
+//////					setTile(p, turn);
+//////
+//////					if (isGameWon(p, turn)) {
+//////
+//////						returnValue = true;
+////////						win on first try
+////////						return true;
+//////
+//////					} else {
+//////						if (turn == TileOwner.USER_1 || turn == TileOwner.USER_2) {
+//////
+//////							if (canIWin(turn.getOppositeTileOwner())) {
+//////								returnValue = true;
+//////							}
+//////
+//////						}
+//////					}
+//////
+////////					rollback
+//////					setTile(p, TileOwner.NONE);
+////
+////				}
+////			}
+////		}
+////
+////
+////
+////		System.out.println(numOfEmptyTiles);
+//
+//		return false;
+//
+//
+//	}
+
 	//	todo check if more than n elems are placed (needed for win)
 	default MinimaxResult minimax(TileOwner turn, int depth) {
 
 		int m;
 //		todo catch
-		int bestX = -1;
-		int bestY = -1;
+//		int bestX = -1;
+//		int bestY = -1;
 
 		Point bestPoint = null;
 
@@ -99,10 +178,8 @@ public interface MinimaxBasicImplementation {
 
 		boolean isSomethingPlaced = false;
 
-
 		for (int x = 0; x < getXAxisLength(); x++) {
 			for (int y = 0; y < getYAxisLength(); y++) {
-//                if (tiles[y][x].isTileEmpty()) {
 				if (getTile(x, y).isTileEmpty()) {
 					int sum = 0;
 					isSomethingPlaced = true;
@@ -113,11 +190,9 @@ public interface MinimaxBasicImplementation {
 
 					if (isGameWon(p, turn)) {
 
-//						printFormatted("game won " + turn, depth);
 
 //						win on first try
 						if (depth == 1) {
-//							System.out.println("auto win");
 							return new MinimaxResult(p, m, true);
 						}
 
@@ -126,15 +201,15 @@ public interface MinimaxBasicImplementation {
 						} else if (turn == TileOwner.USER_1) {
 							sum--;
 						}
+
 					} else {
-						if (turn == TileOwner.USER_2) {
-							MinimaxResult r = minimax(TileOwner.USER_1, depth + 1);
+						if (turn == TileOwner.USER_1 || turn == TileOwner.USER_2) {
+							MinimaxResult r = minimax(turn.getOppositeTileOwner(), depth + 1);
 							sum += r.getResult();
 
-						} else if (turn == TileOwner.USER_1) {
-							MinimaxResult r = minimax(TileOwner.USER_2, depth + 1);
-							sum += r.getResult();
+
 						}
+
 					}
 
 					setTile(p, TileOwner.NONE);
@@ -147,34 +222,45 @@ public interface MinimaxBasicImplementation {
 
 						} else {
 							m = sum;
-							bestX = x;
-							bestY = y;
+//							bestX = x;
+//							bestY = y;
 							bestPoint = p;
 							bestMovesLayerOne.clear();
 						}
-
-
-//						printFormatted("new best move " + m + " " + bestPoint, depth);
 
 					}
 				}
 			}
 		}
+
+//		printFormatted("best move " + new Point(bestX, bestY), depth);
+
 		if (!isSomethingPlaced) {
 			m = 0;
 //			printFormatted("tie", depth);
 //			printFormatted("returning " + m, depth);
 //			printFormatted("best move " + bestPoint, depth);
 //			System.out.println();
+//			System.out.println("is winnable " + isWinnableOrLosable);
 
-			return new MinimaxResult(bestPoint, m);
+			return new MinimaxResult(bestPoint, m, false);
 		}
+
 //		printFormatted("returning " + m, depth);
 //		printFormatted("best move " + new Point(bestX, bestY), depth);
 //		System.out.println();
 
-		return new MinimaxResult(bestPoint, m);
+		return new MinimaxResult(bestPoint, m, false);
 	}
+
+	default void printFormatted(String tie, int depth) {
+		String s = "";
+		for (int i = 0; i < depth ; i ++) {
+			s += " ";
+		}
+
+		System.out.println(s + " " + tie);
+	};
 
 	boolean isGameWon(Point p, TileOwner turn);
 

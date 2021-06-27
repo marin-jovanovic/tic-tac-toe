@@ -24,6 +24,8 @@ public abstract class GameModeBasic implements EventManager {
 	Move move;
 	Map<EventType, List<EventListener>> listeners;
 
+	boolean IS_GAME_WINNABLE_HINTING_ENABLED_CONSTANT = true;
+
 	GameModeBasic(GamePanel gamePanel, Game game) {
 		listeners = new HashMap<>();
 
@@ -63,14 +65,10 @@ public abstract class GameModeBasic implements EventManager {
 			return EventSubtype.USER_2;
 		} else {
 			throw new IllegalArgumentException("unknown tile owner");
-
 		}
 	}
 
 	void checkGameWon(Point point) {
-		game.printBoard(0);
-
-		System.out.println("point " + point);
 
 		if (game.isGameWon(point, turn)) {
 			System.out.println("game won " + turn);

@@ -1,6 +1,10 @@
 package com.tictactoe.gui.gamepanel.gamemode;
 
+import com.tictactoe.gamedrivers.board.MinimaxBasicImplementation;
+import com.tictactoe.gamedrivers.minimax.MinimaxResult;
 import com.tictactoe.gamedrivers.point.Point;
+import com.tictactoe.gamedrivers.tile.Tile;
+import com.tictactoe.gamedrivers.tile.TileOwner;
 import com.tictactoe.gui.gamepanel.TileButton;
 
 import java.awt.event.ActionEvent;
@@ -34,6 +38,7 @@ public class GameModeEnhanced implements ActionListener {
 
 		GameModeBasic.switchTileState();
 		gameModeBasic.game.printBoard(0);
+		System.out.println();
 
 		GameModeBasic.changeTurn();
 
@@ -60,5 +65,18 @@ public class GameModeEnhanced implements ActionListener {
 
 		}
 
+		if (gameModeBasic.IS_GAME_WINNABLE_HINTING_ENABLED_CONSTANT) {
+			System.out.println("checking if win or los can be achieved");
+
+//			gameModeBasic.game.canIWin()
+
+			System.out.println("can i win? " + gameModeBasic.game.canIWin(TileOwner.USER_1));
+
+			System.out.println("------------------------------------------------------------------------------------");
+
+//			iterate over all combination for user1 and then check for user2 with this
+			System.out.println("can i lose? " + gameModeBasic.game.canIWin(TileOwner.USER_2));
+
+		}
 	}
 }

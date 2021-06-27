@@ -118,11 +118,9 @@ public class GamePanel extends JPanel implements EventListener {
 	void newGame() {
 		restartButtons();
 
-		System.out.println("---");
 		System.out.println(game);
-//		game = new Game();
+
 		game.restart();
-		System.out.println(game);
 	}
 
 	void restartButtons() {

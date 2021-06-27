@@ -7,6 +7,16 @@ import com.tictactoe.gamedrivers.tile.Tile;
 import com.tictactoe.gamedrivers.tile.TileOwner;
 
 public class Game implements Winnable, MinimaxBasicImplementation {
+	/**
+	 * 012
+	 * 345
+	 * 678
+	 *
+	 * 1, 4, 2
+	 *
+	 *
+	 */
+
 	// solid principle, single principle,
 	// interface sagregation
 	/// more client specific  then general purpose
