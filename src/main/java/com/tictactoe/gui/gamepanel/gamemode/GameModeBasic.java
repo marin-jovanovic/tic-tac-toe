@@ -8,9 +8,6 @@ import com.tictactoe.gui.gamepanel.GamePanel;
 import com.tictactoe.gui.gamepanel.TileButton;
 import com.tictactoe.gui.gamepanel.move.Move;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 public abstract class GameModeBasic {
 	static TileOwner turn;
 

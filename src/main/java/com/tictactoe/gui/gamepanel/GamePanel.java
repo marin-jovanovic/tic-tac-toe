@@ -14,6 +14,14 @@ import java.util.Map;
 
 public class GamePanel extends JPanel implements EventListener {
 
+	/**
+	 * 00
+	 * 02
+	 * 20
+	 * 11
+	 *
+	 */
+
 	private final TileButton[][] buttons;
 	Map<EventType, List<EventListener>> listeners;
 	private Game game;
@@ -24,9 +32,10 @@ public class GamePanel extends JPanel implements EventListener {
 	public GamePanel() {
 		listeners = new HashMap<>();
 
+//		create new game
 		initLogic();
 
-//        map logic to gui fields
+//      map logic to gui fields
 		yLength = game.getYAxisLength();
 		xLength = game.getXAxisLength();
 
@@ -35,8 +44,8 @@ public class GamePanel extends JPanel implements EventListener {
 //        init buttons
 		buttons = new TileButton[yLength][xLength];
 
-		switchGameMode(new UserVsComputerBasic(this, game));
-//		switchGameMode(new UserVsUserBasic(this, game));
+//		switchGameMode(new UserVsComputerBasic(this, game));
+		switchGameMode(new UserVsUserBasic(this, game));
 	}
 
 	void switchGameMode(GameModeBasic gameModeBasic) {
@@ -46,10 +55,6 @@ public class GamePanel extends JPanel implements EventListener {
 				buttons[y][x] = new TileButton(new Point(y, x));
 
 				GameModeEnhanced gameMode = new GameModeEnhanced(gameModeBasic, buttons[y][x]);
-
-//              determinate game mode
-//				GameMode gameMode = new UserVsComputer(buttons[y][x], this, game);
-//				GameMode gameMode = new UserVsUser(buttons[y][x], this, game);
 
 				buttons[y][x].addActionListener(gameMode);
 

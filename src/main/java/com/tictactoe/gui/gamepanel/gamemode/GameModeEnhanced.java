@@ -23,16 +23,13 @@ public class GameModeEnhanced implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println(gameModeBasic.game);
 
-//		fixme
 		gameModeBasic.clickButton(this.button, GameModeBasic.tileState);
 
 //			logic
-//		fixme
 		gameModeBasic.game.setTile(button.getPoint().reverse(), GameModeBasic.turn);
 
-//		fixme
+//		gameModeBasic.checkGameWon(button.getPoint());
 		gameModeBasic.checkGameWon(button.getPoint().reverse());
 
 
