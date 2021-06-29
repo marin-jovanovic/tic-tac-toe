@@ -76,6 +76,108 @@ public interface Winnable {
 		System.out.println("winnable by horizontal: " + isWinnable);
 
 
+///////////////////////////////////////////////////
+
+			boolean areAllUser1 = true;
+
+		int howMuch;
+		boolean isWinnableByThisPath;
+
+//			main diagonal
+//		todo add offset
+
+		int offset = Math.abs(getXAxisLength() - getYAxisLength());
+
+		for (int offsetCount = 0; offsetCount <= offset; offsetCount++) {
+			System.out.println("offset count " + offsetCount);
+
+			howMuch = 0;
+			isWinnableByThisPath = true;
+
+			for (int x = 0 + offsetCount, y = 0; x < getXAxisLength() && y < getYAxisLength(); x++, y++) {
+
+				System.out.println(x + ", " + y);
+
+				if (getTile(x, y).isTileEmpty()) {
+					howMuch += 1;
+				} else if (getTile(x, y).getOwner() == turn.getOppositeTileOwner()) {
+					isWinnableByThisPath = false;
+					break;
+				}
+
+
+			}
+
+			if (isWinnableByThisPath) {
+				if (numOfEmptyTiles >= howMuch + howMuch - 1) {
+//					return true;
+					System.out.println("main diagonal winnable");
+				}
+			}
+		}
+
+
+
+
+
+//			////////////////////////////////
+//			other diagonal
+//		    ////////////////////////////////
+
+
+			offset = Math.abs(getXAxisLength() - getYAxisLength());
+
+		for (int offsetCount = 0; offsetCount <= offset; offsetCount++) {
+			System.out.println("offset count " + offsetCount);
+
+			howMuch = 0;
+			isWinnableByThisPath = true;
+
+			for (int x = 0 + offsetCount, y = getYAxisLength() - 1; x >= 0 && y >= 0; x++, y--) {
+
+				System.out.println(x + ", " + y);
+
+				if (getTile(x, y).isTileEmpty()) {
+					howMuch += 1;
+				} else if (getTile(x, y).getOwner() == turn.getOppositeTileOwner()) {
+					isWinnableByThisPath = false;
+					break;
+				}
+
+
+			}
+
+			if (isWinnableByThisPath) {
+				if (numOfEmptyTiles >= howMuch + howMuch - 1) {
+//					return true;
+					System.out.println("non main diagonal winnable");
+				}
+			}
+		}
+
+
+
+//			boolean areAllUser1 = true;
+//
+//			for (int x = p.getX() + 1, y = p.getY() - 1; x < getXAxisLength() && y >= 0; x++, y--) {
+//				if (getTile(x, y).getOwner() != tileOwner) {
+//					areAllUser1 = false;
+//					break;
+//				}
+//			}
+//
+//			if (areAllUser1) {
+//				for (int x = p.getX() - 1, y = p.getY() + 1; x >= 0 && y < getYAxisLength(); x--, y++) {
+//
+//					if (getTile(x, y).getOwner() != tileOwner) {
+//						return false;
+//					}
+//				}
+//
+//				return true;
+//			}
+
+
 
 		return false;
 
