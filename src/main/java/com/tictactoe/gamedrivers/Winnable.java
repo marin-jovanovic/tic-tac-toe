@@ -78,8 +78,6 @@ public interface Winnable {
 
 ///////////////////////////////////////////////////
 
-			boolean areAllUser1 = true;
-
 		int howMuch;
 		boolean isWinnableByThisPath;
 
@@ -116,10 +114,6 @@ public interface Winnable {
 			}
 		}
 
-
-
-
-
 //			////////////////////////////////
 //			other diagonal
 //		    ////////////////////////////////
@@ -154,30 +148,6 @@ public interface Winnable {
 				}
 			}
 		}
-
-
-
-//			boolean areAllUser1 = true;
-//
-//			for (int x = p.getX() + 1, y = p.getY() - 1; x < getXAxisLength() && y >= 0; x++, y--) {
-//				if (getTile(x, y).getOwner() != tileOwner) {
-//					areAllUser1 = false;
-//					break;
-//				}
-//			}
-//
-//			if (areAllUser1) {
-//				for (int x = p.getX() - 1, y = p.getY() + 1; x >= 0 && y < getYAxisLength(); x--, y++) {
-//
-//					if (getTile(x, y).getOwner() != tileOwner) {
-//						return false;
-//					}
-//				}
-//
-//				return true;
-//			}
-
-
 
 		return false;
 

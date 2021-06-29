@@ -30,8 +30,10 @@ public class Game implements Winnable, MinimaxBasicImplementation {
 	private final GameMode gameMode;
 
 	public Game() {
-		this.xAxisLength = 3;
-		this.yAxisLength = 3;
+//		this.xAxisLength = 3;
+//		this.yAxisLength = 3;
+		this.xAxisLength = 4;
+		this.yAxisLength = 4;
 
 //		todo
 		this.gameMode = GameMode.USER_VS_COMPUTER;
