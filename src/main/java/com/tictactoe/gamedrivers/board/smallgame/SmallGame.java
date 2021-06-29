@@ -6,6 +6,10 @@ import com.tictactoe.gamedrivers.point.Point;
 public class SmallGame extends Game implements MinimaxBasicImplementation {
 
 
+	public SmallGame(int xAxisLength, int yAxisLength) {
+		super(xAxisLength, yAxisLength);
+	}
+
 	@Override
 	public Point getComputerMove() {
 		System.out.println("smallgame; computermove");

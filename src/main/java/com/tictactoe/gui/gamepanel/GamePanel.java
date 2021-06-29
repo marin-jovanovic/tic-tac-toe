@@ -4,6 +4,7 @@ import com.tictactoe.eventhandler.EventListener;
 import com.tictactoe.eventhandler.EventType;
 import com.tictactoe.eventhandler.example.EventSubtype;
 import com.tictactoe.gamedrivers.board.base.Game;
+import com.tictactoe.gamedrivers.board.largegame.LargeGame;
 import com.tictactoe.gamedrivers.board.smallgame.SmallGame;
 import com.tictactoe.gamedrivers.point.Point;
 import com.tictactoe.gui.gamepanel.gamemode.GameModeBasic;
@@ -85,9 +86,9 @@ public class GamePanel extends JPanel implements EventListener {
 
 //		todo define x and y lens
 
-//		game = new LargeGame();
+		game = new LargeGame(4, 4);
 //
-		game = new SmallGame();
+//		game = new SmallGame(3, 3);
 
 //		game = new Game();
 	}

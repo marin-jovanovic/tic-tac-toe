@@ -48,6 +48,7 @@ public class GameModeEnhanced implements ActionListener {
 			TileButton button = (TileButton) gameModeBasic.gamePanel.getButton(computerMove.getX(),
 					computerMove.getY());
 
+
 			gameModeBasic.clickButton(button, GameModeBasic.tileState);
 			GameModeBasic.switchTileState();
 

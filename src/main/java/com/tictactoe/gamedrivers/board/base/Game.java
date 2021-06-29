@@ -20,11 +20,10 @@ public class Game implements Winnable {
 
 	private final GameMode gameMode;
 
-	public Game() {
-		this.xAxisLength = 3;
-		this.yAxisLength = 3;
-//		this.xAxisLength = 4;
-//		this.yAxisLength = 4;
+	public Game(int xAxisLength, int yAxisLength) {
+
+		this.xAxisLength = xAxisLength;
+		this.yAxisLength = yAxisLength;
 
 //		todo
 		this.gameMode = GameMode.USER_VS_COMPUTER;
@@ -37,6 +36,25 @@ public class Game implements Winnable {
 			}
 		}
 	}
+
+
+//	public Game() {
+//		this.xAxisLength = 3;
+//		this.yAxisLength = 3;
+////		this.xAxisLength = 4;
+////		this.yAxisLength = 4;
+//
+////		todo
+//		this.gameMode = GameMode.USER_VS_COMPUTER;
+//
+//		this.tiles = new Tile[yAxisLength][xAxisLength];
+//
+//		for (int y = 0; y < yAxisLength; y++) {
+//			for (int x = 0; x < xAxisLength; x++) {
+//				tiles[y][x] = new Tile();
+//			}
+//		}
+//	}
 
 	public void restart() {
 	for (int y = 0; y < yAxisLength; y++) {

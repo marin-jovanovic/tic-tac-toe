@@ -52,6 +52,10 @@ public interface MinimaxBase {
 
 		MinimaxResult a = minimax(TileOwner.USER_2, 1);
 
+		if (a == null) {
+			return new Point(0, 0);
+		}
+
 		if (a.getIsWinningMove()) {
 			return a.getWhereTo();
 		}

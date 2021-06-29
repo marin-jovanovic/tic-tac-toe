@@ -5,6 +5,10 @@ import com.tictactoe.gamedrivers.point.Point;
 
 public class LargeGame extends Game implements MinimaxTimeImpl {
 
+	public LargeGame(int xAxisLength, int yAxisLength) {
+		super(xAxisLength, yAxisLength);
+	}
+
 	@Override
 	public Point getComputerMove() {
 		System.out.println("largegame; computermove");

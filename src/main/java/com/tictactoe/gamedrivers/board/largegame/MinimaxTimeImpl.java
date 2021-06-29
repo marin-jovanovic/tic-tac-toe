@@ -10,6 +10,16 @@ import java.util.concurrent.*;
 
 public interface MinimaxTimeImpl extends MinimaxBase {
 
+	default MinimaxResult payload(TileOwner turn, int depth) throws InterruptedException {
+//		Thread.sleep(2000); // Simulate some delay
+
+		MinimaxResult minimaxResult = minimaxDriver(turn, depth);
+
+//		return minimaxResult;
+		return minimaxResult;
+
+	}
+
 	/**
 	 * base algorithm
 	 *
@@ -27,8 +37,10 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 		try {
 			final Future<Object> f = service.submit(() -> {
 
+				MinimaxResult payload = payload(turn, depth);
+
 //				payload
-				return minimaxDriver(turn, depth);
+				return null;
 			});
 
 //			todo extract time
@@ -45,11 +57,35 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 		return null;
 	}
 
+	public static void main(String[] args) {
+
+	}
+
+//	todo equivalent state check add
+//	todo add iswinnable check after winnable number of tiles are placed
+
+	/*
+	 	ooox
+	 	ooox
+	 	ooox
+	 	xxxx
+
+	 	is same as
+
+	 	xooo
+	 	xooo
+	 	xooo
+	 	xxxx
+	 */
+
+
 	default MinimaxResult minimaxDriver(TileOwner turn, int depth) throws InterruptedException {
 		int m;
 //		todo catch
 //		int bestX = -1;
 //		int bestY = -1;
+
+//		todo remove random
 
 		Point bestPoint = null;
 
@@ -108,7 +144,7 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 
 					} else {
 						if (turn == TileOwner.USER_1 || turn == TileOwner.USER_2) {
-							MinimaxResult r = minimax(turn.getOppositeTileOwner(), depth + 1);
+							MinimaxResult r = minimaxDriver(turn.getOppositeTileOwner(), depth + 1);
 							sum += r.getResult();
 						}
 					}
