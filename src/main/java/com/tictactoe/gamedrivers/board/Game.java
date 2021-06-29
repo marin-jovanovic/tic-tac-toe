@@ -6,16 +6,7 @@ import com.tictactoe.gamedrivers.point.Point;
 import com.tictactoe.gamedrivers.tile.Tile;
 import com.tictactoe.gamedrivers.tile.TileOwner;
 
-public class Game implements Winnable, MinimaxBasicImplementation {
-	/**
-	 * 012
-	 * 345
-	 * 678
-	 *
-	 * 1, 4, 2
-	 *
-	 *
-	 */
+public class Game implements Winnable {
 
 	// solid principle, single principle,
 	// interface sagregation
@@ -30,10 +21,10 @@ public class Game implements Winnable, MinimaxBasicImplementation {
 	private final GameMode gameMode;
 
 	public Game() {
-//		this.xAxisLength = 3;
-//		this.yAxisLength = 3;
-		this.xAxisLength = 4;
-		this.yAxisLength = 4;
+		this.xAxisLength = 3;
+		this.yAxisLength = 3;
+//		this.xAxisLength = 4;
+//		this.yAxisLength = 4;
 
 //		todo
 		this.gameMode = GameMode.USER_VS_COMPUTER;
@@ -47,20 +38,17 @@ public class Game implements Winnable, MinimaxBasicImplementation {
 		}
 	}
 
-	private static void printFormatted(Object val, int offset) {
-		StringBuilder buffer = new StringBuilder();
-		for (int i = 1; i < offset; i++) {
-			buffer.append("\t");
+	public void restart() {
+	for (int y = 0; y < yAxisLength; y++) {
+		for (int x = 0; x < xAxisLength; x++) {
+			tiles[y][x].setOwner(TileOwner.NONE);
+//				tiles[y][x] = new Tile();
 		}
-
-		System.out.println(buffer.toString() + val);
 	}
-
-	public GameMode getGameMode() {
-		return gameMode;
-	}
+}
 
 	//	for winnable interface
+
 	@Override
 	public int getXAxisLength() {
 		return xAxisLength;
@@ -81,17 +69,18 @@ public class Game implements Winnable, MinimaxBasicImplementation {
 		return Winnable.super.isGameWon(p, tileOwner);
 	}
 
-	@Override
+//	@Override
 	public boolean setTile(Point p, TileOwner tileOwner) {
-		if (p.getX() >= xAxisLength) {
+		if (p.getX() >= getXAxisLength()) {
 			System.out.println("x to big");
 			return false;
-		} else if (p.getY() >= yAxisLength) {
+		} else if (p.getY() >= getYAxisLength()) {
 			System.out.println("y to big");
 			return false;
 		}
 
-		tiles[p.getY()][p.getX()].setOwner(tileOwner);
+		getTile(p.getX(), p.getY()).setOwner(tileOwner);
+//		tiles[p.getY()][p.getX()].setOwner(tileOwner);
 
 		return true;
 	}
@@ -129,12 +118,8 @@ public class Game implements Winnable, MinimaxBasicImplementation {
 		}
 	}
 
-	public void restart() {
-		for (int y = 0; y < yAxisLength; y++) {
-			for (int x = 0; x < xAxisLength; x++) {
-				tiles[y][x].setOwner(TileOwner.NONE);
-//				tiles[y][x] = new Tile();
-			}
-		}
+	public Point getComputerMove() {
+		System.out.println("wrong computer move called; game");
+		return null;
 	}
 }

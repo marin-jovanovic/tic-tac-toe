@@ -34,7 +34,6 @@ public abstract class GameModeBasic implements EventManager {
 		turn = TileOwner.USER_1;
 
 		this.game = game;
-
 	}
 
 	static void switchTileState() {

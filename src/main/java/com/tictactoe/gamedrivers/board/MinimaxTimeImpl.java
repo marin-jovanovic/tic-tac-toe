@@ -7,7 +7,7 @@ import com.tictactoe.gamedrivers.tile.TileOwner;
 
 import java.util.concurrent.*;
 
-public interface MinimaxTimeImpl extends MinimaxBase{
+public interface MinimaxTimeImpl extends MinimaxBase {
 
 	/**
 	 * base algorithm
@@ -44,7 +44,7 @@ public interface MinimaxTimeImpl extends MinimaxBase{
 		return null;
 	}
 
-	default MinimaxResult minimaxDriver(TileOwner turn, int depth) {
+	default MinimaxResult minimaxDriver(TileOwner turn, int depth) throws InterruptedException {
 		int m;
 //		todo catch
 //		int bestX = -1;

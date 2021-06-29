@@ -11,9 +11,6 @@ import java.util.Random;
 
 public interface MinimaxBasicImplementation extends MinimaxBase{
 
-
-
-
 	/**
 	 * base algorithm
 	 *

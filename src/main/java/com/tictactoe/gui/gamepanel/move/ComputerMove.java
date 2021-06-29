@@ -11,6 +11,6 @@ public class ComputerMove extends Move {
 
 	@Override
 	public Point getMove() {
-		return game.computerMove();
+		return game.getComputerMove();
 	}
 }
