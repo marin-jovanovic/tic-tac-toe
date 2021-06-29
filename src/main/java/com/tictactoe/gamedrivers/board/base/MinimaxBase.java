@@ -1,4 +1,4 @@
-package com.tictactoe.gamedrivers.board;
+package com.tictactoe.gamedrivers.board.base;
 
 import com.tictactoe.gamedrivers.minimax.MinimaxResult;
 import com.tictactoe.gamedrivers.point.Point;

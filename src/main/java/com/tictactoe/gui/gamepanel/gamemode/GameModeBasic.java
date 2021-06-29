@@ -5,12 +5,13 @@ import com.tictactoe.eventhandler.EventListener;
 import com.tictactoe.eventhandler.EventManager;
 import com.tictactoe.eventhandler.EventType;
 import com.tictactoe.eventhandler.example.EventSubtype;
-import com.tictactoe.gamedrivers.board.Game;
+import com.tictactoe.gamedrivers.board.base.Game;
 import com.tictactoe.gamedrivers.point.Point;
 import com.tictactoe.gamedrivers.tile.TileOwner;
 import com.tictactoe.gui.gamepanel.GamePanel;
 import com.tictactoe.gui.gamepanel.TileButton;
-import com.tictactoe.gui.gamepanel.move.Move;
+import com.tictactoe.gamedrivers.move.Move;
+import com.tictactoe.utils.Mappers;
 
 import java.util.HashMap;
 import java.util.List;
@@ -57,22 +58,12 @@ public abstract class GameModeBasic implements EventManager {
 		return listeners;
 	}
 
-	EventSubtype mapTileOwnerToEventSubType(TileOwner tileOwner) {
-		if (tileOwner == TileOwner.USER_1) {
-			return EventSubtype.USER_1;
-		} else if (tileOwner == TileOwner.USER_2) {
-			return EventSubtype.USER_2;
-		} else {
-			throw new IllegalArgumentException("unknown tile owner");
-		}
-	}
-
 	void checkGameWon(Point point) {
 
 		if (game.isGameWon(point, turn)) {
 			System.out.println("game won " + turn);
 
-			notify(EventType.GAME_ENDED, mapTileOwnerToEventSubType(turn));
+			notify(EventType.GAME_ENDED, Mappers.mapTileOwnerToEventSubType(turn));
 		}
 	}
 

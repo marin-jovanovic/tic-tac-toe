@@ -1,13 +1,12 @@
-package com.tictactoe.gamedrivers.board;
+package com.tictactoe.gamedrivers.board.smallgame;
 
+import com.tictactoe.gamedrivers.board.base.MinimaxBase;
 import com.tictactoe.gamedrivers.minimax.MinimaxResult;
 import com.tictactoe.gamedrivers.point.Point;
 import com.tictactoe.gamedrivers.tile.Tile;
 import com.tictactoe.gamedrivers.tile.TileOwner;
 
-import java.util.concurrent.*;
-
-public interface MinimaxTimeImpl extends MinimaxBase {
+public interface MinimaxBasicImplementation extends MinimaxBase {
 
 	/**
 	 * base algorithm
@@ -19,32 +18,7 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 	//	todo check if more than n elems are placed (needed for win)
 	@Override
 	default MinimaxResult minimax(TileOwner turn, int depth) {
-		System.out.println("time impl activated");
 
-		final ExecutorService service = Executors.newSingleThreadExecutor();
-
-		try {
-			final Future<Object> f = service.submit(() -> {
-
-//				payload
-				return minimaxDriver(turn, depth);
-			});
-
-//			todo extract time
-			System.out.println(f.get(3, TimeUnit.SECONDS));
-		} catch (final TimeoutException e) {
-			System.err.println("Calculation took to long");
-		} catch (final Exception e) {
-			throw new RuntimeException(e);
-		} finally {
-			service.shutdown();
-		}
-
-//
-		return null;
-	}
-
-	default MinimaxResult minimaxDriver(TileOwner turn, int depth) throws InterruptedException {
 		int m;
 //		todo catch
 //		int bestX = -1;

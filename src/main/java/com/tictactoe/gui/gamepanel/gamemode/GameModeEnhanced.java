@@ -1,9 +1,6 @@
 package com.tictactoe.gui.gamepanel.gamemode;
 
-import com.tictactoe.gamedrivers.board.MinimaxBasicImplementation;
-import com.tictactoe.gamedrivers.minimax.MinimaxResult;
 import com.tictactoe.gamedrivers.point.Point;
-import com.tictactoe.gamedrivers.tile.Tile;
 import com.tictactoe.gamedrivers.tile.TileOwner;
 import com.tictactoe.gui.gamepanel.TileButton;
 

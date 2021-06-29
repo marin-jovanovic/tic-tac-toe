@@ -1,4 +1,4 @@
-package com.tictactoe.gamedrivers.board;
+package com.tictactoe.gamedrivers.board.base;
 
 import com.tictactoe.gamedrivers.GameMode;
 import com.tictactoe.gamedrivers.Winnable;

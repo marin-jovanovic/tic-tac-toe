@@ -1,9 +1,9 @@
-package com.tictactoe.gamedrivers.board;
+package com.tictactoe.gamedrivers.board.largegame;
 
+import com.tictactoe.gamedrivers.board.base.Game;
 import com.tictactoe.gamedrivers.point.Point;
-import com.tictactoe.gamedrivers.tile.TileOwner;
 
-public class LargeGame extends Game implements MinimaxTimeImpl{
+public class LargeGame extends Game implements MinimaxTimeImpl {
 
 	@Override
 	public Point getComputerMove() {

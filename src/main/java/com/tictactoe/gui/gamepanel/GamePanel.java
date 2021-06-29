@@ -3,14 +3,12 @@ package com.tictactoe.gui.gamepanel;
 import com.tictactoe.eventhandler.EventListener;
 import com.tictactoe.eventhandler.EventType;
 import com.tictactoe.eventhandler.example.EventSubtype;
-import com.tictactoe.gamedrivers.board.Game;
-import com.tictactoe.gamedrivers.board.LargeGame;
-import com.tictactoe.gamedrivers.board.SmallGame;
+import com.tictactoe.gamedrivers.board.base.Game;
+import com.tictactoe.gamedrivers.board.smallgame.SmallGame;
 import com.tictactoe.gamedrivers.point.Point;
 import com.tictactoe.gui.gamepanel.gamemode.GameModeBasic;
 import com.tictactoe.gui.gamepanel.gamemode.GameModeEnhanced;
 import com.tictactoe.gui.gamepanel.gamemode.UserVsComputerBasic;
-import com.tictactoe.gui.gamepanel.gamemode.UserVsUserBasic;
 
 import javax.swing.*;
 import java.awt.*;

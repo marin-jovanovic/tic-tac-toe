@@ -1,8 +1,8 @@
 package com.tictactoe.gui.gamepanel.gamemode;
 
-import com.tictactoe.gamedrivers.board.Game;
+import com.tictactoe.gamedrivers.board.base.Game;
 import com.tictactoe.gui.gamepanel.GamePanel;
-import com.tictactoe.gui.gamepanel.move.ComputerMove;
+import com.tictactoe.gamedrivers.move.ComputerMove;
 
 public class UserVsComputerBasic extends GameModeBasic {
 

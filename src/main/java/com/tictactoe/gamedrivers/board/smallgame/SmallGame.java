@@ -1,9 +1,9 @@
-package com.tictactoe.gamedrivers.board;
+package com.tictactoe.gamedrivers.board.smallgame;
 
+import com.tictactoe.gamedrivers.board.base.Game;
 import com.tictactoe.gamedrivers.point.Point;
-import com.tictactoe.gamedrivers.tile.TileOwner;
 
-public class SmallGame extends Game implements MinimaxBasicImplementation{
+public class SmallGame extends Game implements MinimaxBasicImplementation {
 
 
 	@Override
