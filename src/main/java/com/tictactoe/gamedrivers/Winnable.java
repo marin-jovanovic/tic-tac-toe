@@ -58,15 +58,7 @@ public interface Winnable {
 		return false;
 	}
 
-	default boolean canIWin(TileOwner turn) {
-
-		int numOfEmptyTiles = getNumOfEmptyTiles();
-
-		if (numOfEmptyTiles == 0) {
-			return false;
-		}
-
-
+	default void winnableLogic(int numOfEmptyTiles, TileOwner turn) {
 		boolean isWinnable = checkVerticalIfWinnable(numOfEmptyTiles, turn, true);
 
 		System.out.println("winnable by vertical: " + isWinnable);
@@ -76,8 +68,28 @@ public interface Winnable {
 		System.out.println("winnable by horizontal: " + isWinnable);
 
 
-///////////////////////////////////////////////////
+	}
 
+	default boolean canIWin(TileOwner turn) {
+
+		int numOfEmptyTiles = getNumOfEmptyTiles();
+
+		if (numOfEmptyTiles == 0) {
+			return false;
+		}
+
+//		todo
+//		winnableLogic(numOfEmptyTiles, turn);
+
+
+//		winnableLogicTwo(turn, numOfEmptyTiles);
+
+		return false;
+
+
+	}
+
+	default void winnableLogicTwo(TileOwner turn, int numOfEmptyTiles) {
 		int howMuch;
 		boolean isWinnableByThisPath;
 
@@ -119,7 +131,7 @@ public interface Winnable {
 //		    ////////////////////////////////
 
 
-			offset = Math.abs(getXAxisLength() - getYAxisLength());
+		offset = Math.abs(getXAxisLength() - getYAxisLength());
 
 		for (int offsetCount = 0; offsetCount <= offset; offsetCount++) {
 			System.out.println("offset count " + offsetCount);
@@ -148,10 +160,6 @@ public interface Winnable {
 				}
 			}
 		}
-
-		return false;
-
-
 	}
 
 	default int getNumOfEmptyTiles() {

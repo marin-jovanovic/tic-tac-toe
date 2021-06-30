@@ -6,8 +6,6 @@ import com.tictactoe.gamedrivers.point.Point;
 import com.tictactoe.gamedrivers.tile.Tile;
 import com.tictactoe.gamedrivers.tile.TileOwner;
 
-import java.util.concurrent.*;
-
 public interface MinimaxTimeImpl extends MinimaxBase {
 
 	default MinimaxResult payload(TileOwner turn, int depth) throws InterruptedException {
@@ -29,37 +27,95 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 	 */
 	//	todo check if more than n elems are placed (needed for win)
 	@Override
-	default MinimaxRe=sult minimax(TileOwner turn, int depth) {
-		System.out.println("time impl activated");
+	default MinimaxResult minimax(TileOwner turn, int depth) {
 
-		final ExecutorService service = Executors.newSingleThreadExecutor();
+//		try {
+//			return minimaxDriver(turn, depth, depth);
+//
+//		} catch (Exception e) {
+//
+//		}
 
-		try {
-			final Future<Object> f = service.submit(() -> {
 
-				MinimaxResult payload = payload(turn, depth);
+//		System.out.println("time impl activated");
+//
+//		final ExecutorService service = Executors.newSingleThreadExecutor();
+//
+//		try {
+//			final Future<Object> f = service.submit(() -> {
+//
+//				MinimaxResult payload = payload(turn, depth);
+//
+////				payload
+//				return null;
+//			});
+//
+////			todo extract time
+//			System.out.println(f.get(3, TimeUnit.SECONDS));
+//		} catch (final TimeoutException e) {
+//			System.err.println("Calculation took to long");
+//		} catch (final Exception e) {
+//			throw new RuntimeException(e);
+//		} finally {
+//			service.shutdown();
+//		}
+//
+////
+		System.out.println("main diagonal");
+		if (checkSymmetryMainDiagonal()) {
+			System.out.println("same");
+		} else {
+			System.out.println("not same");
+		}
+//		checkSymmetryMainDiagonal();
 
-//				payload
-				return null;
-			});
+		return null;
+	}
 
-//			todo extract time
-			System.out.println(f.get(3, TimeUnit.SECONDS));
-		} catch (final TimeoutException e) {
-			System.err.println("Calculation took to long");
-		} catch (final Exception e) {
-			throw new RuntimeException(e);
-		} finally {
-			service.shutdown();
+//	checks if symetric by main diagonal
+	default boolean checkSymmetryMainDiagonal() {
+//		printBoard(0);
+
+		boolean breakFlag = false;
+		for (int x = 0; x < getXAxisLength(); x++) {
+//			if (breakFlag) {
+//				break;
+//			}
+
+			for (int y = 0; y < getYAxisLength(); y++) {
+//				if (getTile(x, y).isTileEmpty()) {
+
+//					skip main diagonal
+					if (x == y) {
+						continue;
+					}
+
+//					System.out.println("(" + x + ", " + y + ") -> (" + y + ", " + x + ")");
+
+					if (getTile(x, y).getOwner() != getTile(y, x).getOwner()) {
+//						System.out.println("NOT same");
+//						break;
+						return false;
+					}
+
+
+//					System.out.println("(" + x + ", " + y + ") -> (" + (getXAxisLength() - x - 1) + ", " +
+//							(getYAxisLength() - y - 1) + ")");
+
+
+
+//				}
+			}
 		}
 
-//
-		return null;
+		return true;
+
 	}
 
 	public static void main(String[] args) {
 
 	}
+
 
 //	todo equivalent state check add
 //	todo add iswinnable check after winnable number of tiles are placed
@@ -136,6 +192,10 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 				if (getTile(x, y).isTileEmpty()) {
 					int sum = 0;
 					isSomethingPlaced = true;
+
+					if(depth == 1) {
+						System.out.println("check one");
+					}
 
 					Point p = new Point(x, y);
 

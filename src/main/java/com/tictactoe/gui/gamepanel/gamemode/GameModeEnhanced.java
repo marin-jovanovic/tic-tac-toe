@@ -63,18 +63,19 @@ public class GameModeEnhanced implements ActionListener {
 
 		}
 
-		if (gameModeBasic.IS_GAME_WINNABLE_HINTING_ENABLED_CONSTANT) {
-			System.out.println("checking if win or los can be achieved");
-
-//			gameModeBasic.game.canIWin()
-
-			System.out.println("can i win? " + gameModeBasic.game.canIWin(TileOwner.USER_1));
-
-			System.out.println("------------------------------------------------------------------------------------");
-
-//			iterate over all combination for user1 and then check for user2 with this
-			System.out.println("can i lose? " + gameModeBasic.game.canIWin(TileOwner.USER_2));
-
-		}
+//		todo check if winnable
+//		if (gameModeBasic.IS_GAME_WINNABLE_HINTING_ENABLED_CONSTANT) {
+//			System.out.println("checking if win or los can be achieved");
+//
+////			gameModeBasic.game.canIWin()
+//
+//			System.out.println("can i win? " + gameModeBasic.game.canIWin(TileOwner.USER_1));
+//
+//			System.out.println("------------------------------------------------------------------------------------");
+//
+////			iterate over all combination for user1 and then check for user2 with this
+//			System.out.println("can i lose? " + gameModeBasic.game.canIWin(TileOwner.USER_2));
+//
+//		}
 	}
 }

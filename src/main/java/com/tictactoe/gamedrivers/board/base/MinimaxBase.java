@@ -53,6 +53,7 @@ public interface MinimaxBase {
 		MinimaxResult a = minimax(TileOwner.USER_2, 1);
 
 		if (a == null) {
+			System.out.println("result is null");
 			return new Point(0, 0);
 		}
 
