@@ -13,7 +13,7 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 	default MinimaxResult payload(TileOwner turn, int depth) throws InterruptedException {
 //		Thread.sleep(2000); // Simulate some delay
 
-		MinimaxResult minimaxResult = minimaxDriver(turn, depth);
+		MinimaxResult minimaxResult = minimaxDriver(turn, depth, depth);
 
 //		return minimaxResult;
 		return minimaxResult;
@@ -29,7 +29,7 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 	 */
 	//	todo check if more than n elems are placed (needed for win)
 	@Override
-	default MinimaxResult minimax(TileOwner turn, int depth) {
+	default MinimaxRe=sult minimax(TileOwner turn, int depth) {
 		System.out.println("time impl activated");
 
 		final ExecutorService service = Executors.newSingleThreadExecutor();
@@ -78,8 +78,18 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 	 	xxxx
 	 */
 
+	Point bestCurrMove = null;
 
-	default MinimaxResult minimaxDriver(TileOwner turn, int depth) throws InterruptedException {
+	default MinimaxResult minimaxDriver(TileOwner turn, int depth, int currDepth) throws InterruptedException {
+		/**
+		 * default depth = 1
+		 * default currDepth = 1
+		 */
+
+//		if (currDepth == 1) {
+//			bestCurrMove
+//		}
+
 		int m;
 //		todo catch
 //		int bestX = -1;
@@ -117,6 +127,8 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 		}
 */
 
+//		todo alpha beta pruning
+
 		boolean isSomethingPlaced = false;
 
 		for (int x = 0; x < getXAxisLength(); x++) {
@@ -144,7 +156,9 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 
 					} else {
 						if (turn == TileOwner.USER_1 || turn == TileOwner.USER_2) {
-							MinimaxResult r = minimaxDriver(turn.getOppositeTileOwner(), depth + 1);
+							MinimaxResult r = minimaxDriver(turn.getOppositeTileOwner(),
+									depth + 1, currDepth + 1);
+
 							sum += r.getResult();
 						}
 					}
