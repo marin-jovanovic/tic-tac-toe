@@ -61,26 +61,27 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 //		}
 //
 ////
-//		System.out.println("main diagonal");
-//		if (checkSymmetryMainDiagonal()) {
-//			System.out.println("same");
-//		} else {
-//			System.out.println("not same");
-//		}
-//
-//		System.out.println("other diagonal");
-//		if (checkSymmetryNonMainDiagonal()) {
-//			System.out.println("same");
-//		} else {
-//			System.out.println("not same");
-//		}
 
-//		System.out.println("x axis");
-//		if (checkSymmetryX()) {
-//			System.out.println("same");
-//		} else {
-//			System.out.println("not same");
-//		}
+		System.out.println("main diagonal");
+		if (checkSymmetryMainDiagonal()) {
+			System.out.println("same");
+		} else {
+			System.out.println("not same");
+		}
+
+		System.out.println("other diagonal");
+		if (checkSymmetryNonMainDiagonal()) {
+			System.out.println("same");
+		} else {
+			System.out.println("not same");
+		}
+
+		System.out.println("x axis");
+		if (checkSymmetryX()) {
+			System.out.println("same");
+		} else {
+			System.out.println("not same");
+		}
 
 		System.out.println("y axis");
 		if (checkSymmetryY()) {
@@ -95,57 +96,27 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 	}
 
 	default boolean checkSymmetryY() {
-		int half = getYAxisLength() / 2;
-
-		System.out.println("half, " + half);
 
 		for (int x = 0; x < getXAxisLength(); x++) {
 
 			for (int y = 0; y < getYAxisLength() / 2; y++) {
 
+//				System.out.println("(" +
+//							x
+//							+ ", " +
+//							y
+//							+ ") -> (" +
+//							(x)
+//							+ ", " +
+//							(getYAxisLength() - 1 - y)
+//							+ ")");
 
-//					skip main diagonal
-//				if (x + y == getXAxisLength() - 1) {
-//					System.out.println("same " + x + " " + y);
-//					continue;
-//				}
-
-
-//				if (x > half) {
-//
-//				} else if (x < half)  {
-//
-//				} else {
-//
-//				}
-				
-				System.out.println("(" +
-							x
-							+ ", " +
-							y
-							+ ") -> (" +
-							(x)
-							+ ", " +
-							(getYAxisLength() - 1 - y)
-							+ ")");
-
-				System.out.println(getTile(x, y).getOwner());
-
-//
 				if (getTile(x, y).getOwner() != getTile(x,
 						getYAxisLength() - 1 - y).getOwner()) {
-						System.out.println("NOT same");
-//						break;
+//						System.out.println("NOT same");
 					return false;
 				}
-//
 
-//					System.out.println("(" + x + ", " + y + ") -> (" + (getXAxisLength() - x - 1) + ", " +
-//							(getYAxisLength() - y - 1) + ")");
-
-
-
-//				}
 			}
 		}
 
@@ -155,7 +126,30 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 	};
 
 	default boolean checkSymmetryX() {
-		return false;
+
+		for (int x = 0; x < getXAxisLength() / 2; x++) {
+
+			for (int y = 0; y < getYAxisLength() ; y++) {
+
+//				System.out.println("(" +
+//						x
+//						+ ", " +
+//						y
+//						+ ") -> (" +
+//						(getXAxisLength() - 1 - x)
+//						+ ", " +
+//						(y)
+//						+ ")");
+
+				if (getTile(x, y).getOwner() != getTile(getXAxisLength()- 1 -x, y).getOwner()) {
+//					System.out.println("NOT same");
+					return false;
+				}
+
+			}
+		}
+
+		return true;
 	};
 
 //	todo check for 5 x 5 and 6 x 6
@@ -187,17 +181,9 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 				if (getTile(x, y).getOwner() != getTile(getYAxisLength() - y - 1,
 						getXAxisLength() - x - 1).getOwner()) {
 //						System.out.println("NOT same");
-//						break;
 					return false;
 				}
 
-
-//					System.out.println("(" + x + ", " + y + ") -> (" + (getXAxisLength() - x - 1) + ", " +
-//							(getYAxisLength() - y - 1) + ")");
-
-
-
-//				}
 			}
 		}
 
@@ -206,13 +192,8 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 	}
 //	checks if symetric by main diagonal
 	default boolean checkSymmetryMainDiagonal() {
-//		printBoard(0);
 
-		boolean breakFlag = false;
 		for (int x = 0; x < getXAxisLength(); x++) {
-//			if (breakFlag) {
-//				break;
-//			}
 
 			for (int y = 0; y < getYAxisLength(); y++) {
 
@@ -225,25 +206,14 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 
 					if (getTile(x, y).getOwner() != getTile(y, x).getOwner()) {
 //						System.out.println("NOT same");
-//						break;
 						return false;
 					}
 
 
-//					System.out.println("(" + x + ", " + y + ") -> (" + (getXAxisLength() - x - 1) + ", " +
-//							(getYAxisLength() - y - 1) + ")");
-
-
-
-//				}
 			}
 		}
 
 		return true;
-
-	}
-
-	public static void main(String[] args) {
 
 	}
 

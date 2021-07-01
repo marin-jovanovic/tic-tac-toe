@@ -20,13 +20,14 @@ public class Game implements Winnable {
 
 	private final GameMode gameMode;
 
-	public Game(int xAxisLength, int yAxisLength) {
+	public Game(int xAxisLength, int yAxisLength, GameMode gameMode) {
 
 		this.xAxisLength = xAxisLength;
 		this.yAxisLength = yAxisLength;
 
 //		todo
-		this.gameMode = GameMode.USER_VS_COMPUTER;
+//		this.gameMode = GameMode.USER_VS_COMPUTER;
+		this.gameMode = gameMode;
 
 		this.tiles = new Tile[yAxisLength][xAxisLength];
 
@@ -38,32 +39,13 @@ public class Game implements Winnable {
 	}
 
 
-//	public Game() {
-//		this.xAxisLength = 3;
-//		this.yAxisLength = 3;
-////		this.xAxisLength = 4;
-////		this.yAxisLength = 4;
-//
-////		todo
-//		this.gameMode = GameMode.USER_VS_COMPUTER;
-//
-//		this.tiles = new Tile[yAxisLength][xAxisLength];
-//
-//		for (int y = 0; y < yAxisLength; y++) {
-//			for (int x = 0; x < xAxisLength; x++) {
-//				tiles[y][x] = new Tile();
-//			}
-//		}
-//	}
-
 	public void restart() {
-	for (int y = 0; y < yAxisLength; y++) {
-		for (int x = 0; x < xAxisLength; x++) {
-			tiles[y][x].setOwner(TileOwner.NONE);
-//				tiles[y][x] = new Tile();
+		for (int y = 0; y < yAxisLength; y++) {
+			for (int x = 0; x < xAxisLength; x++) {
+				tiles[y][x].setOwner(TileOwner.NONE);
+			}
 		}
 	}
-}
 
 	//	for winnable interface
 
