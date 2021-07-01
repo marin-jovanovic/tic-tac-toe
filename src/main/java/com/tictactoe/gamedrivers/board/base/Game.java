@@ -25,8 +25,6 @@ public class Game implements Winnable {
 		this.xAxisLength = xAxisLength;
 		this.yAxisLength = yAxisLength;
 
-//		todo
-//		this.gameMode = GameMode.USER_VS_COMPUTER;
 		this.gameMode = gameMode;
 
 		this.tiles = new Tile[yAxisLength][xAxisLength];

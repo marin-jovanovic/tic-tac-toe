@@ -6,95 +6,12 @@ import com.tictactoe.gamedrivers.point.Point;
 import com.tictactoe.gamedrivers.tile.Tile;
 import com.tictactoe.gamedrivers.tile.TileOwner;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public interface MinimaxTimeImpl extends MinimaxBase {
-
-	default MinimaxResult payload(TileOwner turn, int depth) throws InterruptedException {
-//		Thread.sleep(2000); // Simulate some delay
-
-		MinimaxResult minimaxResult = minimaxDriver(turn, depth, depth);
-
-//		return minimaxResult;
-		return minimaxResult;
-
-	}
-
-	/**
-	 * base algorithm
-	 *
-	 * @param turn
-	 * @param depth
-	 * @return
-	 */
-	//	todo check if more than n elems are placed (needed for win)
-	@Override
-	default MinimaxResult minimax(TileOwner turn, int depth) {
-
-//		try {
-//			return minimaxDriver(turn, depth, depth);
-//
-//		} catch (Exception e) {
-//
-//		}
-
-
-//		System.out.println("time impl activated");
-//
-//		final ExecutorService service = Executors.newSingleThreadExecutor();
-//
-//		try {
-//			final Future<Object> f = service.submit(() -> {
-//
-//				MinimaxResult payload = payload(turn, depth);
-//
-////				payload
-//				return null;
-//			});
-//
-////			todo extract time
-//			System.out.println(f.get(3, TimeUnit.SECONDS));
-//		} catch (final TimeoutException e) {
-//			System.err.println("Calculation took to long");
-//		} catch (final Exception e) {
-//			throw new RuntimeException(e);
-//		} finally {
-//			service.shutdown();
-//		}
-//
-////
-
-		System.out.println("main diagonal");
-		if (checkSymmetryMainDiagonal()) {
-			System.out.println("same");
-		} else {
-			System.out.println("not same");
-		}
-
-		System.out.println("other diagonal");
-		if (checkSymmetryNonMainDiagonal()) {
-			System.out.println("same");
-		} else {
-			System.out.println("not same");
-		}
-
-		System.out.println("x axis");
-		if (checkSymmetryX()) {
-			System.out.println("same");
-		} else {
-			System.out.println("not same");
-		}
-
-		System.out.println("y axis");
-		if (checkSymmetryY()) {
-			System.out.println("same");
-		} else {
-			System.out.println("not same");
-		}
-//
-//		checkSymmetryMainDiagonal();
-
-		return null;
-	}
-
 	default boolean checkSymmetryY() {
 
 		for (int x = 0; x < getXAxisLength(); x++) {
@@ -190,7 +107,7 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 		return true;
 
 	}
-//	checks if symetric by main diagonal
+	//	checks if symetric by main diagonal
 	default boolean checkSymmetryMainDiagonal() {
 
 		for (int x = 0; x < getXAxisLength(); x++) {
@@ -198,16 +115,16 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 			for (int y = 0; y < getYAxisLength(); y++) {
 
 //					skip main diagonal
-					if (x == y) {
-						continue;
-					}
+				if (x == y) {
+					continue;
+				}
 
 //					System.out.println("(" + x + ", " + y + ") -> (" + y + ", " + x + ")");
 
-					if (getTile(x, y).getOwner() != getTile(y, x).getOwner()) {
+				if (getTile(x, y).getOwner() != getTile(y, x).getOwner()) {
 //						System.out.println("NOT same");
-						return false;
-					}
+					return false;
+				}
 
 
 			}
@@ -216,6 +133,106 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 		return true;
 
 	}
+
+	default MinimaxResult payload(TileOwner turn, int depth) throws InterruptedException {
+//		Thread.sleep(2000); // Simulate some delay
+
+		MinimaxResult minimaxResult = minimaxDriver(turn, depth, depth);
+
+//		return minimaxResult;
+		return minimaxResult;
+
+	}
+
+	default boolean checkForSymmetry() {
+		System.out.println("main diagonal");
+		if (checkSymmetryMainDiagonal()) {
+			System.out.println("same");
+		} else {
+			System.out.println("not same");
+		}
+
+		System.out.println("other diagonal");
+		if (checkSymmetryNonMainDiagonal()) {
+			System.out.println("same");
+		} else {
+			System.out.println("not same");
+		}
+
+		System.out.println("x axis");
+		if (checkSymmetryX()) {
+			System.out.println("same");
+		} else {
+			System.out.println("not same");
+		}
+
+		System.out.println("y axis");
+		if (checkSymmetryY()) {
+			System.out.println("same");
+		} else {
+			System.out.println("not same");
+		}
+
+//		todo
+		return false;
+	}
+
+	/**
+	 * base algorithm
+	 *
+	 * @param turn
+	 * @param depth
+	 * @return
+	 */
+	//	todo check if more than n elems are placed (needed for win)
+	@Override
+	default MinimaxResult minimax(TileOwner turn, int depth) {
+
+//		try {
+//			return minimaxDriver(turn, depth, depth);
+//
+//		} catch (Exception e) {
+//
+//		}
+
+
+//		System.out.println("time impl activated");
+//
+//		final ExecutorService service = Executors.newSingleThreadExecutor();
+//
+//		try {
+//			final Future<Object> f = service.submit(() -> {
+//
+//				MinimaxResult payload = payload(turn, depth);
+//
+////				payload
+//				return null;
+//			});
+//
+////			todo extract time
+//			System.out.println(f.get(3, TimeUnit.SECONDS));
+//		} catch (final TimeoutException e) {
+//			System.err.println("Calculation took to long");
+//		} catch (final Exception e) {
+//			throw new RuntimeException(e);
+//		} finally {
+//			service.shutdown();
+//		}
+//
+////
+
+//		checkForSymmetry();
+
+		try {
+			MinimaxResult r = minimaxDriver(turn, depth, depth);
+
+		} catch (Exception e) {
+
+		}
+
+		return null;
+	}
+
 
 
 //	todo equivalent state check add
@@ -237,20 +254,25 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 
 	Point bestCurrMove = null;
 
+//	layer -> vals
+	Map<Integer, List<Integer>> alphaBetaPruningTable = new HashMap<>();
+
 	default MinimaxResult minimaxDriver(TileOwner turn, int depth, int currDepth) throws InterruptedException {
 		/**
 		 * default depth = 1
 		 * default currDepth = 1
 		 */
 
-//		if (currDepth == 1) {
-//			bestCurrMove
-//		}
+		if (alphaBetaPruningTable.containsKey(depth)) {
+
+		} else {
+			alphaBetaPruningTable.put(depth, new ArrayList<>());
+		}
+
+		System.out.println(alphaBetaPruningTable);
 
 		int m;
 //		todo catch
-//		int bestX = -1;
-//		int bestY = -1;
 
 //		todo remove random
 
@@ -288,15 +310,14 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 
 		boolean isSomethingPlaced = false;
 
+
+
 		for (int x = 0; x < getXAxisLength(); x++) {
 			for (int y = 0; y < getYAxisLength(); y++) {
 				if (getTile(x, y).isTileEmpty()) {
 					int sum = 0;
 					isSomethingPlaced = true;
 
-					if(depth == 1) {
-						System.out.println("check one");
-					}
 
 					Point p = new Point(x, y);
 
@@ -326,6 +347,7 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 
 					setTile(p, TileOwner.NONE);
 
+
 					//					check if best move
 					if ((turn == TileOwner.USER_2 && sum >= m) || (turn == TileOwner.USER_1 && sum <= m)) {
 
@@ -334,15 +356,18 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 
 						} else {
 							m = sum;
-//							bestX = x;
-//							bestY = y;
 							bestPoint = p;
 							bestMovesLayerOne.clear();
 						}
 
 					}
+
+					alphaBetaPruningTable.get(depth).add(sum);
+
 				}
 			}
+
+
 		}
 
 //		printFormatted("best move " + new Point(bestX, bestY), depth);
