@@ -10,6 +10,7 @@ import com.tictactoe.gamedrivers.point.Point;
 import com.tictactoe.gui.gamepanel.gamemode.GameModeBasic;
 import com.tictactoe.gui.gamepanel.gamemode.GameModeEnhanced;
 import com.tictactoe.gui.gamepanel.gamemode.UserVsComputerBasic;
+import com.tictactoe.gui.gamepanel.gamemode.UserVsUserBasic;
 
 import javax.swing.*;
 import java.awt.*;
@@ -86,8 +87,10 @@ public class GamePanel extends JPanel implements EventListener {
 
 //		todo define x and y lens
 
-		game = new LargeGame(4, 4);
+//		game = new LargeGame(5, 7);
 //
+		game = new LargeGame(4, 4);
+
 //		game = new SmallGame(3, 3);
 
 //		game = new Game();
