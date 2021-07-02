@@ -91,7 +91,7 @@ public class GamePanel extends JPanel implements EventListener {
 //		game = new LargeGame(5, 7, GameMode.USER_VS_COMPUTER);
 //		game = new LargeGame(4, 4, GameMode.USER_VS_COMPUTER);
 
-		game = new LargeGame(2, 2, GameMode.USER_VS_COMPUTER);
+		game = new LargeGame(3, 3, GameMode.USER_VS_COMPUTER);
 
 //
 //		game = new SmallGame(3, 3);

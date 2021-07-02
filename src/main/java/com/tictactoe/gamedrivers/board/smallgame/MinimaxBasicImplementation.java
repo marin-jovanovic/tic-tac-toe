@@ -70,6 +70,10 @@ public interface MinimaxBasicImplementation extends MinimaxBase {
 
 //						win on first try
 						if (depth == 1) {
+
+//							fixme thi<s needs to be added
+							//							setTile(p, TileOwner.NONE);
+
 							return new MinimaxResult(p, m, true);
 						}
 
