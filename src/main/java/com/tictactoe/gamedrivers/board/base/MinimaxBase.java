@@ -52,6 +52,8 @@ public interface MinimaxBase {
 
 		MinimaxResult a = minimax(TileOwner.USER_2, 1);
 
+		System.out.println("a result; " + a);
+
 		if (a == null) {
 			return null;
 		}
