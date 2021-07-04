@@ -250,12 +250,11 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 				int result = 0;
 
 				if (turn.getOppositeTileOwner() == TileOwner.USER_1) {
-					result = 1;
-				} else if (turn.getOppositeTileOwner() == TileOwner.USER_2) {
 					result = -1;
+				} else if (turn.getOppositeTileOwner() == TileOwner.USER_2) {
+					result = 1;
 				}
 
-				result = -result;
 				return new MinimaxResult(prevPointPlaced, result, true);
 			}
 		}
@@ -263,10 +262,8 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 		int m = 0;
 
 		if (turn == TileOwner.USER_1) {
-//			m = Integer.MAX_VALUE;
 			m = beta;
 		} else if (turn == TileOwner.USER_2) {
-//			m = Integer.MIN_VALUE;
 			m = alpha;
 		}
 
@@ -334,16 +331,16 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 
 		MinimaxResult r =  enhancedMinimax(turn, depth, Integer.MIN_VALUE, Integer.MAX_VALUE, null);
 
-//		System.out.println("r      " + r);
-//
-//		MinimaxResult rBasic =  basicNewMinimax(turn, depth, Integer.MIN_VALUE, Integer.MAX_VALUE, null);
-//
-//		System.out.println("r basic" + rBasic);
-//
-//		if (r.equals(rBasic)) {
-//			System.out.println("not same");
-//			System.exit(0);
-//		}
+		System.out.println("r      " + r);
+
+		MinimaxResult rBasic =  basicNewMinimax(turn, depth, Integer.MIN_VALUE, Integer.MAX_VALUE, null);
+
+		System.out.println("r basic" + rBasic);
+
+		if (r.equals(rBasic)) {
+			System.out.println("not same");
+			System.exit(0);
+		}
 
 		return r;
 	}
