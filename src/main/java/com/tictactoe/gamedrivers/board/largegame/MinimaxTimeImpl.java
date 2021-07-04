@@ -278,8 +278,7 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 	}
 
 
-	default MinimaxResult enhandedMinimax(TileOwner turn, int depth, int alpha, int beta, Point prevPointPlaced) {
-
+	default MinimaxResult basicNewMinimax(TileOwner turn, int depth, int alpha, int beta, Point prevPointPlaced) {
 		if (prevPointPlaced != null) {
 			if (isGameWon(prevPointPlaced, turn.getOppositeTileOwner())) {
 
@@ -319,7 +318,7 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 
 					setTile(p, turn);
 
-					MinimaxResult r = enhandedMinimax(turn.getOppositeTileOwner(), depth + 1,
+					MinimaxResult r = basicNewMinimax(turn.getOppositeTileOwner(), depth + 1,
 							0, 0, p);
 
 					int oldM = m;
@@ -342,174 +341,86 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 
 		return new MinimaxResult(bestPoint, isSomethingPlaced? m : 0, false);
 
+	}
 
-//		return maxValue(depth, null);
+	default MinimaxResult enhandedMinimax(TileOwner turn, int depth, int alpha, int beta, Point prevPointPlaced) {
 
+		if (prevPointPlaced != null) {
+			if (isGameWon(prevPointPlaced, turn.getOppositeTileOwner())) {
 
-//		if (prevPointPlaced != null) {
-//			if (isGameWon(prevPointPlaced, turn.getOppositeTileOwner())) {
-//
-//				int m = 0;
-//
-//				if (turn == TileOwner.USER_1) {
-//					m = 1;
-//				} else if (turn == TileOwner.USER_2) {
-//					m = -1;
-//				}
-//				return new MinimaxResult(prevPointPlaced, m, true);
-//			}
-//		}
-//
-//		int m;
-//
-//		if (turn == TileOwner.USER_1) {
+				int result = 0;
+
+				if (turn.getOppositeTileOwner() == TileOwner.USER_1) {
+					result = 1;
+				} else if (turn.getOppositeTileOwner() == TileOwner.USER_2) {
+					result = -1;
+				}
+
+				result = -result;
+				return new MinimaxResult(prevPointPlaced, result, true);
+			}
+		}
+
+		int m = 0;
+
+		if (turn == TileOwner.USER_1) {
 //			m = Integer.MAX_VALUE;
-//		} else {
+			m = beta;
+		} else if (turn == TileOwner.USER_2) {
 //			m = Integer.MIN_VALUE;
-//		}
-//
-//		Point bestPoint = null;
-//		boolean isSomethingPlaced = false;
-//
-//		for (int x = 0; x < getXAxisLength(); x++) {
-//			for (int y = 0; y < getYAxisLength(); y++) {
-//				if (getTile(x, y).isTileEmpty()) {
-//
-//					isSomethingPlaced = true;
-//
-//					Point p = new Point(x, y);
-//
-//					setTile(p, turn);
-//
-//					if (turn == TileOwner.USER_1) {
-//						int oldM = m;
-//
-//						MinimaxResult r = enhandedMinimax(turn.getOppositeTileOwner(), depth + 1, alpha, m, p);
-//
-//						m  = Math.min(m, r.getResult());
-//
-//						if (oldM != m) {
-//							bestPoint = p;
-//						}
-//
-//					} else if (turn == TileOwner.USER_2) {
-//						int oldM = m;
-//
-//						MinimaxResult r = enhandedMinimax(turn.getOppositeTileOwner(), depth + 1, m, beta, p);
-//
-//						m = Math.max(m, r.getResult());
-//
-//						if (oldM != m) {
-//							bestPoint = p;
-//						}
-//
-//					}
-//
-//					setTile(p, TileOwner.NONE);
-//
-//				}
-//			}
-//		}
-//
-//		return new MinimaxResult(bestPoint, isSomethingPlaced ? m : 0, false);
+			m = alpha;
+		}
 
+		Point bestPoint = null;
+		boolean isSomethingPlaced = false;
+
+		for (int x = 0; x < getXAxisLength(); x++) {
+			for (int y = 0; y < getYAxisLength(); y++) {
+				if (getTile(x, y).isTileEmpty()) {
+
+					isSomethingPlaced = true;
+
+					Point p = new Point(x, y);
+
+					setTile(p, turn);
+
+					MinimaxResult r = enhandedMinimax(turn.getOppositeTileOwner(), depth + 1,
+							alpha, beta, p);
+
+					int oldM = m;
+
+					if (turn == TileOwner.USER_1) {
+						m = Math.min(m, r.getResult());
+
+//						if (m <= alpha) {
+//							setTile(p, TileOwner.NONE);
+//							return new MinimaxResult(bestPoint, alpha, false);
+//						}
+
+					} else  if (turn == TileOwner.USER_2) {
+						m = Math.max(m, r.getResult());
+
+//						if (m >= beta) {
+//							setTile(p, TileOwner.NONE);
+//							return new MinimaxResult(bestPoint, beta, false);
+//						}
+					}
+
+					if (m != oldM) {
+						bestPoint = p;
+					}
+
+					setTile(p, TileOwner.NONE);
+
+				}
+			}
+		}
+
+		return new MinimaxResult(bestPoint, isSomethingPlaced? m : 0, false);
 
 	}
 
-//	default MinimaxResult enhandedMinimax(TileOwner turn, int depth, int alpha, int beta, Point prevPointPlaced) {
-//
-//		printBoard(depth);
-//		System.out.println();
-//
-//		if (prevPointPlaced != null) {
-//			if (isGameWon(prevPointPlaced, turn.getOppositeTileOwner())) {
-//
-//				int m = 0;
-//
-//				if (turn == TileOwner.USER_1) {
-//					m = 1;
-//				} else if (turn == TileOwner.USER_2) {
-//					m = -1;
-//				}
-//				System.out.println(m);
-//				return new MinimaxResult(prevPointPlaced, m, true);
-//			}
-//		}
-//
-//
-//		int m;
-//
-//		if (turn == TileOwner.USER_1) {
-//			m = beta;
-//		} else {
-//			m = alpha;
-//		}
-//
-//		Point bestPoint = null;
-//		boolean isSomethingPlaced = false;
-//
-//		for (int x = 0; x < getXAxisLength(); x++) {
-//			for (int y = 0; y < getYAxisLength(); y++) {
-//				if (getTile(x, y).isTileEmpty()) {
-//
-//					isSomethingPlaced = true;
-//
-//					Point p = new Point(x, y);
-//
-//					setTile(p, turn);
-//
-//					if (turn == TileOwner.USER_1) {
-//						int oldM = m;
-//
-//						MinimaxResult r = enhandedMinimax(turn.getOppositeTileOwner(), depth + 1, alpha, m, p);
-//
-//						if (r.isSomethingPlaced()) {
-//							m  = Math.min(m, r.getResult());
-//
-//
-//							if (oldM != m) {
-//								bestPoint = p;
-//							}
-//
-//							if (m <= alpha) {
-//								setTile(p, TileOwner.NONE);
-//								return new MinimaxResult(p, alpha, false, true);
-//							}
-//
-//						}
-//
-//
-//					} else if (turn == TileOwner.USER_2) {
-//						int oldM = m;
-//
-//						MinimaxResult r = enhandedMinimax(turn.getOppositeTileOwner(), depth + 1, m, beta, p);
-//
-//						if (r.isSomethingPlaced()) {
-//							m = Math.max(m, r.getResult());
-//
-//							if (oldM != m) {
-//								bestPoint = p;
-//							}
-//
-//							if (m >= beta) {
-//								setTile(p, TileOwner.NONE);
-//								return new MinimaxResult(p, beta, false, true);
-//							}
-//
-//						}
-//
-//					}
-//
-//					setTile(p, TileOwner.NONE);
-//
-//				}
-//			}
-//		}
-//
-//		return new MinimaxResult(bestPoint, isSomethingPlaced ? m : 0, false, isSomethingPlaced);
-//
-//
-//	}
+
 
 	/**
 	 * base algorithm
@@ -521,10 +432,18 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 	//	todo check if more than n elems are placed (needed for win)
 	@Override
 	default MinimaxResult minimax(TileOwner turn, int depth) {
+		MinimaxResult rBasic =  basicNewMinimax(turn, depth, Integer.MIN_VALUE, Integer.MAX_VALUE, null);
 
 		MinimaxResult r =  enhandedMinimax(turn, depth, Integer.MIN_VALUE, Integer.MAX_VALUE, null);
 
-		System.out.println("r " + r);
+		System.out.println("r      " + r);
+		System.out.println("r basic" + rBasic);
+
+		if (r.equals(rBasic)) {
+			System.out.println("not same");
+//			throw new IllegalArgumentException("err");
+			System.exit(0);
+		}
 
 		return r;
 	}
