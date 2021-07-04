@@ -24,9 +24,6 @@ public interface Winnable {
 
 //		boolean verticalCheck = true;
 
-//		int iUpperBound;
-//		int jUpperBound;
-
 		int iUpperBound = verticalCheck ? getXAxisLength() : getYAxisLength();
 		int jUpperBound = verticalCheck ? getYAxisLength() : getXAxisLength();
 

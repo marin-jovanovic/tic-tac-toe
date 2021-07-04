@@ -7,11 +7,13 @@ import com.tictactoe.gamedrivers.point.Point;
 import com.tictactoe.gamedrivers.tile.Tile;
 import com.tictactoe.gamedrivers.tile.TileOwner;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public interface MinimaxTimeImpl extends MinimaxBase {
+
 	default boolean checkSymmetryY() {
 
 		for (int x = 0; x < getXAxisLength(); x++) {
@@ -168,9 +170,21 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 	}
 
 
-	Map<Game, Integer> dpTable = new HashMap<>();
+	Map<String, MinimaxResult> dpTable = new HashMap<>();
 
 	default MinimaxResult enhancedMinimax(TileOwner turn, int depth, int alpha, int beta, Point prevPointPlaced) {
+
+
+		String hash = Arrays.deepToString(getTiles());
+		System.out.println("hash " + hash);
+
+		if (dpTable.containsKey(hash)) {
+			System.out.println("i have this " + Arrays.deepToString(getTiles()));
+
+			System.out.println(dpTable.get(hash));
+			return dpTable.get(hash);
+
+		}
 
 		if (prevPointPlaced != null) {
 			if (isGameWon(prevPointPlaced, turn.getOppositeTileOwner())) {
@@ -203,10 +217,13 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 		boolean sX = checkSymmetryX();
 		boolean sY = checkSymmetryY();
 
+		getGame().stringify();
+
+		printFormatted(getGame().toString(), depth);
+
 		for (int x = 0; x < getXAxisLength(); x++) {
 			for (int y = 0; y < getYAxisLength(); y++) {
 				if (getTile(x, y).isTileEmpty()) {
-
 
 					isSomethingPlaced = true;
 
@@ -217,13 +234,26 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 					MinimaxResult r = enhancedMinimax(turn.getOppositeTileOwner(), depth + 1,
 							alpha, beta, p);
 
+					setTile(p, TileOwner.NONE);
+
 					int oldM = m;
 
 					if (turn == TileOwner.USER_1) {
 						m = Math.min(m, r.getResult());
 
 						if (m <= alpha) {
-							setTile(p, TileOwner.NONE);
+							printFormatted(bestPoint.toString(), depth);
+
+//							if (dpTable.containsKey(getTiles())) {
+//								System.out.println("in");
+//								System.out.println("in "+ dpTable.get(getTiles()));
+//								System.out.println("cr " + bestPoint);
+//							} else {
+//								System.out.println("adding " + Arrays.deepToString(getTiles()));
+//								dpTable.put(getTiles(), new MinimaxResult(r.getWhereTo(),
+//										m, false));
+//							}
+
 							return new MinimaxResult(bestPoint, alpha, false);
 						}
 
@@ -231,7 +261,19 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 						m = Math.max(m, r.getResult());
 
 						if (m >= beta) {
-							setTile(p, TileOwner.NONE);
+							printFormatted(bestPoint.toString(), depth);
+
+//							if (dpTable.containsKey(getTiles())) {
+//								System.out.println("in");
+//								System.out.println("in "+ dpTable.get(getTiles()));
+//								System.out.println("cr " + bestPoint);
+//							} else {
+//								System.out.println("adding " + Arrays.deepToString(getTiles()));
+//								dpTable.put(getTiles(), new MinimaxResult(r.getWhereTo()
+//										, m, false));
+//							}
+
+
 							return new MinimaxResult(bestPoint, beta, false);
 						}
 					}
@@ -240,14 +282,38 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 						bestPoint = p;
 					}
 
-					setTile(p, TileOwner.NONE);
 
 				}
 			}
 		}
 
-		return new MinimaxResult(bestPoint, isSomethingPlaced? m : 0, false);
+		MinimaxResult minimaxResult = new MinimaxResult(bestPoint, isSomethingPlaced? m : 0, false);
 
+
+
+		if (bestPoint != null) {
+			printFormatted(bestPoint.toString(), depth);
+
+//			if (turn == TileOwner.USER_1) {
+
+			hash = Arrays.deepToString(getTiles());
+
+			if (dpTable.containsKey(hash)) {
+				System.out.println("in");
+				System.out.println(Arrays.deepToString(getTiles()));
+				System.out.println("in "+ dpTable.get(hash));
+				System.out.println("cr " + bestPoint);
+
+			} else {
+				System.out.println("adding " + Arrays.deepToString(getTiles()));
+				System.out.println(bestPoint);
+				dpTable.put(hash, minimaxResult);
+			}
+		}
+
+
+
+		return minimaxResult;
 	}
 
 	default MinimaxResult basicNewMinimax(TileOwner turn, int depth, int alpha, int beta, Point prevPointPlaced) {
@@ -340,6 +406,7 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 
 //	todo add iswinnable check after winnable number of tiles are placed
 
+	Game getGame();
 
 	Tile getTile(int x, int y);
 
@@ -354,5 +421,6 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 
 	int getYAxisLength();
 
+	Tile[][] getTiles();
 
 }

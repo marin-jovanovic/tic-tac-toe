@@ -12,13 +12,46 @@ public class Game implements Winnable {
 	// interface sagregation
 	/// more client specific  then general purpose
 
+
+	@Override
+	public String toString() {
+		return "Game{" +
+				"string: " + string+  "}";
+	}
+
+	private String string;
+
 	private final boolean isUserX = true;
 	private final Tile[][] tiles;
 	private final int xAxisLength;
 	private final int yAxisLength;
 
-
 	private final GameMode gameMode;
+
+
+
+	public Tile[][] getTiles() {
+		return tiles;
+	}
+
+	public void stringify() {
+		string = "";
+		for (int y = 0; y < yAxisLength; y++) {
+			for (int x = 0; x < xAxisLength; x++) {
+				if (tiles[y][x].getOwner() == TileOwner.NONE) {
+					string += "_";
+
+				} else if (tiles[y][x].getOwner() == TileOwner.USER_1) {
+					string += "x";
+
+				}else if (tiles[y][x].getOwner() == TileOwner.USER_2) {
+					string += "o";
+
+				}
+			}
+			string += " ";
+		}
+	}
 
 	public Game(int xAxisLength, int yAxisLength, GameMode gameMode) {
 
@@ -35,7 +68,6 @@ public class Game implements Winnable {
 			}
 		}
 	}
-
 
 	public void restart() {
 		for (int y = 0; y < yAxisLength; y++) {
@@ -60,6 +92,11 @@ public class Game implements Winnable {
 	@Override
 	public Tile getTile(int x, int y) {
 		return tiles[y][x];
+	}
+
+//	for minimax time implementation
+	public Game getGame() {
+		return this;
 	}
 
 	@Override

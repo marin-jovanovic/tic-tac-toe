@@ -14,4 +14,15 @@ public enum TileOwner {
 			return NONE;
 		}
 	}
+
+	@Override
+	public String toString() {
+		if (this == USER_2) {
+			return "x";
+		} else if (this == USER_1) {
+			return "o";
+		} else {
+			return "_";
+		}
+	}
 }

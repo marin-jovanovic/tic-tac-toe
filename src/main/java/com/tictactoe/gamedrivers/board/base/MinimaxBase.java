@@ -10,43 +10,11 @@ import java.util.Random;
 
 public interface MinimaxBase {
 
-			/*
-		strategy desing patern
-
-		interface if {
-			racunajmax
-		}
-
-		class minimax impl if{
-			@override
-			racunajmax
-		}
-
-		class minimaxbolji impl if{
-		}
-		...
-
-		class game {
-			tip alg;
-
-			game() {
-				alg = minimax/minimaxnajbolji
-			}
-
-		}
-
-			MinimaxResult a = alg.racunajmax(TileOwner.COMPUTER, 1);
-
-		 */
-
-
-
-
 	List<Point> bestMovesLayerOne = new ArrayList<>();
 
 	/**
 	 * wrapper function for minimax
-	 * @return
+	 * @return computer move
 	 */
 	default Point computerMove() {
 
@@ -54,16 +22,9 @@ public interface MinimaxBase {
 
 		MinimaxResult a = minimax(TileOwner.USER_2, 1);
 
-		System.out.println("a result; " + a);
-
 		if (a == null) {
 			return null;
 		}
-
-//		if (a == null) {
-//			System.out.println("result is null");
-//			return new Point(0, 0);
-//		}
 
 		if (a.getIsWinningMove()) {
 			return a.getWhereTo();
@@ -71,21 +32,18 @@ public interface MinimaxBase {
 
 		bestMovesLayerOne.add(a.getWhereTo());
 		Random rand = new Random();
-		Point randomElement = bestMovesLayerOne.get(rand.nextInt(bestMovesLayerOne.size()));
-		return randomElement;
+		return bestMovesLayerOne.get(rand.nextInt(bestMovesLayerOne.size()));
 	}
 
-	default void printFormatted(String tie, int depth) {
+	default void printFormatted(String content, int depth) {
 		StringBuilder s = new StringBuilder();
 
 		for (int i = 0; i < depth ; i ++) {
 			s.append(" ");
 		}
 
-		System.out.println(s + " " + tie);
+		System.out.println(s + " " + content);
 	};
-
-//todo change all to dp algs
 
 	MinimaxResult minimax(TileOwner turn, int depth);
 

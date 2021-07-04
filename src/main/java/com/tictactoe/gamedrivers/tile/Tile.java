@@ -19,4 +19,8 @@ public class Tile {
 		return this.tileOwner == TileOwner.NONE;
 	}
 
+	@Override
+	public String toString() {
+		return tileOwner.toString();
+	}
 }
