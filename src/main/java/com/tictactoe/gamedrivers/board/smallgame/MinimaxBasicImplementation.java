@@ -8,6 +8,9 @@ import com.tictactoe.gamedrivers.tile.TileOwner;
 
 public interface MinimaxBasicImplementation extends MinimaxBase {
 
+
+
+
 	/**
 	 * base algorithm
 	 *

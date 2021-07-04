@@ -67,7 +67,6 @@ public class Game implements Winnable {
 		return Winnable.super.isGameWon(p, tileOwner);
 	}
 
-//	@Override
 	public boolean setTile(Point p, TileOwner tileOwner) {
 		if (p.getX() >= getXAxisLength()) {
 			System.out.println("x to big");
@@ -78,7 +77,6 @@ public class Game implements Winnable {
 		}
 
 		getTile(p.getX(), p.getY()).setOwner(tileOwner);
-//		tiles[p.getY()][p.getX()].setOwner(tileOwner);
 
 		return true;
 	}

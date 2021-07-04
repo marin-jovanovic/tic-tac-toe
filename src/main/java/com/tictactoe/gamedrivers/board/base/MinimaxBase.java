@@ -40,6 +40,8 @@ public interface MinimaxBase {
 		 */
 
 
+
+
 	List<Point> bestMovesLayerOne = new ArrayList<>();
 
 	/**

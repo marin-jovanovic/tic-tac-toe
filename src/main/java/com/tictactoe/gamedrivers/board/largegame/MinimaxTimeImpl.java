@@ -1,5 +1,6 @@
 package com.tictactoe.gamedrivers.board.largegame;
 
+import com.tictactoe.gamedrivers.board.base.Game;
 import com.tictactoe.gamedrivers.board.base.MinimaxBase;
 import com.tictactoe.gamedrivers.minimax.MinimaxResult;
 import com.tictactoe.gamedrivers.point.Point;
@@ -133,16 +134,6 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 
 	}
 
-//	default MinimaxResult payload(TileOwner turn, int depth) throws InterruptedException {
-////		Thread.sleep(2000); // Simulate some delay
-//
-//		MinimaxResult minimaxResult = minimaxDriver(turn, depth, depth);
-//
-////		return minimaxResult;
-//		return minimaxResult;
-//
-//	}
-
 	default boolean checkForSymmetry() {
 		System.out.println("main diagonal");
 		if (checkSymmetryMainDiagonal()) {
@@ -176,6 +167,88 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 		return false;
 	}
 
+
+	Map<Game, Integer> dpTable = new HashMap<>();
+
+	default MinimaxResult enhancedMinimax(TileOwner turn, int depth, int alpha, int beta, Point prevPointPlaced) {
+
+		if (prevPointPlaced != null) {
+			if (isGameWon(prevPointPlaced, turn.getOppositeTileOwner())) {
+
+				int result = 0;
+
+				if (turn.getOppositeTileOwner() == TileOwner.USER_1) {
+					result = -1;
+				} else if (turn.getOppositeTileOwner() == TileOwner.USER_2) {
+					result = 1;
+				}
+
+				return new MinimaxResult(prevPointPlaced, result, true);
+			}
+		}
+
+		int m = 0;
+
+		if (turn == TileOwner.USER_1) {
+			m = beta;
+		} else if (turn == TileOwner.USER_2) {
+			m = alpha;
+		}
+
+		Point bestPoint = null;
+		boolean isSomethingPlaced = false;
+
+		boolean sMainDiagonal = checkSymmetryMainDiagonal();
+		boolean sNonMainDiagonal = checkSymmetryMainDiagonal();
+		boolean sX = checkSymmetryX();
+		boolean sY = checkSymmetryY();
+
+		for (int x = 0; x < getXAxisLength(); x++) {
+			for (int y = 0; y < getYAxisLength(); y++) {
+				if (getTile(x, y).isTileEmpty()) {
+
+
+					isSomethingPlaced = true;
+
+					Point p = new Point(x, y);
+
+					setTile(p, turn);
+
+					MinimaxResult r = enhancedMinimax(turn.getOppositeTileOwner(), depth + 1,
+							alpha, beta, p);
+
+					int oldM = m;
+
+					if (turn == TileOwner.USER_1) {
+						m = Math.min(m, r.getResult());
+
+						if (m <= alpha) {
+							setTile(p, TileOwner.NONE);
+							return new MinimaxResult(bestPoint, alpha, false);
+						}
+
+					} else  if (turn == TileOwner.USER_2) {
+						m = Math.max(m, r.getResult());
+
+						if (m >= beta) {
+							setTile(p, TileOwner.NONE);
+							return new MinimaxResult(bestPoint, beta, false);
+						}
+					}
+
+					if (m != oldM) {
+						bestPoint = p;
+					}
+
+					setTile(p, TileOwner.NONE);
+
+				}
+			}
+		}
+
+		return new MinimaxResult(bestPoint, isSomethingPlaced? m : 0, false);
+
+	}
 
 	default MinimaxResult basicNewMinimax(TileOwner turn, int depth, int alpha, int beta, Point prevPointPlaced) {
 		if (prevPointPlaced != null) {
@@ -242,82 +315,6 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 
 	}
 
-	default MinimaxResult enhancedMinimax(TileOwner turn, int depth, int alpha, int beta, Point prevPointPlaced) {
-
-		if (prevPointPlaced != null) {
-			if (isGameWon(prevPointPlaced, turn.getOppositeTileOwner())) {
-
-				int result = 0;
-
-				if (turn.getOppositeTileOwner() == TileOwner.USER_1) {
-					result = -1;
-				} else if (turn.getOppositeTileOwner() == TileOwner.USER_2) {
-					result = 1;
-				}
-
-				return new MinimaxResult(prevPointPlaced, result, true);
-			}
-		}
-
-		int m = 0;
-
-		if (turn == TileOwner.USER_1) {
-			m = beta;
-		} else if (turn == TileOwner.USER_2) {
-			m = alpha;
-		}
-
-		Point bestPoint = null;
-		boolean isSomethingPlaced = false;
-
-		for (int x = 0; x < getXAxisLength(); x++) {
-			for (int y = 0; y < getYAxisLength(); y++) {
-				if (getTile(x, y).isTileEmpty()) {
-
-					isSomethingPlaced = true;
-
-					Point p = new Point(x, y);
-
-					setTile(p, turn);
-
-					MinimaxResult r = enhancedMinimax(turn.getOppositeTileOwner(), depth + 1,
-							alpha, beta, p);
-
-					int oldM = m;
-
-					if (turn == TileOwner.USER_1) {
-						m = Math.min(m, r.getResult());
-
-						if (m <= alpha) {
-							setTile(p, TileOwner.NONE);
-							return new MinimaxResult(bestPoint, alpha, false);
-						}
-
-					} else  if (turn == TileOwner.USER_2) {
-						m = Math.max(m, r.getResult());
-
-						if (m >= beta) {
-							setTile(p, TileOwner.NONE);
-							return new MinimaxResult(bestPoint, beta, false);
-						}
-					}
-
-					if (m != oldM) {
-						bestPoint = p;
-					}
-
-					setTile(p, TileOwner.NONE);
-
-				}
-			}
-		}
-
-		return new MinimaxResult(bestPoint, isSomethingPlaced? m : 0, false);
-
-	}
-
-
-
 	/**
 	 * base algorithm
 	 *
@@ -331,12 +328,8 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 
 		MinimaxResult r =  enhancedMinimax(turn, depth, Integer.MIN_VALUE, Integer.MAX_VALUE, null);
 
-		System.out.println("r      " + r);
 
 		MinimaxResult rBasic =  basicNewMinimax(turn, depth, Integer.MIN_VALUE, Integer.MAX_VALUE, null);
-
-		System.out.println("r basic" + rBasic);
-
 		if (r.equals(rBasic)) {
 			System.out.println("not same");
 			System.exit(0);
@@ -344,47 +337,6 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 
 		return r;
 	}
-
-
-/*
-//		try {
-//			return minimaxDriver(turn, depth, depth);
-//
-//		} catch (Exception e) {
-//
-//		}
-//		System.out.println("time impl activated");
-//
-//		final ExecutorService service = Executors.newSingleThreadExecutor();
-//
-//		try {
-//			final Future<Object> f = service.submit(() -> {
-//
-//				MinimaxResult payload = payload(turn, depth);
-//
-////				payload
-//				return null;
-//			});
-//
-////			todo extract time
-//			System.out.println(f.get(3, TimeUnit.SECONDS));
-//		} catch (final TimeoutException e) {
-//			System.err.println("Calculation took to long");
-//		} catch (final Exception e) {
-//			throw new RuntimeException(e);
-//		} finally {
-//			service.shutdown();
-//		}
-//
-////
-//		checkForSymmetry();
-		try {
-			MinimaxResult r = minimaxDriver(turn, depth, depth);
-		} catch (Exception e) {
-		}
-		return null;
- */
-
 
 //	todo add iswinnable check after winnable number of tiles are placed
 
