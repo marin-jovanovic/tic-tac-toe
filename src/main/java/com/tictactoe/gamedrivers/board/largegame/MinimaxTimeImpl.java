@@ -170,18 +170,18 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 	}
 
 
+//	fixme not working properly
 	Map<String, MinimaxResult> dpTable = new HashMap<>();
 
 	default MinimaxResult enhancedMinimax(TileOwner turn, int depth, int alpha, int beta, Point prevPointPlaced) {
 
 
 		String hash = Arrays.deepToString(getTiles());
-		System.out.println("hash " + hash);
+//		System.out.println("hash " + hash);
 
 		if (dpTable.containsKey(hash)) {
-			System.out.println("i have this " + Arrays.deepToString(getTiles()));
+//			System.out.println("i have this " + hash);
 
-			System.out.println(dpTable.get(hash));
 			return dpTable.get(hash);
 
 		}
@@ -212,15 +212,6 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 		Point bestPoint = null;
 		boolean isSomethingPlaced = false;
 
-		boolean sMainDiagonal = checkSymmetryMainDiagonal();
-		boolean sNonMainDiagonal = checkSymmetryMainDiagonal();
-		boolean sX = checkSymmetryX();
-		boolean sY = checkSymmetryY();
-
-		getGame().stringify();
-
-		printFormatted(getGame().toString(), depth);
-
 		for (int x = 0; x < getXAxisLength(); x++) {
 			for (int y = 0; y < getYAxisLength(); y++) {
 				if (getTile(x, y).isTileEmpty()) {
@@ -242,7 +233,7 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 						m = Math.min(m, r.getResult());
 
 						if (m <= alpha) {
-							printFormatted(bestPoint.toString(), depth);
+//							printFormatted(bestPoint.toString(), depth);
 
 //							if (dpTable.containsKey(getTiles())) {
 //								System.out.println("in");
@@ -261,7 +252,7 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 						m = Math.max(m, r.getResult());
 
 						if (m >= beta) {
-							printFormatted(bestPoint.toString(), depth);
+//							printFormatted(bestPoint.toString(), depth);
 
 //							if (dpTable.containsKey(getTiles())) {
 //								System.out.println("in");
@@ -272,7 +263,6 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 //								dpTable.put(getTiles(), new MinimaxResult(r.getWhereTo()
 //										, m, false));
 //							}
-
 
 							return new MinimaxResult(bestPoint, beta, false);
 						}
@@ -290,23 +280,19 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 		MinimaxResult minimaxResult = new MinimaxResult(bestPoint, isSomethingPlaced? m : 0, false);
 
 
-
 		if (bestPoint != null) {
-			printFormatted(bestPoint.toString(), depth);
-
-//			if (turn == TileOwner.USER_1) {
 
 			hash = Arrays.deepToString(getTiles());
 
 			if (dpTable.containsKey(hash)) {
-				System.out.println("in");
-				System.out.println(Arrays.deepToString(getTiles()));
-				System.out.println("in "+ dpTable.get(hash));
-				System.out.println("cr " + bestPoint);
+//				System.out.println("in");
+//				System.out.println(Arrays.deepToString(getTiles()));
+//				System.out.println("in "+ dpTable.get(hash));
+//				System.out.println("cr " + bestPoint);
 
 			} else {
-				System.out.println("adding " + Arrays.deepToString(getTiles()));
-				System.out.println(bestPoint);
+//				System.out.println("adding " + Arrays.deepToString(getTiles()));
+//				System.out.println(bestPoint);
 				dpTable.put(hash, minimaxResult);
 			}
 		}
