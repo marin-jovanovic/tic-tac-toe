@@ -180,10 +180,12 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 //		System.out.println("hash " + hash);
 
 		if (dpTable.containsKey(hash)) {
-//			System.out.println("i have this " + hash);
+			System.out.println("i have this " + hash + ", " + depth);
 
 			return dpTable.get(hash);
 
+		} else {
+			System.out.println("calculating " + hash);
 		}
 
 		if (prevPointPlaced != null) {
@@ -233,17 +235,6 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 						m = Math.min(m, r.getResult());
 
 						if (m <= alpha) {
-//							printFormatted(bestPoint.toString(), depth);
-
-//							if (dpTable.containsKey(getTiles())) {
-//								System.out.println("in");
-//								System.out.println("in "+ dpTable.get(getTiles()));
-//								System.out.println("cr " + bestPoint);
-//							} else {
-//								System.out.println("adding " + Arrays.deepToString(getTiles()));
-//								dpTable.put(getTiles(), new MinimaxResult(r.getWhereTo(),
-//										m, false));
-//							}
 
 							return new MinimaxResult(bestPoint, alpha, false);
 						}
@@ -252,17 +243,6 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 						m = Math.max(m, r.getResult());
 
 						if (m >= beta) {
-//							printFormatted(bestPoint.toString(), depth);
-
-//							if (dpTable.containsKey(getTiles())) {
-//								System.out.println("in");
-//								System.out.println("in "+ dpTable.get(getTiles()));
-//								System.out.println("cr " + bestPoint);
-//							} else {
-//								System.out.println("adding " + Arrays.deepToString(getTiles()));
-//								dpTable.put(getTiles(), new MinimaxResult(r.getWhereTo()
-//										, m, false));
-//							}
 
 							return new MinimaxResult(bestPoint, beta, false);
 						}
@@ -272,32 +252,21 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 						bestPoint = p;
 					}
 
-
 				}
 			}
 		}
 
 		MinimaxResult minimaxResult = new MinimaxResult(bestPoint, isSomethingPlaced? m : 0, false);
 
-
 		if (bestPoint != null) {
 
 			hash = Arrays.deepToString(getTiles());
 
-			if (dpTable.containsKey(hash)) {
-//				System.out.println("in");
-//				System.out.println(Arrays.deepToString(getTiles()));
-//				System.out.println("in "+ dpTable.get(hash));
-//				System.out.println("cr " + bestPoint);
+			if (! dpTable.containsKey(hash)) {
 
-			} else {
-//				System.out.println("adding " + Arrays.deepToString(getTiles()));
-//				System.out.println(bestPoint);
 				dpTable.put(hash, minimaxResult);
 			}
 		}
-
-
 
 		return minimaxResult;
 	}
