@@ -349,12 +349,12 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 
 		MinimaxResult r =  enhancedMinimax(turn, depth, Integer.MIN_VALUE, Integer.MAX_VALUE, null);
 
-
-		MinimaxResult rBasic =  basicNewMinimax(turn, depth, Integer.MIN_VALUE, Integer.MAX_VALUE, null);
-		if (r.equals(rBasic)) {
-			System.out.println("not same");
-			System.exit(0);
-		}
+//
+//		MinimaxResult rBasic =  basicNewMinimax(turn, depth, Integer.MIN_VALUE, Integer.MAX_VALUE, null);
+//		if (r.equals(rBasic)) {
+//			System.out.println("not same");
+//			System.exit(0);
+//		}
 
 		return r;
 	}
