@@ -173,11 +173,14 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 //	fixme not working properly
 	Map<String, MinimaxResult> dpTable = new HashMap<>();
 
+
+	default String getHash() {
+		return Arrays.deepToString(getTiles());
+	}
+
 	default MinimaxResult enhancedMinimax(TileOwner turn, int depth, int alpha, int beta, Point prevPointPlaced) {
 
-
-		String hash = Arrays.deepToString(getTiles());
-//		System.out.println("hash " + hash);
+		String hash = getHash();
 
 		if (dpTable.containsKey(hash)) {
 			System.out.println("i have this " + hash + ", " + depth);
@@ -260,10 +263,9 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 
 		if (bestPoint != null) {
 
-			hash = Arrays.deepToString(getTiles());
+			hash = getHash();
 
 			if (! dpTable.containsKey(hash)) {
-
 				dpTable.put(hash, minimaxResult);
 			}
 		}
@@ -349,6 +351,7 @@ public interface MinimaxTimeImpl extends MinimaxBase {
 
 		MinimaxResult r =  enhancedMinimax(turn, depth, Integer.MIN_VALUE, Integer.MAX_VALUE, null);
 
+//		todo used for testing
 //
 //		MinimaxResult rBasic =  basicNewMinimax(turn, depth, Integer.MIN_VALUE, Integer.MAX_VALUE, null);
 //		if (r.equals(rBasic)) {

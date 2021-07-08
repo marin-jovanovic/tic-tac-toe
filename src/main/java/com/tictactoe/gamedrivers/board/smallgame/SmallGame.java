@@ -14,23 +14,6 @@ public class SmallGame extends Game implements MinimaxBasicImplementation {
 	@Override
 	public Point getComputerMove() {
 		System.out.println("smallgame; computermove");
-//		System.out.println("wrong computer move called; game");
 		return computerMove();
 	}
-
-//
-//	@Override
-//	public boolean setTile(Point p, TileOwner tileOwner) {
-//		if (p.getX() >= getXAxisLength()) {
-//			System.out.println("x to big");
-//			return false;
-//		} else if (p.getY() >= getYAxisLength()) {
-//			System.out.println("y to big");
-//			return false;
-//		}
-//
-//		getTile(p.getX(), p.getY()).setOwner(tileOwner);
-////		tiles[p.getY()][p.getX()].setOwner(tileOwner);
-//
-//		return true;	}
 }

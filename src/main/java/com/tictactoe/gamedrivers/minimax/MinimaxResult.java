@@ -13,19 +13,19 @@ public class MinimaxResult {
 		this.isWinningMove = isWinningMove;
 	}
 
-	public MinimaxResult(Point whereTo, int result, boolean isWinningMove, boolean isSomethingPlaced) {
-		this.whereTo = whereTo;
-		this.result = result;
-		this.isWinningMove = isWinningMove;
-		this.isSomethingPlaced = isSomethingPlaced;
-	}
+//	public MinimaxResult(Point whereTo, int result, boolean isWinningMove, boolean isSomethingPlaced) {
+//		this.whereTo = whereTo;
+//		this.result = result;
+//		this.isWinningMove = isWinningMove;
+//		this.isSomethingPlaced = isSomethingPlaced;
+//	}
 
 
-	private boolean isSomethingPlaced;
-
-	public boolean isSomethingPlaced() {
-		return isSomethingPlaced;
-	}
+//	private boolean isSomethingPlaced;
+//
+//	public boolean isSomethingPlaced() {
+//		return isSomethingPlaced;
+//	}
 
 	@Override
 	public String toString() {

@@ -6,6 +6,8 @@ import com.tictactoe.gamedrivers.point.Point;
 import com.tictactoe.gamedrivers.tile.Tile;
 import com.tictactoe.gamedrivers.tile.TileOwner;
 
+import java.util.Arrays;
+
 public class Game implements Winnable {
 
 	// solid principle, single principle,
@@ -21,6 +23,47 @@ public class Game implements Winnable {
 
 	private String string;
 
+	class Tiles {
+		Tile[][] tiles;
+		public Tile[][] getTiles() {
+			return tiles;
+		}
+
+		int xAxisLength;
+		int yAxisLength;
+
+
+		Tiles(int xAxisLength, int yAxisLength) {
+			this.xAxisLength = xAxisLength;
+			this.yAxisLength = yAxisLength;
+
+			this.tiles = new Tile[yAxisLength][xAxisLength];
+
+			for (int y = 0; y < yAxisLength; y++) {
+				for (int x = 0; x < xAxisLength; x++) {
+					tiles[y][x] = new Tile();
+				}
+			}
+		}
+
+		Tile getTile(int x, int y) {
+			return tiles[y][x];
+		}
+
+		@Override
+		public int hashCode() {
+			return Arrays.hashCode(tiles);
+		}
+
+		void update(Tile[][] tilesNew) {
+			for (int y = 0; y < this.yAxisLength; y++) {
+				for (int x = 0; x < this.xAxisLength; x++) {
+					tiles[y][x].setOwner(tilesNew[y][x].getOwner());
+				}
+			}
+		}
+	}
+
 	private final boolean isUserX = true;
 	private final Tile[][] tiles;
 	private final int xAxisLength;
@@ -29,28 +72,22 @@ public class Game implements Winnable {
 	private final GameMode gameMode;
 
 
+	@Override
+	public int hashCode() {
+//		return Arrays.hashCode(tiles);
+		tiles2.update(tiles);
+		System.out.println("updated");
+		return tiles2.hashCode();
+	}
 
 	public Tile[][] getTiles() {
 		return tiles;
 	}
 
-	public void stringify() {
-		string = "";
-		for (int y = 0; y < yAxisLength; y++) {
-			for (int x = 0; x < xAxisLength; x++) {
-				if (tiles[y][x].getOwner() == TileOwner.NONE) {
-					string += "_";
+	private Tiles tiles2;
 
-				} else if (tiles[y][x].getOwner() == TileOwner.USER_1) {
-					string += "x";
-
-				}else if (tiles[y][x].getOwner() == TileOwner.USER_2) {
-					string += "o";
-
-				}
-			}
-			string += " ";
-		}
+	public Tiles getTiles2() {
+		return tiles2;
 	}
 
 	public Game(int xAxisLength, int yAxisLength, GameMode gameMode) {
@@ -67,6 +104,8 @@ public class Game implements Winnable {
 				tiles[y][x] = new Tile();
 			}
 		}
+
+		tiles2 = new Tiles(xAxisLength, yAxisLength);
 	}
 
 	public void restart() {
